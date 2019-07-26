@@ -156,13 +156,14 @@ const (
 	SecretChatStateClosedType  SecretChatStateEnum = "secretChatStateClosed"
 )
 
-// MessageForwardInfoEnum Alias for abstract MessageForwardInfo 'Sub-Classes', used as constant-enum here
-type MessageForwardInfoEnum string
+// MessageForwardOriginEnum Alias for abstract MessageForwardOrigin 'Sub-Classes', used as constant-enum here
+type MessageForwardOriginEnum string
 
-// MessageForwardInfo enums
+// MessageForwardOrigin enums
 const (
-	MessageForwardedFromUserType MessageForwardInfoEnum = "messageForwardedFromUser"
-	MessageForwardedPostType     MessageForwardInfoEnum = "messageForwardedPost"
+	MessageForwardOriginUserType       MessageForwardOriginEnum = "messageForwardOriginUser"
+	MessageForwardOriginHiddenUserType MessageForwardOriginEnum = "messageForwardOriginHiddenUser"
+	MessageForwardOriginChannelType    MessageForwardOriginEnum = "messageForwardOriginChannel"
 )
 
 // MessageSendingStateEnum Alias for abstract MessageSendingState 'Sub-Classes', used as constant-enum here
@@ -181,6 +182,7 @@ type NotificationSettingsScopeEnum string
 const (
 	NotificationSettingsScopePrivateChatsType NotificationSettingsScopeEnum = "notificationSettingsScopePrivateChats"
 	NotificationSettingsScopeGroupChatsType   NotificationSettingsScopeEnum = "notificationSettingsScopeGroupChats"
+	NotificationSettingsScopeChannelChatsType NotificationSettingsScopeEnum = "notificationSettingsScopeChannelChats"
 )
 
 // ChatTypeEnum Alias for abstract ChatType 'Sub-Classes', used as constant-enum here
@@ -240,7 +242,33 @@ const (
 	RichTextFixedType         RichTextEnum = "richTextFixed"
 	RichTextURLType           RichTextEnum = "richTextURL"
 	RichTextEmailAddressType  RichTextEnum = "richTextEmailAddress"
+	RichTextSubscriptType     RichTextEnum = "richTextSubscript"
+	RichTextSuperscriptType   RichTextEnum = "richTextSuperscript"
+	RichTextMarkedType        RichTextEnum = "richTextMarked"
+	RichTextPhoneNumberType   RichTextEnum = "richTextPhoneNumber"
+	RichTextIconType          RichTextEnum = "richTextIcon"
+	RichTextAnchorType        RichTextEnum = "richTextAnchor"
 	RichTextsType             RichTextEnum = "richTexts"
+)
+
+// PageBlockHorizontalAlignmentEnum Alias for abstract PageBlockHorizontalAlignment 'Sub-Classes', used as constant-enum here
+type PageBlockHorizontalAlignmentEnum string
+
+// PageBlockHorizontalAlignment enums
+const (
+	PageBlockHorizontalAlignmentLeftType   PageBlockHorizontalAlignmentEnum = "pageBlockHorizontalAlignmentLeft"
+	PageBlockHorizontalAlignmentCenterType PageBlockHorizontalAlignmentEnum = "pageBlockHorizontalAlignmentCenter"
+	PageBlockHorizontalAlignmentRightType  PageBlockHorizontalAlignmentEnum = "pageBlockHorizontalAlignmentRight"
+)
+
+// PageBlockVerticalAlignmentEnum Alias for abstract PageBlockVerticalAlignment 'Sub-Classes', used as constant-enum here
+type PageBlockVerticalAlignmentEnum string
+
+// PageBlockVerticalAlignment enums
+const (
+	PageBlockVerticalAlignmentTopType    PageBlockVerticalAlignmentEnum = "pageBlockVerticalAlignmentTop"
+	PageBlockVerticalAlignmentMiddleType PageBlockVerticalAlignmentEnum = "pageBlockVerticalAlignmentMiddle"
+	PageBlockVerticalAlignmentBottomType PageBlockVerticalAlignmentEnum = "pageBlockVerticalAlignmentBottom"
 )
 
 // PageBlockEnum Alias for abstract PageBlock 'Sub-Classes', used as constant-enum here
@@ -248,29 +276,34 @@ type PageBlockEnum string
 
 // PageBlock enums
 const (
-	PageBlockTitleType        PageBlockEnum = "pageBlockTitle"
-	PageBlockSubtitleType     PageBlockEnum = "pageBlockSubtitle"
-	PageBlockAuthorDateType   PageBlockEnum = "pageBlockAuthorDate"
-	PageBlockHeaderType       PageBlockEnum = "pageBlockHeader"
-	PageBlockSubheaderType    PageBlockEnum = "pageBlockSubheader"
-	PageBlockParagraphType    PageBlockEnum = "pageBlockParagraph"
-	PageBlockPreformattedType PageBlockEnum = "pageBlockPreformatted"
-	PageBlockFooterType       PageBlockEnum = "pageBlockFooter"
-	PageBlockDividerType      PageBlockEnum = "pageBlockDivider"
-	PageBlockAnchorType       PageBlockEnum = "pageBlockAnchor"
-	PageBlockListType         PageBlockEnum = "pageBlockList"
-	PageBlockBlockQuoteType   PageBlockEnum = "pageBlockBlockQuote"
-	PageBlockPullQuoteType    PageBlockEnum = "pageBlockPullQuote"
-	PageBlockAnimationType    PageBlockEnum = "pageBlockAnimation"
-	PageBlockAudioType        PageBlockEnum = "pageBlockAudio"
-	PageBlockPhotoType        PageBlockEnum = "pageBlockPhoto"
-	PageBlockVideoType        PageBlockEnum = "pageBlockVideo"
-	PageBlockCoverType        PageBlockEnum = "pageBlockCover"
-	PageBlockEmbeddedType     PageBlockEnum = "pageBlockEmbedded"
-	PageBlockEmbeddedPostType PageBlockEnum = "pageBlockEmbeddedPost"
-	PageBlockCollageType      PageBlockEnum = "pageBlockCollage"
-	PageBlockSlideshowType    PageBlockEnum = "pageBlockSlideshow"
-	PageBlockChatLinkType     PageBlockEnum = "pageBlockChatLink"
+	PageBlockTitleType           PageBlockEnum = "pageBlockTitle"
+	PageBlockSubtitleType        PageBlockEnum = "pageBlockSubtitle"
+	PageBlockAuthorDateType      PageBlockEnum = "pageBlockAuthorDate"
+	PageBlockHeaderType          PageBlockEnum = "pageBlockHeader"
+	PageBlockSubheaderType       PageBlockEnum = "pageBlockSubheader"
+	PageBlockKickerType          PageBlockEnum = "pageBlockKicker"
+	PageBlockParagraphType       PageBlockEnum = "pageBlockParagraph"
+	PageBlockPreformattedType    PageBlockEnum = "pageBlockPreformatted"
+	PageBlockFooterType          PageBlockEnum = "pageBlockFooter"
+	PageBlockDividerType         PageBlockEnum = "pageBlockDivider"
+	PageBlockAnchorType          PageBlockEnum = "pageBlockAnchor"
+	PageBlockListType            PageBlockEnum = "pageBlockList"
+	PageBlockBlockQuoteType      PageBlockEnum = "pageBlockBlockQuote"
+	PageBlockPullQuoteType       PageBlockEnum = "pageBlockPullQuote"
+	PageBlockAnimationType       PageBlockEnum = "pageBlockAnimation"
+	PageBlockAudioType           PageBlockEnum = "pageBlockAudio"
+	PageBlockPhotoType           PageBlockEnum = "pageBlockPhoto"
+	PageBlockVideoType           PageBlockEnum = "pageBlockVideo"
+	PageBlockCoverType           PageBlockEnum = "pageBlockCover"
+	PageBlockEmbeddedType        PageBlockEnum = "pageBlockEmbedded"
+	PageBlockEmbeddedPostType    PageBlockEnum = "pageBlockEmbeddedPost"
+	PageBlockCollageType         PageBlockEnum = "pageBlockCollage"
+	PageBlockSlideshowType       PageBlockEnum = "pageBlockSlideshow"
+	PageBlockChatLinkType        PageBlockEnum = "pageBlockChatLink"
+	PageBlockTableType           PageBlockEnum = "pageBlockTable"
+	PageBlockDetailsType         PageBlockEnum = "pageBlockDetails"
+	PageBlockRelatedArticlesType PageBlockEnum = "pageBlockRelatedArticles"
+	PageBlockMapType             PageBlockEnum = "pageBlockMap"
 )
 
 // InputCredentialsEnum Alias for abstract InputCredentials 'Sub-Classes', used as constant-enum here
@@ -396,6 +429,7 @@ const (
 	MessageVenueType                MessageContentEnum = "messageVenue"
 	MessageContactType              MessageContentEnum = "messageContact"
 	MessageGameType                 MessageContentEnum = "messageGame"
+	MessagePollType                 MessageContentEnum = "messagePoll"
 	MessageInvoiceType              MessageContentEnum = "messageInvoice"
 	MessageCallType                 MessageContentEnum = "messageCall"
 	MessageBasicGroupChatCreateType MessageContentEnum = "messageBasicGroupChatCreate"
@@ -438,7 +472,7 @@ const (
 	TextEntityTypeCodeType         TextEntityTypeEnum = "textEntityTypeCode"
 	TextEntityTypePreType          TextEntityTypeEnum = "textEntityTypePre"
 	TextEntityTypePreCodeType      TextEntityTypeEnum = "textEntityTypePreCode"
-	TextEntityTypeTextURLType      TextEntityTypeEnum = "textEntityTypeTextUrl"
+	TextEntityTypeTextURLType      TextEntityTypeEnum = "textEntityTypeTextURL"
 	TextEntityTypeMentionNameType  TextEntityTypeEnum = "textEntityTypeMentionName"
 	TextEntityTypePhoneNumberType  TextEntityTypeEnum = "textEntityTypePhoneNumber"
 )
@@ -462,6 +496,7 @@ const (
 	InputMessageContactType   InputMessageContentEnum = "inputMessageContact"
 	InputMessageGameType      InputMessageContentEnum = "inputMessageGame"
 	InputMessageInvoiceType   InputMessageContentEnum = "inputMessageInvoice"
+	InputMessagePollType      InputMessageContentEnum = "inputMessagePoll"
 	InputMessageForwardedType InputMessageContentEnum = "inputMessageForwarded"
 )
 
@@ -633,17 +668,17 @@ type DeviceTokenEnum string
 
 // DeviceToken enums
 const (
-	DeviceTokenGoogleCloudMessagingType DeviceTokenEnum = "deviceTokenGoogleCloudMessaging"
-	DeviceTokenApplePushType            DeviceTokenEnum = "deviceTokenApplePush"
-	DeviceTokenApplePushVoIPType        DeviceTokenEnum = "deviceTokenApplePushVoIP"
-	DeviceTokenWindowsPushType          DeviceTokenEnum = "deviceTokenWindowsPush"
-	DeviceTokenMicrosoftPushType        DeviceTokenEnum = "deviceTokenMicrosoftPush"
-	DeviceTokenMicrosoftPushVoIPType    DeviceTokenEnum = "deviceTokenMicrosoftPushVoIP"
-	DeviceTokenWebPushType              DeviceTokenEnum = "deviceTokenWebPush"
-	DeviceTokenSimplePushType           DeviceTokenEnum = "deviceTokenSimplePush"
-	DeviceTokenUbuntuPushType           DeviceTokenEnum = "deviceTokenUbuntuPush"
-	DeviceTokenBlackBerryPushType       DeviceTokenEnum = "deviceTokenBlackBerryPush"
-	DeviceTokenTizenPushType            DeviceTokenEnum = "deviceTokenTizenPush"
+	DeviceTokenFirebaseCloudMessagingType DeviceTokenEnum = "deviceTokenFirebaseCloudMessaging"
+	DeviceTokenApplePushType              DeviceTokenEnum = "deviceTokenApplePush"
+	DeviceTokenApplePushVoIPType          DeviceTokenEnum = "deviceTokenApplePushVoIP"
+	DeviceTokenWindowsPushType            DeviceTokenEnum = "deviceTokenWindowsPush"
+	DeviceTokenMicrosoftPushType          DeviceTokenEnum = "deviceTokenMicrosoftPush"
+	DeviceTokenMicrosoftPushVoIPType      DeviceTokenEnum = "deviceTokenMicrosoftPushVoIP"
+	DeviceTokenWebPushType                DeviceTokenEnum = "deviceTokenWebPush"
+	DeviceTokenSimplePushType             DeviceTokenEnum = "deviceTokenSimplePush"
+	DeviceTokenUbuntuPushType             DeviceTokenEnum = "deviceTokenUbuntuPush"
+	DeviceTokenBlackBerryPushType         DeviceTokenEnum = "deviceTokenBlackBerryPush"
+	DeviceTokenTizenPushType              DeviceTokenEnum = "deviceTokenTizenPush"
 )
 
 // CheckChatUsernameResultEnum Alias for abstract CheckChatUsernameResult 'Sub-Classes', used as constant-enum here
@@ -658,6 +693,61 @@ const (
 	CheckChatUsernameResultPublicGroupsUnavailableType CheckChatUsernameResultEnum = "checkChatUsernameResultPublicGroupsUnavailable"
 )
 
+// PushMessageContentEnum Alias for abstract PushMessageContent 'Sub-Classes', used as constant-enum here
+type PushMessageContentEnum string
+
+// PushMessageContent enums
+const (
+	PushMessageContentHiddenType               PushMessageContentEnum = "pushMessageContentHidden"
+	PushMessageContentAnimationType            PushMessageContentEnum = "pushMessageContentAnimation"
+	PushMessageContentAudioType                PushMessageContentEnum = "pushMessageContentAudio"
+	PushMessageContentContactType              PushMessageContentEnum = "pushMessageContentContact"
+	PushMessageContentContactRegisteredType    PushMessageContentEnum = "pushMessageContentContactRegistered"
+	PushMessageContentDocumentType             PushMessageContentEnum = "pushMessageContentDocument"
+	PushMessageContentGameType                 PushMessageContentEnum = "pushMessageContentGame"
+	PushMessageContentGameScoreType            PushMessageContentEnum = "pushMessageContentGameScore"
+	PushMessageContentInvoiceType              PushMessageContentEnum = "pushMessageContentInvoice"
+	PushMessageContentLocationType             PushMessageContentEnum = "pushMessageContentLocation"
+	PushMessageContentPhotoType                PushMessageContentEnum = "pushMessageContentPhoto"
+	PushMessageContentPollType                 PushMessageContentEnum = "pushMessageContentPoll"
+	PushMessageContentScreenshotTakenType      PushMessageContentEnum = "pushMessageContentScreenshotTaken"
+	PushMessageContentStickerType              PushMessageContentEnum = "pushMessageContentSticker"
+	PushMessageContentTextType                 PushMessageContentEnum = "pushMessageContentText"
+	PushMessageContentVideoType                PushMessageContentEnum = "pushMessageContentVideo"
+	PushMessageContentVideoNoteType            PushMessageContentEnum = "pushMessageContentVideoNote"
+	PushMessageContentVoiceNoteType            PushMessageContentEnum = "pushMessageContentVoiceNote"
+	PushMessageContentBasicGroupChatCreateType PushMessageContentEnum = "pushMessageContentBasicGroupChatCreate"
+	PushMessageContentChatAddMembersType       PushMessageContentEnum = "pushMessageContentChatAddMembers"
+	PushMessageContentChatChangePhotoType      PushMessageContentEnum = "pushMessageContentChatChangePhoto"
+	PushMessageContentChatChangeTitleType      PushMessageContentEnum = "pushMessageContentChatChangeTitle"
+	PushMessageContentChatDeleteMemberType     PushMessageContentEnum = "pushMessageContentChatDeleteMember"
+	PushMessageContentChatJoinByLinkType       PushMessageContentEnum = "pushMessageContentChatJoinByLink"
+	PushMessageContentMessageForwardsType      PushMessageContentEnum = "pushMessageContentMessageForwards"
+	PushMessageContentMediaAlbumType           PushMessageContentEnum = "pushMessageContentMediaAlbum"
+)
+
+// NotificationTypeEnum Alias for abstract NotificationType 'Sub-Classes', used as constant-enum here
+type NotificationTypeEnum string
+
+// NotificationType enums
+const (
+	NotificationTypeNewMessageType     NotificationTypeEnum = "notificationTypeNewMessage"
+	NotificationTypeNewSecretChatType  NotificationTypeEnum = "notificationTypeNewSecretChat"
+	NotificationTypeNewCallType        NotificationTypeEnum = "notificationTypeNewCall"
+	NotificationTypeNewPushMessageType NotificationTypeEnum = "notificationTypeNewPushMessage"
+)
+
+// NotificationGroupTypeEnum Alias for abstract NotificationGroupType 'Sub-Classes', used as constant-enum here
+type NotificationGroupTypeEnum string
+
+// NotificationGroupType enums
+const (
+	NotificationGroupTypeMessagesType   NotificationGroupTypeEnum = "notificationGroupTypeMessages"
+	NotificationGroupTypeMentionsType   NotificationGroupTypeEnum = "notificationGroupTypeMentions"
+	NotificationGroupTypeSecretChatType NotificationGroupTypeEnum = "notificationGroupTypeSecretChat"
+	NotificationGroupTypeCallsType      NotificationGroupTypeEnum = "notificationGroupTypeCalls"
+)
+
 // OptionValueEnum Alias for abstract OptionValue 'Sub-Classes', used as constant-enum here
 type OptionValueEnum string
 
@@ -667,6 +757,19 @@ const (
 	OptionValueEmptyType   OptionValueEnum = "optionValueEmpty"
 	OptionValueIntegerType OptionValueEnum = "optionValueInteger"
 	OptionValueStringType  OptionValueEnum = "optionValueString"
+)
+
+// JsonValueEnum Alias for abstract JsonValue 'Sub-Classes', used as constant-enum here
+type JsonValueEnum string
+
+// JsonValue enums
+const (
+	JsonValueNullType    JsonValueEnum = "jsonValueNull"
+	JsonValueBooleanType JsonValueEnum = "jsonValueBoolean"
+	JsonValueNumberType  JsonValueEnum = "jsonValueNumber"
+	JsonValueStringType  JsonValueEnum = "jsonValueString"
+	JsonValueArrayType   JsonValueEnum = "jsonValueArray"
+	JsonValueObjectType  JsonValueEnum = "jsonValueObject"
 )
 
 // UserPrivacySettingRuleEnum Alias for abstract UserPrivacySettingRule 'Sub-Classes', used as constant-enum here
@@ -687,9 +790,10 @@ type UserPrivacySettingEnum string
 
 // UserPrivacySetting enums
 const (
-	UserPrivacySettingShowStatusType       UserPrivacySettingEnum = "userPrivacySettingShowStatus"
-	UserPrivacySettingAllowChatInvitesType UserPrivacySettingEnum = "userPrivacySettingAllowChatInvites"
-	UserPrivacySettingAllowCallsType       UserPrivacySettingEnum = "userPrivacySettingAllowCalls"
+	UserPrivacySettingShowStatusType           UserPrivacySettingEnum = "userPrivacySettingShowStatus"
+	UserPrivacySettingAllowChatInvitesType     UserPrivacySettingEnum = "userPrivacySettingAllowChatInvites"
+	UserPrivacySettingAllowCallsType           UserPrivacySettingEnum = "userPrivacySettingAllowCalls"
+	UserPrivacySettingAllowPeerToPeerCallsType UserPrivacySettingEnum = "userPrivacySettingAllowPeerToPeerCalls"
 )
 
 // ChatReportReasonEnum Alias for abstract ChatReportReason 'Sub-Classes', used as constant-enum here
@@ -700,6 +804,7 @@ const (
 	ChatReportReasonSpamType        ChatReportReasonEnum = "chatReportReasonSpam"
 	ChatReportReasonViolenceType    ChatReportReasonEnum = "chatReportReasonViolence"
 	ChatReportReasonPornographyType ChatReportReasonEnum = "chatReportReasonPornography"
+	ChatReportReasonChildAbuseType  ChatReportReasonEnum = "chatReportReasonChildAbuse"
 	ChatReportReasonCopyrightType   ChatReportReasonEnum = "chatReportReasonCopyright"
 	ChatReportReasonCustomType      ChatReportReasonEnum = "chatReportReasonCustom"
 )
@@ -832,8 +937,14 @@ const (
 	UpdateChatUnreadMentionCountType         UpdateEnum = "updateChatUnreadMentionCount"
 	UpdateChatNotificationSettingsType       UpdateEnum = "updateChatNotificationSettings"
 	UpdateScopeNotificationSettingsType      UpdateEnum = "updateScopeNotificationSettings"
+	UpdateChatPinnedMessageType              UpdateEnum = "updateChatPinnedMessage"
 	UpdateChatReplyMarkupType                UpdateEnum = "updateChatReplyMarkup"
 	UpdateChatDraftMessageType               UpdateEnum = "updateChatDraftMessage"
+	UpdateChatOnlineMemberCountType          UpdateEnum = "updateChatOnlineMemberCount"
+	UpdateNotificationType                   UpdateEnum = "updateNotification"
+	UpdateNotificationGroupType              UpdateEnum = "updateNotificationGroup"
+	UpdateActiveNotificationsType            UpdateEnum = "updateActiveNotifications"
+	UpdateHavePendingNotificationsType       UpdateEnum = "updateHavePendingNotifications"
 	UpdateDeleteMessagesType                 UpdateEnum = "updateDeleteMessages"
 	UpdateUserChatActionType                 UpdateEnum = "updateUserChatAction"
 	UpdateUserStatusType                     UpdateEnum = "updateUserStatus"
@@ -869,6 +980,17 @@ const (
 	UpdateNewPreCheckoutQueryType            UpdateEnum = "updateNewPreCheckoutQuery"
 	UpdateNewCustomEventType                 UpdateEnum = "updateNewCustomEvent"
 	UpdateNewCustomQueryType                 UpdateEnum = "updateNewCustomQuery"
+	UpdatePollType                           UpdateEnum = "updatePoll"
+)
+
+// LogStreamEnum Alias for abstract LogStream 'Sub-Classes', used as constant-enum here
+type LogStreamEnum string
+
+// LogStream enums
+const (
+	LogStreamDefaultType LogStreamEnum = "logStreamDefault"
+	LogStreamFileType    LogStreamEnum = "logStreamFile"
+	LogStreamEmptyType   LogStreamEnum = "logStreamEmpty"
 ) // AuthenticationCodeType Provides information about the method by which an authentication code is delivered to the user
 type AuthenticationCodeType interface {
 	GetAuthenticationCodeTypeEnum() AuthenticationCodeTypeEnum
@@ -919,9 +1041,9 @@ type SecretChatState interface {
 	GetSecretChatStateEnum() SecretChatStateEnum
 }
 
-// MessageForwardInfo Contains information about the initial sender of a forwarded message
-type MessageForwardInfo interface {
-	GetMessageForwardInfoEnum() MessageForwardInfoEnum
+// MessageForwardOrigin Contains information about the origin of a forwarded message
+type MessageForwardOrigin interface {
+	GetMessageForwardOriginEnum() MessageForwardOriginEnum
 }
 
 // MessageSendingState Contains information about the sending state of the message
@@ -957,6 +1079,16 @@ type ReplyMarkup interface {
 // RichText Describes a text object inside an instant-view web page
 type RichText interface {
 	GetRichTextEnum() RichTextEnum
+}
+
+// PageBlockHorizontalAlignment Describes a horizontal alignment of a table cell content
+type PageBlockHorizontalAlignment interface {
+	GetPageBlockHorizontalAlignmentEnum() PageBlockHorizontalAlignmentEnum
+}
+
+// PageBlockVerticalAlignment Describes a Vertical alignment of a table cell content
+type PageBlockVerticalAlignment interface {
+	GetPageBlockVerticalAlignmentEnum() PageBlockVerticalAlignmentEnum
 }
 
 // PageBlock Describes a block of an instant view web page
@@ -1059,7 +1191,7 @@ type LanguagePackStringValue interface {
 	GetLanguagePackStringValueEnum() LanguagePackStringValueEnum
 }
 
-// DeviceToken Represents a data needed to subscribe for push notifications. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
+// DeviceToken Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
 type DeviceToken interface {
 	GetDeviceTokenEnum() DeviceTokenEnum
 }
@@ -1069,9 +1201,29 @@ type CheckChatUsernameResult interface {
 	GetCheckChatUsernameResultEnum() CheckChatUsernameResultEnum
 }
 
+// PushMessageContent Contains content of a push message notification
+type PushMessageContent interface {
+	GetPushMessageContentEnum() PushMessageContentEnum
+}
+
+// NotificationType Contains detailed information about a notification
+type NotificationType interface {
+	GetNotificationTypeEnum() NotificationTypeEnum
+}
+
+// NotificationGroupType Describes type of notifications in the group
+type NotificationGroupType interface {
+	GetNotificationGroupTypeEnum() NotificationGroupTypeEnum
+}
+
 // OptionValue Represents the value of an option
 type OptionValue interface {
 	GetOptionValueEnum() OptionValueEnum
+}
+
+// JsonValue Represents a JSON value
+type JsonValue interface {
+	GetJsonValueEnum() JsonValueEnum
 }
 
 // UserPrivacySettingRule Represents a single rule for managing privacy settings
@@ -1132,6 +1284,11 @@ type ProxyType interface {
 // Update Contains notifications about data changes
 type Update interface {
 	GetUpdateEnum() UpdateEnum
+}
+
+// LogStream Describes a stream to which TDLib internal log is written
+type LogStream interface {
+	GetLogStreamEnum() LogStreamEnum
 }
 
 // Error An object of this type can be returned on every function call, in case of an error
@@ -1695,7 +1852,7 @@ func (authorizationStateWaitCode *AuthorizationStateWaitCode) GetAuthorizationSt
 // AuthorizationStateWaitPassword The user has been authorized, but needs to enter a password to start using the application
 type AuthorizationStateWaitPassword struct {
 	tdCommon
-	PasswordHint                string `json:"password_hint"`                  // Hint for the password; can be empty
+	PasswordHint                string `json:"password_hint"`                  // Hint for the password; may be empty
 	HasRecoveryEmailAddress     bool   `json:"has_recovery_email_address"`     // True if a recovery email address has been set up
 	RecoveryEmailAddressPattern string `json:"recovery_email_address_pattern"` // Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent
 }
@@ -1707,7 +1864,7 @@ func (authorizationStateWaitPassword *AuthorizationStateWaitPassword) MessageTyp
 
 // NewAuthorizationStateWaitPassword creates a new AuthorizationStateWaitPassword
 //
-// @param passwordHint Hint for the password; can be empty
+// @param passwordHint Hint for the password; may be empty
 // @param hasRecoveryEmailAddress True if a recovery email address has been set up
 // @param recoveryEmailAddressPattern Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent
 func NewAuthorizationStateWaitPassword(passwordHint string, hasRecoveryEmailAddress bool, recoveryEmailAddressPattern string) *AuthorizationStateWaitPassword {
@@ -1829,11 +1986,11 @@ func (authorizationStateClosed *AuthorizationStateClosed) GetAuthorizationStateE
 // PasswordState Represents the current state of 2-step verification
 type PasswordState struct {
 	tdCommon
-	HasPassword                            bool   `json:"has_password"`                               // True if a 2-step verification password is set
-	PasswordHint                           string `json:"password_hint"`                              // Hint for the password; can be empty
-	HasRecoveryEmailAddress                bool   `json:"has_recovery_email_address"`                 // True if a recovery email is set
-	HasPassportData                        bool   `json:"has_passport_data"`                          // True if some Telegram Passport elements were saved
-	UnconfirmedRecoveryEmailAddressPattern string `json:"unconfirmed_recovery_email_address_pattern"` // Pattern of the email address to which the confirmation email was sent
+	HasPassword                  bool                                `json:"has_password"`                     // True, if a 2-step verification password is set
+	PasswordHint                 string                              `json:"password_hint"`                    // Hint for the password; may be empty
+	HasRecoveryEmailAddress      bool                                `json:"has_recovery_email_address"`       // True, if a recovery email is set
+	HasPassportData              bool                                `json:"has_passport_data"`                // True, if some Telegram Passport elements were saved
+	RecoveryEmailAddressCodeInfo *EmailAddressAuthenticationCodeInfo `json:"recovery_email_address_code_info"` // Information about the recovery email address to which the confirmation email was sent; may be null
 }
 
 // MessageType return the string telegram-type of PasswordState
@@ -1843,19 +2000,19 @@ func (passwordState *PasswordState) MessageType() string {
 
 // NewPasswordState creates a new PasswordState
 //
-// @param hasPassword True if a 2-step verification password is set
-// @param passwordHint Hint for the password; can be empty
-// @param hasRecoveryEmailAddress True if a recovery email is set
-// @param hasPassportData True if some Telegram Passport elements were saved
-// @param unconfirmedRecoveryEmailAddressPattern Pattern of the email address to which the confirmation email was sent
-func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, hasPassportData bool, unconfirmedRecoveryEmailAddressPattern string) *PasswordState {
+// @param hasPassword True, if a 2-step verification password is set
+// @param passwordHint Hint for the password; may be empty
+// @param hasRecoveryEmailAddress True, if a recovery email is set
+// @param hasPassportData True, if some Telegram Passport elements were saved
+// @param recoveryEmailAddressCodeInfo Information about the recovery email address to which the confirmation email was sent; may be null
+func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, hasPassportData bool, recoveryEmailAddressCodeInfo *EmailAddressAuthenticationCodeInfo) *PasswordState {
 	passwordStateTemp := PasswordState{
-		tdCommon:                               tdCommon{Type: "passwordState"},
-		HasPassword:                            hasPassword,
-		PasswordHint:                           passwordHint,
-		HasRecoveryEmailAddress:                hasRecoveryEmailAddress,
-		HasPassportData:                        hasPassportData,
-		UnconfirmedRecoveryEmailAddressPattern: unconfirmedRecoveryEmailAddressPattern,
+		tdCommon:                     tdCommon{Type: "passwordState"},
+		HasPassword:                  hasPassword,
+		PasswordHint:                 passwordHint,
+		HasRecoveryEmailAddress:      hasRecoveryEmailAddress,
+		HasPassportData:              hasPassportData,
+		RecoveryEmailAddressCodeInfo: recoveryEmailAddressCodeInfo,
 	}
 
 	return &passwordStateTemp
@@ -1918,7 +2075,8 @@ type LocalFile struct {
 	CanBeDeleted           bool   `json:"can_be_deleted"`           // True, if the file can be deleted
 	IsDownloadingActive    bool   `json:"is_downloading_active"`    // True, if the file is currently being downloaded (or a local copy is being generated by some other means)
 	IsDownloadingCompleted bool   `json:"is_downloading_completed"` // True, if the local copy is fully available
-	DownloadedPrefixSize   int32  `json:"downloaded_prefix_size"`   // If is_downloading_completed is false, then only some prefix of the file is ready to be read. downloaded_prefix_size is the size of that prefix
+	DownloadOffset         int32  `json:"download_offset"`          // Download will be started from this offset. downloaded_prefix_size is calculated from this offset
+	DownloadedPrefixSize   int32  `json:"downloaded_prefix_size"`   // If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix
 	DownloadedSize         int32  `json:"downloaded_size"`          // Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
 }
 
@@ -1934,9 +2092,10 @@ func (localFile *LocalFile) MessageType() string {
 // @param canBeDeleted True, if the file can be deleted
 // @param isDownloadingActive True, if the file is currently being downloaded (or a local copy is being generated by some other means)
 // @param isDownloadingCompleted True, if the local copy is fully available
-// @param downloadedPrefixSize If is_downloading_completed is false, then only some prefix of the file is ready to be read. downloaded_prefix_size is the size of that prefix
+// @param downloadOffset Download will be started from this offset. downloaded_prefix_size is calculated from this offset
+// @param downloadedPrefixSize If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix
 // @param downloadedSize Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
-func NewLocalFile(path string, canBeDownloaded bool, canBeDeleted bool, isDownloadingActive bool, isDownloadingCompleted bool, downloadedPrefixSize int32, downloadedSize int32) *LocalFile {
+func NewLocalFile(path string, canBeDownloaded bool, canBeDeleted bool, isDownloadingActive bool, isDownloadingCompleted bool, downloadOffset int32, downloadedPrefixSize int32, downloadedSize int32) *LocalFile {
 	localFileTemp := LocalFile{
 		tdCommon:               tdCommon{Type: "localFile"},
 		Path:                   path,
@@ -1944,6 +2103,7 @@ func NewLocalFile(path string, canBeDownloaded bool, canBeDeleted bool, isDownlo
 		CanBeDeleted:           canBeDeleted,
 		IsDownloadingActive:    isDownloadingActive,
 		IsDownloadingCompleted: isDownloadingCompleted,
+		DownloadOffset:         downloadOffset,
 		DownloadedPrefixSize:   downloadedPrefixSize,
 		DownloadedSize:         downloadedSize,
 	}
@@ -2106,7 +2266,7 @@ func (inputFileLocal *InputFileLocal) GetInputFileEnum() InputFileEnum {
 type InputFileGenerated struct {
 	tdCommon
 	OriginalPath string `json:"original_path"` // Local path to a file from which the file is generated; may be empty if there is no such file
-	Conversion   string `json:"conversion"`    // String specifying the conversion applied to the original file; should be persistent across application restarts
+	Conversion   string `json:"conversion"`    // String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
 	ExpectedSize int32  `json:"expected_size"` // Expected size of the generated file; 0 if unknown
 }
 
@@ -2118,7 +2278,7 @@ func (inputFileGenerated *InputFileGenerated) MessageType() string {
 // NewInputFileGenerated creates a new InputFileGenerated
 //
 // @param originalPath Local path to a file from which the file is generated; may be empty if there is no such file
-// @param conversion String specifying the conversion applied to the original file; should be persistent across application restarts
+// @param conversion String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
 // @param expectedSize Expected size of the generated file; 0 if unknown
 func NewInputFileGenerated(originalPath string, conversion string, expectedSize int32) *InputFileGenerated {
 	inputFileGeneratedTemp := InputFileGenerated{
@@ -2329,6 +2489,41 @@ func (maskPosition *MaskPosition) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// PollOption Describes one answer option of a poll
+type PollOption struct {
+	tdCommon
+	Text           string `json:"text"`            // Option text, 1-100 characters
+	VoterCount     int32  `json:"voter_count"`     // Number of voters for this option, available only for closed or voted polls
+	VotePercentage int32  `json:"vote_percentage"` // The percentage of votes for this option, 0-100
+	IsChosen       bool   `json:"is_chosen"`       // True, if the option was chosen by the user
+	IsBeingChosen  bool   `json:"is_being_chosen"` // True, if the option is being chosen by a pending setPollAnswer request
+}
+
+// MessageType return the string telegram-type of PollOption
+func (pollOption *PollOption) MessageType() string {
+	return "pollOption"
+}
+
+// NewPollOption creates a new PollOption
+//
+// @param text Option text, 1-100 characters
+// @param voterCount Number of voters for this option, available only for closed or voted polls
+// @param votePercentage The percentage of votes for this option, 0-100
+// @param isChosen True, if the option was chosen by the user
+// @param isBeingChosen True, if the option is being chosen by a pending setPollAnswer request
+func NewPollOption(text string, voterCount int32, votePercentage int32, isChosen bool, isBeingChosen bool) *PollOption {
+	pollOptionTemp := PollOption{
+		tdCommon:       tdCommon{Type: "pollOption"},
+		Text:           text,
+		VoterCount:     voterCount,
+		VotePercentage: votePercentage,
+		IsChosen:       isChosen,
+		IsBeingChosen:  isBeingChosen,
+	}
+
+	return &pollOptionTemp
+}
+
 // Animation Describes an animation file. The animation must be encoded in GIF or MPEG4 format
 type Animation struct {
 	tdCommon
@@ -2446,7 +2641,6 @@ func NewDocument(fileName string, mimeType string, thumbnail *PhotoSize, documen
 // Photo Describes a photo
 type Photo struct {
 	tdCommon
-	ID          JSONInt64   `json:"id"`           // Photo identifier; 0 for deleted photos
 	HasStickers bool        `json:"has_stickers"` // True, if stickers were added to the photo
 	Sizes       []PhotoSize `json:"sizes"`        // Available variants of the photo, in different sizes
 }
@@ -2458,13 +2652,11 @@ func (photo *Photo) MessageType() string {
 
 // NewPhoto creates a new Photo
 //
-// @param iD Photo identifier; 0 for deleted photos
 // @param hasStickers True, if stickers were added to the photo
 // @param sizes Available variants of the photo, in different sizes
-func NewPhoto(iD JSONInt64, hasStickers bool, sizes []PhotoSize) *Photo {
+func NewPhoto(hasStickers bool, sizes []PhotoSize) *Photo {
 	photoTemp := Photo{
 		tdCommon:    tdCommon{Type: "photo"},
-		ID:          iD,
 		HasStickers: hasStickers,
 		Sizes:       sizes,
 	}
@@ -2767,6 +2959,41 @@ func NewGame(iD JSONInt64, shortName string, title string, text *FormattedText, 
 	return &gameTemp
 }
 
+// Poll Describes a poll
+type Poll struct {
+	tdCommon
+	ID              JSONInt64    `json:"id"`                // Unique poll identifier
+	Question        string       `json:"question"`          // Poll question, 1-255 characters
+	Options         []PollOption `json:"options"`           // List of poll answer options
+	TotalVoterCount int32        `json:"total_voter_count"` // Total number of voters, participating in the poll
+	IsClosed        bool         `json:"is_closed"`         // True, if the poll is closed
+}
+
+// MessageType return the string telegram-type of Poll
+func (poll *Poll) MessageType() string {
+	return "poll"
+}
+
+// NewPoll creates a new Poll
+//
+// @param iD Unique poll identifier
+// @param question Poll question, 1-255 characters
+// @param options List of poll answer options
+// @param totalVoterCount Total number of voters, participating in the poll
+// @param isClosed True, if the poll is closed
+func NewPoll(iD JSONInt64, question string, options []PollOption, totalVoterCount int32, isClosed bool) *Poll {
+	pollTemp := Poll{
+		tdCommon:        tdCommon{Type: "poll"},
+		ID:              iD,
+		Question:        question,
+		Options:         options,
+		TotalVoterCount: totalVoterCount,
+		IsClosed:        isClosed,
+	}
+
+	return &pollTemp
+}
+
 // ProfilePhoto Describes a user profile photo
 type ProfilePhoto struct {
 	tdCommon
@@ -2847,7 +3074,7 @@ func (linkStateNone *LinkStateNone) GetLinkStateEnum() LinkStateEnum {
 	return LinkStateNoneType
 }
 
-// LinkStateKnowsPhoneNumber The phone number of user A is known but that number has not been saved to the contacts list of user B
+// LinkStateKnowsPhoneNumber The phone number of user A is known but that number has not been saved to the contact list of user B
 type LinkStateKnowsPhoneNumber struct {
 	tdCommon
 }
@@ -2872,7 +3099,7 @@ func (linkStateKnowsPhoneNumber *LinkStateKnowsPhoneNumber) GetLinkStateEnum() L
 	return LinkStateKnowsPhoneNumberType
 }
 
-// LinkStateIsContact The phone number of user A has been saved to the contacts list of user B
+// LinkStateIsContact The phone number of user A has been saved to the contact list of user B
 type LinkStateIsContact struct {
 	tdCommon
 }
@@ -3077,6 +3304,7 @@ type User struct {
 	OutgoingLink      LinkState     `json:"outgoing_link"`      // Relationship from the current user to the other user
 	IncomingLink      LinkState     `json:"incoming_link"`      // Relationship from the other user to the current user
 	IsVerified        bool          `json:"is_verified"`        // True, if the user is verified
+	IsSupport         bool          `json:"is_support"`         // True, if the user is Telegram support account
 	RestrictionReason string        `json:"restriction_reason"` // If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}".
 	HaveAccess        bool          `json:"have_access"`        // If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 	Type              UserType      `json:"type"`               // Type of the user
@@ -3100,11 +3328,12 @@ func (user *User) MessageType() string {
 // @param outgoingLink Relationship from the current user to the other user
 // @param incomingLink Relationship from the other user to the current user
 // @param isVerified True, if the user is verified
+// @param isSupport True, if the user is Telegram support account
 // @param restrictionReason If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}".
 // @param haveAccess If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 // @param typeParam Type of the user
 // @param languageCode IETF language tag of the user's language; only available to bots
-func NewUser(iD int32, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, outgoingLink LinkState, incomingLink LinkState, isVerified bool, restrictionReason string, haveAccess bool, typeParam UserType, languageCode string) *User {
+func NewUser(iD int32, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, outgoingLink LinkState, incomingLink LinkState, isVerified bool, isSupport bool, restrictionReason string, haveAccess bool, typeParam UserType, languageCode string) *User {
 	userTemp := User{
 		tdCommon:          tdCommon{Type: "user"},
 		ID:                iD,
@@ -3117,6 +3346,7 @@ func NewUser(iD int32, firstName string, lastName string, username string, phone
 		OutgoingLink:      outgoingLink,
 		IncomingLink:      incomingLink,
 		IsVerified:        isVerified,
+		IsSupport:         isSupport,
 		RestrictionReason: restrictionReason,
 		HaveAccess:        haveAccess,
 		Type:              typeParam,
@@ -3142,6 +3372,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 		PhoneNumber       string        `json:"phone_number"`       // Phone number of the user
 		ProfilePhoto      *ProfilePhoto `json:"profile_photo"`      // Profile photo of the user; may be null
 		IsVerified        bool          `json:"is_verified"`        // True, if the user is verified
+		IsSupport         bool          `json:"is_support"`         // True, if the user is Telegram support account
 		RestrictionReason string        `json:"restriction_reason"` // If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}".
 		HaveAccess        bool          `json:"have_access"`        // If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 		LanguageCode      string        `json:"language_code"`      // IETF language tag of the user's language; only available to bots
@@ -3159,6 +3390,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	user.PhoneNumber = tempObj.PhoneNumber
 	user.ProfilePhoto = tempObj.ProfilePhoto
 	user.IsVerified = tempObj.IsVerified
+	user.IsSupport = tempObj.IsSupport
 	user.RestrictionReason = tempObj.RestrictionReason
 	user.HaveAccess = tempObj.HaveAccess
 	user.LanguageCode = tempObj.LanguageCode
@@ -3219,11 +3451,40 @@ func NewUserFullInfo(isBlocked bool, canBeCalled bool, hasPrivateCalls bool, bio
 	return &userFullInfoTemp
 }
 
+// UserProfilePhoto Contains full information about a user profile photo
+type UserProfilePhoto struct {
+	tdCommon
+	ID        JSONInt64   `json:"id"`         // Unique user profile photo identifier
+	AddedDate int32       `json:"added_date"` // Point in time (Unix timestamp) when the photo has been added
+	Sizes     []PhotoSize `json:"sizes"`      // Available variants of the user photo, in different sizes
+}
+
+// MessageType return the string telegram-type of UserProfilePhoto
+func (userProfilePhoto *UserProfilePhoto) MessageType() string {
+	return "userProfilePhoto"
+}
+
+// NewUserProfilePhoto creates a new UserProfilePhoto
+//
+// @param iD Unique user profile photo identifier
+// @param addedDate Point in time (Unix timestamp) when the photo has been added
+// @param sizes Available variants of the user photo, in different sizes
+func NewUserProfilePhoto(iD JSONInt64, addedDate int32, sizes []PhotoSize) *UserProfilePhoto {
+	userProfilePhotoTemp := UserProfilePhoto{
+		tdCommon:  tdCommon{Type: "userProfilePhoto"},
+		ID:        iD,
+		AddedDate: addedDate,
+		Sizes:     sizes,
+	}
+
+	return &userProfilePhotoTemp
+}
+
 // UserProfilePhotos Contains part of the list of user photos
 type UserProfilePhotos struct {
 	tdCommon
-	TotalCount int32   `json:"total_count"` // Total number of user profile photos
-	Photos     []Photo `json:"photos"`      // A list of photos
+	TotalCount int32              `json:"total_count"` // Total number of user profile photos
+	Photos     []UserProfilePhoto `json:"photos"`      // A list of photos
 }
 
 // MessageType return the string telegram-type of UserProfilePhotos
@@ -3235,7 +3496,7 @@ func (userProfilePhotos *UserProfilePhotos) MessageType() string {
 //
 // @param totalCount Total number of user profile photos
 // @param photos A list of photos
-func NewUserProfilePhotos(totalCount int32, photos []Photo) *UserProfilePhotos {
+func NewUserProfilePhotos(totalCount int32, photos []UserProfilePhoto) *UserProfilePhotos {
 	userProfilePhotosTemp := UserProfilePhotos{
 		tdCommon:   tdCommon{Type: "userProfilePhotos"},
 		TotalCount: totalCount,
@@ -3309,7 +3570,7 @@ type ChatMemberStatusAdministrator struct {
 	CanDeleteMessages  bool `json:"can_delete_messages"`  // True, if the administrator can delete messages of other users
 	CanInviteUsers     bool `json:"can_invite_users"`     // True, if the administrator can invite new users to the chat
 	CanRestrictMembers bool `json:"can_restrict_members"` // True, if the administrator can restrict, ban, or unban chat members
-	CanPinMessages     bool `json:"can_pin_messages"`     // True, if the administrator can pin messages; applicable to supergroups only
+	CanPinMessages     bool `json:"can_pin_messages"`     // True, if the administrator can pin messages; applicable to groups only
 	CanPromoteMembers  bool `json:"can_promote_members"`  // True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
 }
 
@@ -3327,7 +3588,7 @@ func (chatMemberStatusAdministrator *ChatMemberStatusAdministrator) MessageType(
 // @param canDeleteMessages True, if the administrator can delete messages of other users
 // @param canInviteUsers True, if the administrator can invite new users to the chat
 // @param canRestrictMembers True, if the administrator can restrict, ban, or unban chat members
-// @param canPinMessages True, if the administrator can pin messages; applicable to supergroups only
+// @param canPinMessages True, if the administrator can pin messages; applicable to groups only
 // @param canPromoteMembers True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
 func NewChatMemberStatusAdministrator(canBeEdited bool, canChangeInfo bool, canPostMessages bool, canEditMessages bool, canDeleteMessages bool, canInviteUsers bool, canRestrictMembers bool, canPinMessages bool, canPromoteMembers bool) *ChatMemberStatusAdministrator {
 	chatMemberStatusAdministratorTemp := ChatMemberStatusAdministrator{
@@ -4050,10 +4311,10 @@ type SupergroupFullInfo struct {
 	CanGetMembers            bool      `json:"can_get_members"`              // True, if members of the chat can be retrieved
 	CanSetUsername           bool      `json:"can_set_username"`             // True, if the chat can be made public
 	CanSetStickerSet         bool      `json:"can_set_sticker_set"`          // True, if the supergroup sticker set can be changed
+	CanViewStatistics        bool      `json:"can_view_statistics"`          // True, if the channel statistics is available through getChatStatisticsUrl
 	IsAllHistoryAvailable    bool      `json:"is_all_history_available"`     // True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators
 	StickerSetID             JSONInt64 `json:"sticker_set_id"`               // Identifier of the supergroup sticker set; 0 if none
 	InviteLink               string    `json:"invite_link"`                  // Invite link for this chat
-	PinnedMessageID          int64     `json:"pinned_message_id"`            // Identifier of the pinned message in the chat; 0 if none
 	UpgradedFromBasicGroupID int32     `json:"upgraded_from_basic_group_id"` // Identifier of the basic group from which supergroup was upgraded; 0 if none
 	UpgradedFromMaxMessageID int64     `json:"upgraded_from_max_message_id"` // Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
 }
@@ -4073,13 +4334,13 @@ func (supergroupFullInfo *SupergroupFullInfo) MessageType() string {
 // @param canGetMembers True, if members of the chat can be retrieved
 // @param canSetUsername True, if the chat can be made public
 // @param canSetStickerSet True, if the supergroup sticker set can be changed
+// @param canViewStatistics True, if the channel statistics is available through getChatStatisticsUrl
 // @param isAllHistoryAvailable True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators
 // @param stickerSetID Identifier of the supergroup sticker set; 0 if none
 // @param inviteLink Invite link for this chat
-// @param pinnedMessageID Identifier of the pinned message in the chat; 0 if none
 // @param upgradedFromBasicGroupID Identifier of the basic group from which supergroup was upgraded; 0 if none
 // @param upgradedFromMaxMessageID Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
-func NewSupergroupFullInfo(description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, inviteLink string, pinnedMessageID int64, upgradedFromBasicGroupID int32, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
+func NewSupergroupFullInfo(description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, canViewStatistics bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, inviteLink string, upgradedFromBasicGroupID int32, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
 	supergroupFullInfoTemp := SupergroupFullInfo{
 		tdCommon:                 tdCommon{Type: "supergroupFullInfo"},
 		Description:              description,
@@ -4090,10 +4351,10 @@ func NewSupergroupFullInfo(description string, memberCount int32, administratorC
 		CanGetMembers:            canGetMembers,
 		CanSetUsername:           canSetUsername,
 		CanSetStickerSet:         canSetStickerSet,
+		CanViewStatistics:        canViewStatistics,
 		IsAllHistoryAvailable:    isAllHistoryAvailable,
 		StickerSetID:             stickerSetID,
 		InviteLink:               inviteLink,
-		PinnedMessageID:          pinnedMessageID,
 		UpgradedFromBasicGroupID: upgradedFromBasicGroupID,
 		UpgradedFromMaxMessageID: upgradedFromMaxMessageID,
 	}
@@ -4252,84 +4513,155 @@ func (secretChat *SecretChat) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// MessageForwardedFromUser The message was originally written by a known user
-type MessageForwardedFromUser struct {
+// MessageForwardOriginUser The message was originally written by a known user
+type MessageForwardOriginUser struct {
 	tdCommon
-	SenderUserID           int32 `json:"sender_user_id"`            // Identifier of the user that originally sent this message
-	Date                   int32 `json:"date"`                      // Point in time (Unix timestamp) when the message was originally sent
-	ForwardedFromChatID    int64 `json:"forwarded_from_chat_id"`    // For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown
-	ForwardedFromMessageID int64 `json:"forwarded_from_message_id"` // For messages forwarded to the chat with the current user (saved messages) the identifier of the original message from which the new message was forwarded; 0 if unknown
+	SenderUserID int32 `json:"sender_user_id"` // Identifier of the user that originally sent the message
 }
 
-// MessageType return the string telegram-type of MessageForwardedFromUser
-func (messageForwardedFromUser *MessageForwardedFromUser) MessageType() string {
-	return "messageForwardedFromUser"
+// MessageType return the string telegram-type of MessageForwardOriginUser
+func (messageForwardOriginUser *MessageForwardOriginUser) MessageType() string {
+	return "messageForwardOriginUser"
 }
 
-// NewMessageForwardedFromUser creates a new MessageForwardedFromUser
+// NewMessageForwardOriginUser creates a new MessageForwardOriginUser
 //
-// @param senderUserID Identifier of the user that originally sent this message
-// @param date Point in time (Unix timestamp) when the message was originally sent
-// @param forwardedFromChatID For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown
-// @param forwardedFromMessageID For messages forwarded to the chat with the current user (saved messages) the identifier of the original message from which the new message was forwarded; 0 if unknown
-func NewMessageForwardedFromUser(senderUserID int32, date int32, forwardedFromChatID int64, forwardedFromMessageID int64) *MessageForwardedFromUser {
-	messageForwardedFromUserTemp := MessageForwardedFromUser{
-		tdCommon:               tdCommon{Type: "messageForwardedFromUser"},
-		SenderUserID:           senderUserID,
-		Date:                   date,
-		ForwardedFromChatID:    forwardedFromChatID,
-		ForwardedFromMessageID: forwardedFromMessageID,
+// @param senderUserID Identifier of the user that originally sent the message
+func NewMessageForwardOriginUser(senderUserID int32) *MessageForwardOriginUser {
+	messageForwardOriginUserTemp := MessageForwardOriginUser{
+		tdCommon:     tdCommon{Type: "messageForwardOriginUser"},
+		SenderUserID: senderUserID,
 	}
 
-	return &messageForwardedFromUserTemp
+	return &messageForwardOriginUserTemp
 }
 
-// GetMessageForwardInfoEnum return the enum type of this object
-func (messageForwardedFromUser *MessageForwardedFromUser) GetMessageForwardInfoEnum() MessageForwardInfoEnum {
-	return MessageForwardedFromUserType
+// GetMessageForwardOriginEnum return the enum type of this object
+func (messageForwardOriginUser *MessageForwardOriginUser) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
+	return MessageForwardOriginUserType
 }
 
-// MessageForwardedPost The message was originally a post in a channel
-type MessageForwardedPost struct {
+// MessageForwardOriginHiddenUser The message was originally written by a user, which is hidden by his privacy settings
+type MessageForwardOriginHiddenUser struct {
 	tdCommon
-	ChatID                 int64  `json:"chat_id"`                   // Identifier of the chat from which the message was forwarded
-	AuthorSignature        string `json:"author_signature"`          // Post author signature
-	Date                   int32  `json:"date"`                      // Point in time (Unix timestamp) when the message was originally sent
-	MessageID              int64  `json:"message_id"`                // Message identifier of the original message from which the new message was forwarded; 0 if unknown
-	ForwardedFromChatID    int64  `json:"forwarded_from_chat_id"`    // For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown
-	ForwardedFromMessageID int64  `json:"forwarded_from_message_id"` // For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded; 0 if unknown
+	SenderName string `json:"sender_name"` // Name of the sender
 }
 
-// MessageType return the string telegram-type of MessageForwardedPost
-func (messageForwardedPost *MessageForwardedPost) MessageType() string {
-	return "messageForwardedPost"
+// MessageType return the string telegram-type of MessageForwardOriginHiddenUser
+func (messageForwardOriginHiddenUser *MessageForwardOriginHiddenUser) MessageType() string {
+	return "messageForwardOriginHiddenUser"
 }
 
-// NewMessageForwardedPost creates a new MessageForwardedPost
+// NewMessageForwardOriginHiddenUser creates a new MessageForwardOriginHiddenUser
 //
-// @param chatID Identifier of the chat from which the message was forwarded
-// @param authorSignature Post author signature
-// @param date Point in time (Unix timestamp) when the message was originally sent
-// @param messageID Message identifier of the original message from which the new message was forwarded; 0 if unknown
-// @param forwardedFromChatID For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown
-// @param forwardedFromMessageID For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded; 0 if unknown
-func NewMessageForwardedPost(chatID int64, authorSignature string, date int32, messageID int64, forwardedFromChatID int64, forwardedFromMessageID int64) *MessageForwardedPost {
-	messageForwardedPostTemp := MessageForwardedPost{
-		tdCommon:               tdCommon{Type: "messageForwardedPost"},
-		ChatID:                 chatID,
-		AuthorSignature:        authorSignature,
-		Date:                   date,
-		MessageID:              messageID,
-		ForwardedFromChatID:    forwardedFromChatID,
-		ForwardedFromMessageID: forwardedFromMessageID,
+// @param senderName Name of the sender
+func NewMessageForwardOriginHiddenUser(senderName string) *MessageForwardOriginHiddenUser {
+	messageForwardOriginHiddenUserTemp := MessageForwardOriginHiddenUser{
+		tdCommon:   tdCommon{Type: "messageForwardOriginHiddenUser"},
+		SenderName: senderName,
 	}
 
-	return &messageForwardedPostTemp
+	return &messageForwardOriginHiddenUserTemp
 }
 
-// GetMessageForwardInfoEnum return the enum type of this object
-func (messageForwardedPost *MessageForwardedPost) GetMessageForwardInfoEnum() MessageForwardInfoEnum {
-	return MessageForwardedPostType
+// GetMessageForwardOriginEnum return the enum type of this object
+func (messageForwardOriginHiddenUser *MessageForwardOriginHiddenUser) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
+	return MessageForwardOriginHiddenUserType
+}
+
+// MessageForwardOriginChannel The message was originally a post in a channel
+type MessageForwardOriginChannel struct {
+	tdCommon
+	ChatID          int64  `json:"chat_id"`          // Identifier of the chat from which the message was originally forwarded
+	MessageID       int64  `json:"message_id"`       // Message identifier of the original message; 0 if unknown
+	AuthorSignature string `json:"author_signature"` // Original post author signature
+}
+
+// MessageType return the string telegram-type of MessageForwardOriginChannel
+func (messageForwardOriginChannel *MessageForwardOriginChannel) MessageType() string {
+	return "messageForwardOriginChannel"
+}
+
+// NewMessageForwardOriginChannel creates a new MessageForwardOriginChannel
+//
+// @param chatID Identifier of the chat from which the message was originally forwarded
+// @param messageID Message identifier of the original message; 0 if unknown
+// @param authorSignature Original post author signature
+func NewMessageForwardOriginChannel(chatID int64, messageID int64, authorSignature string) *MessageForwardOriginChannel {
+	messageForwardOriginChannelTemp := MessageForwardOriginChannel{
+		tdCommon:        tdCommon{Type: "messageForwardOriginChannel"},
+		ChatID:          chatID,
+		MessageID:       messageID,
+		AuthorSignature: authorSignature,
+	}
+
+	return &messageForwardOriginChannelTemp
+}
+
+// GetMessageForwardOriginEnum return the enum type of this object
+func (messageForwardOriginChannel *MessageForwardOriginChannel) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
+	return MessageForwardOriginChannelType
+}
+
+// MessageForwardInfo Contains information about a forwarded message
+type MessageForwardInfo struct {
+	tdCommon
+	Origin        MessageForwardOrigin `json:"origin"`          // Origin of a forwarded message
+	Date          int32                `json:"date"`            // Point in time (Unix timestamp) when the message was originally sent
+	FromChatID    int64                `json:"from_chat_id"`    // For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown
+	FromMessageID int64                `json:"from_message_id"` // For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+}
+
+// MessageType return the string telegram-type of MessageForwardInfo
+func (messageForwardInfo *MessageForwardInfo) MessageType() string {
+	return "messageForwardInfo"
+}
+
+// NewMessageForwardInfo creates a new MessageForwardInfo
+//
+// @param origin Origin of a forwarded message
+// @param date Point in time (Unix timestamp) when the message was originally sent
+// @param fromChatID For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown
+// @param fromMessageID For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+func NewMessageForwardInfo(origin MessageForwardOrigin, date int32, fromChatID int64, fromMessageID int64) *MessageForwardInfo {
+	messageForwardInfoTemp := MessageForwardInfo{
+		tdCommon:      tdCommon{Type: "messageForwardInfo"},
+		Origin:        origin,
+		Date:          date,
+		FromChatID:    fromChatID,
+		FromMessageID: fromMessageID,
+	}
+
+	return &messageForwardInfoTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (messageForwardInfo *MessageForwardInfo) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Date          int32 `json:"date"`            // Point in time (Unix timestamp) when the message was originally sent
+		FromChatID    int64 `json:"from_chat_id"`    // For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown
+		FromMessageID int64 `json:"from_message_id"` // For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	messageForwardInfo.tdCommon = tempObj.tdCommon
+	messageForwardInfo.Date = tempObj.Date
+	messageForwardInfo.FromChatID = tempObj.FromChatID
+	messageForwardInfo.FromMessageID = tempObj.FromMessageID
+
+	fieldOrigin, _ := unmarshalMessageForwardOrigin(objMap["origin"])
+	messageForwardInfo.Origin = fieldOrigin
+
+	return nil
 }
 
 // MessageSendingStatePending The message is being sent now, but has not yet been delivered to the server
@@ -4390,7 +4722,7 @@ type Message struct {
 	ChatID                  int64               `json:"chat_id"`                      // Chat identifier
 	SendingState            MessageSendingState `json:"sending_state"`                // Information about the sending state of the message; may be null
 	IsOutgoing              bool                `json:"is_outgoing"`                  // True, if the message is outgoing
-	CanBeEdited             bool                `json:"can_be_edited"`                // True, if the message can be edited
+	CanBeEdited             bool                `json:"can_be_edited"`                // True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client
 	CanBeForwarded          bool                `json:"can_be_forwarded"`             // True, if the message can be forwarded
 	CanBeDeletedOnlyForSelf bool                `json:"can_be_deleted_only_for_self"` // True, if the message can be deleted only for the current user while other users will continue to see it
 	CanBeDeletedForAllUsers bool                `json:"can_be_deleted_for_all_users"` // True, if the message can be deleted for all users
@@ -4398,7 +4730,7 @@ type Message struct {
 	ContainsUnreadMention   bool                `json:"contains_unread_mention"`      // True, if the message contains an unread mention for the current user
 	Date                    int32               `json:"date"`                         // Point in time (Unix timestamp) when the message was sent
 	EditDate                int32               `json:"edit_date"`                    // Point in time (Unix timestamp) when the message was last edited
-	ForwardInfo             MessageForwardInfo  `json:"forward_info"`                 // Information about the initial message sender; may be null
+	ForwardInfo             *MessageForwardInfo `json:"forward_info"`                 // Information about the initial message sender; may be null
 	ReplyToMessageID        int64               `json:"reply_to_message_id"`          // If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
 	TTL                     int32               `json:"ttl"`                          // For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
 	TTLExpiresIn            float64             `json:"ttl_expires_in"`               // Time left before the message expires, in seconds
@@ -4422,7 +4754,7 @@ func (message *Message) MessageType() string {
 // @param chatID Chat identifier
 // @param sendingState Information about the sending state of the message; may be null
 // @param isOutgoing True, if the message is outgoing
-// @param canBeEdited True, if the message can be edited
+// @param canBeEdited True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client
 // @param canBeForwarded True, if the message can be forwarded
 // @param canBeDeletedOnlyForSelf True, if the message can be deleted only for the current user while other users will continue to see it
 // @param canBeDeletedForAllUsers True, if the message can be deleted for all users
@@ -4440,7 +4772,7 @@ func (message *Message) MessageType() string {
 // @param mediaAlbumID Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
 // @param content Content of the message
 // @param replyMarkup Reply markup for the message; may be null
-func NewMessage(iD int64, senderUserID int32, chatID int64, sendingState MessageSendingState, isOutgoing bool, canBeEdited bool, canBeForwarded bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, isChannelPost bool, containsUnreadMention bool, date int32, editDate int32, forwardInfo MessageForwardInfo, replyToMessageID int64, tTL int32, tTLExpiresIn float64, viaBotUserID int32, authorSignature string, views int32, mediaAlbumID JSONInt64, content MessageContent, replyMarkup ReplyMarkup) *Message {
+func NewMessage(iD int64, senderUserID int32, chatID int64, sendingState MessageSendingState, isOutgoing bool, canBeEdited bool, canBeForwarded bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, isChannelPost bool, containsUnreadMention bool, date int32, editDate int32, forwardInfo *MessageForwardInfo, replyToMessageID int64, tTL int32, tTLExpiresIn float64, viaBotUserID int32, authorSignature string, views int32, mediaAlbumID JSONInt64, content MessageContent, replyMarkup ReplyMarkup) *Message {
 	messageTemp := Message{
 		tdCommon:                tdCommon{Type: "message"},
 		ID:                      iD,
@@ -4480,25 +4812,26 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		ID                      int64     `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
-		SenderUserID            int32     `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
-		ChatID                  int64     `json:"chat_id"`                      // Chat identifier
-		IsOutgoing              bool      `json:"is_outgoing"`                  // True, if the message is outgoing
-		CanBeEdited             bool      `json:"can_be_edited"`                // True, if the message can be edited
-		CanBeForwarded          bool      `json:"can_be_forwarded"`             // True, if the message can be forwarded
-		CanBeDeletedOnlyForSelf bool      `json:"can_be_deleted_only_for_self"` // True, if the message can be deleted only for the current user while other users will continue to see it
-		CanBeDeletedForAllUsers bool      `json:"can_be_deleted_for_all_users"` // True, if the message can be deleted for all users
-		IsChannelPost           bool      `json:"is_channel_post"`              // True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts
-		ContainsUnreadMention   bool      `json:"contains_unread_mention"`      // True, if the message contains an unread mention for the current user
-		Date                    int32     `json:"date"`                         // Point in time (Unix timestamp) when the message was sent
-		EditDate                int32     `json:"edit_date"`                    // Point in time (Unix timestamp) when the message was last edited
-		ReplyToMessageID        int64     `json:"reply_to_message_id"`          // If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
-		TTL                     int32     `json:"ttl"`                          // For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
-		TTLExpiresIn            float64   `json:"ttl_expires_in"`               // Time left before the message expires, in seconds
-		ViaBotUserID            int32     `json:"via_bot_user_id"`              // If non-zero, the user identifier of the bot through which this message was sent
-		AuthorSignature         string    `json:"author_signature"`             // For channel posts, optional author signature
-		Views                   int32     `json:"views"`                        // Number of times this message was viewed
-		MediaAlbumID            JSONInt64 `json:"media_album_id"`               // Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
+		ID                      int64               `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
+		SenderUserID            int32               `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
+		ChatID                  int64               `json:"chat_id"`                      // Chat identifier
+		IsOutgoing              bool                `json:"is_outgoing"`                  // True, if the message is outgoing
+		CanBeEdited             bool                `json:"can_be_edited"`                // True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client
+		CanBeForwarded          bool                `json:"can_be_forwarded"`             // True, if the message can be forwarded
+		CanBeDeletedOnlyForSelf bool                `json:"can_be_deleted_only_for_self"` // True, if the message can be deleted only for the current user while other users will continue to see it
+		CanBeDeletedForAllUsers bool                `json:"can_be_deleted_for_all_users"` // True, if the message can be deleted for all users
+		IsChannelPost           bool                `json:"is_channel_post"`              // True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts
+		ContainsUnreadMention   bool                `json:"contains_unread_mention"`      // True, if the message contains an unread mention for the current user
+		Date                    int32               `json:"date"`                         // Point in time (Unix timestamp) when the message was sent
+		EditDate                int32               `json:"edit_date"`                    // Point in time (Unix timestamp) when the message was last edited
+		ForwardInfo             *MessageForwardInfo `json:"forward_info"`                 // Information about the initial message sender; may be null
+		ReplyToMessageID        int64               `json:"reply_to_message_id"`          // If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
+		TTL                     int32               `json:"ttl"`                          // For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
+		TTLExpiresIn            float64             `json:"ttl_expires_in"`               // Time left before the message expires, in seconds
+		ViaBotUserID            int32               `json:"via_bot_user_id"`              // If non-zero, the user identifier of the bot through which this message was sent
+		AuthorSignature         string              `json:"author_signature"`             // For channel posts, optional author signature
+		Views                   int32               `json:"views"`                        // Number of times this message was viewed
+		MediaAlbumID            JSONInt64           `json:"media_album_id"`               // Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -4519,6 +4852,7 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 	message.ContainsUnreadMention = tempObj.ContainsUnreadMention
 	message.Date = tempObj.Date
 	message.EditDate = tempObj.EditDate
+	message.ForwardInfo = tempObj.ForwardInfo
 	message.ReplyToMessageID = tempObj.ReplyToMessageID
 	message.TTL = tempObj.TTL
 	message.TTLExpiresIn = tempObj.TTLExpiresIn
@@ -4529,9 +4863,6 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 
 	fieldSendingState, _ := unmarshalMessageSendingState(objMap["sending_state"])
 	message.SendingState = fieldSendingState
-
-	fieldForwardInfo, _ := unmarshalMessageForwardInfo(objMap["forward_info"])
-	message.ForwardInfo = fieldForwardInfo
 
 	fieldContent, _ := unmarshalMessageContent(objMap["content"])
 	message.Content = fieldContent
@@ -4619,7 +4950,7 @@ func (notificationSettingsScopePrivateChats *NotificationSettingsScopePrivateCha
 	return NotificationSettingsScopePrivateChatsType
 }
 
-// NotificationSettingsScopeGroupChats Notification settings applied to all basic groups, supergroups and channels when the corresponding chat setting has a default value
+// NotificationSettingsScopeGroupChats Notification settings applied to all basic groups and supergroups when the corresponding chat setting has a default value
 type NotificationSettingsScopeGroupChats struct {
 	tdCommon
 }
@@ -4644,15 +4975,44 @@ func (notificationSettingsScopeGroupChats *NotificationSettingsScopeGroupChats) 
 	return NotificationSettingsScopeGroupChatsType
 }
 
+// NotificationSettingsScopeChannelChats Notification settings applied to all channels when the corresponding chat setting has a default value
+type NotificationSettingsScopeChannelChats struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of NotificationSettingsScopeChannelChats
+func (notificationSettingsScopeChannelChats *NotificationSettingsScopeChannelChats) MessageType() string {
+	return "notificationSettingsScopeChannelChats"
+}
+
+// NewNotificationSettingsScopeChannelChats creates a new NotificationSettingsScopeChannelChats
+//
+func NewNotificationSettingsScopeChannelChats() *NotificationSettingsScopeChannelChats {
+	notificationSettingsScopeChannelChatsTemp := NotificationSettingsScopeChannelChats{
+		tdCommon: tdCommon{Type: "notificationSettingsScopeChannelChats"},
+	}
+
+	return &notificationSettingsScopeChannelChatsTemp
+}
+
+// GetNotificationSettingsScopeEnum return the enum type of this object
+func (notificationSettingsScopeChannelChats *NotificationSettingsScopeChannelChats) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
+	return NotificationSettingsScopeChannelChatsType
+}
+
 // ChatNotificationSettings Contains information about notification settings for a chat
 type ChatNotificationSettings struct {
 	tdCommon
-	UseDefaultMuteFor     bool   `json:"use_default_mute_for"`     // If true, mute_for is ignored and the value for the relevant type of chat is used instead
-	MuteFor               int32  `json:"mute_for"`                 // Time left before notifications will be unmuted, in seconds
-	UseDefaultSound       bool   `json:"use_default_sound"`        // If true, sound is ignored and the value for the relevant type of chat is used instead
-	Sound                 string `json:"sound"`                    // The name of an audio file to be used for notification sounds; only applies to iOS applications
-	UseDefaultShowPreview bool   `json:"use_default_show_preview"` // If true, show_preview is ignored and the value for the relevant type of chat is used instead
-	ShowPreview           bool   `json:"show_preview"`             // True, if message content should be displayed in notifications
+	UseDefaultMuteFor                           bool   `json:"use_default_mute_for"`                             // If true, mute_for is ignored and the value for the relevant type of chat is used instead
+	MuteFor                                     int32  `json:"mute_for"`                                         // Time left before notifications will be unmuted, in seconds
+	UseDefaultSound                             bool   `json:"use_default_sound"`                                // If true, sound is ignored and the value for the relevant type of chat is used instead
+	Sound                                       string `json:"sound"`                                            // The name of an audio file to be used for notification sounds; only applies to iOS applications
+	UseDefaultShowPreview                       bool   `json:"use_default_show_preview"`                         // If true, show_preview is ignored and the value for the relevant type of chat is used instead
+	ShowPreview                                 bool   `json:"show_preview"`                                     // True, if message content should be displayed in notifications
+	UseDefaultDisablePinnedMessageNotifications bool   `json:"use_default_disable_pinned_message_notifications"` // If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead
+	DisablePinnedMessageNotifications           bool   `json:"disable_pinned_message_notifications"`             // If true, notifications for incoming pinned messages will be created as for an ordinary unread message
+	UseDefaultDisableMentionNotifications       bool   `json:"use_default_disable_mention_notifications"`        // If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead
+	DisableMentionNotifications                 bool   `json:"disable_mention_notifications"`                    // If true, notifications for messages with mentions will be created as for an ordinary unread message
 }
 
 // MessageType return the string telegram-type of ChatNotificationSettings
@@ -4668,7 +5028,11 @@ func (chatNotificationSettings *ChatNotificationSettings) MessageType() string {
 // @param sound The name of an audio file to be used for notification sounds; only applies to iOS applications
 // @param useDefaultShowPreview If true, show_preview is ignored and the value for the relevant type of chat is used instead
 // @param showPreview True, if message content should be displayed in notifications
-func NewChatNotificationSettings(useDefaultMuteFor bool, muteFor int32, useDefaultSound bool, sound string, useDefaultShowPreview bool, showPreview bool) *ChatNotificationSettings {
+// @param useDefaultDisablePinnedMessageNotifications If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead
+// @param disablePinnedMessageNotifications If true, notifications for incoming pinned messages will be created as for an ordinary unread message
+// @param useDefaultDisableMentionNotifications If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead
+// @param disableMentionNotifications If true, notifications for messages with mentions will be created as for an ordinary unread message
+func NewChatNotificationSettings(useDefaultMuteFor bool, muteFor int32, useDefaultSound bool, sound string, useDefaultShowPreview bool, showPreview bool, useDefaultDisablePinnedMessageNotifications bool, disablePinnedMessageNotifications bool, useDefaultDisableMentionNotifications bool, disableMentionNotifications bool) *ChatNotificationSettings {
 	chatNotificationSettingsTemp := ChatNotificationSettings{
 		tdCommon:              tdCommon{Type: "chatNotificationSettings"},
 		UseDefaultMuteFor:     useDefaultMuteFor,
@@ -4677,6 +5041,10 @@ func NewChatNotificationSettings(useDefaultMuteFor bool, muteFor int32, useDefau
 		Sound:                 sound,
 		UseDefaultShowPreview: useDefaultShowPreview,
 		ShowPreview:           showPreview,
+		UseDefaultDisablePinnedMessageNotifications: useDefaultDisablePinnedMessageNotifications,
+		DisablePinnedMessageNotifications:           disablePinnedMessageNotifications,
+		UseDefaultDisableMentionNotifications:       useDefaultDisableMentionNotifications,
+		DisableMentionNotifications:                 disableMentionNotifications,
 	}
 
 	return &chatNotificationSettingsTemp
@@ -4685,9 +5053,11 @@ func NewChatNotificationSettings(useDefaultMuteFor bool, muteFor int32, useDefau
 // ScopeNotificationSettings Contains information about notification settings for several chats
 type ScopeNotificationSettings struct {
 	tdCommon
-	MuteFor     int32  `json:"mute_for"`     // Time left before notifications will be unmuted, in seconds
-	Sound       string `json:"sound"`        // The name of an audio file to be used for notification sounds; only applies to iOS applications
-	ShowPreview bool   `json:"show_preview"` // True, if message content should be displayed in notifications
+	MuteFor                           int32  `json:"mute_for"`                             // Time left before notifications will be unmuted, in seconds
+	Sound                             string `json:"sound"`                                // The name of an audio file to be used for notification sounds; only applies to iOS applications
+	ShowPreview                       bool   `json:"show_preview"`                         // True, if message content should be displayed in notifications
+	DisablePinnedMessageNotifications bool   `json:"disable_pinned_message_notifications"` // True, if notifications for incoming pinned messages will be created as for an ordinary unread message
+	DisableMentionNotifications       bool   `json:"disable_mention_notifications"`        // True, if notifications for messages with mentions will be created as for an ordinary unread message
 }
 
 // MessageType return the string telegram-type of ScopeNotificationSettings
@@ -4700,12 +5070,16 @@ func (scopeNotificationSettings *ScopeNotificationSettings) MessageType() string
 // @param muteFor Time left before notifications will be unmuted, in seconds
 // @param sound The name of an audio file to be used for notification sounds; only applies to iOS applications
 // @param showPreview True, if message content should be displayed in notifications
-func NewScopeNotificationSettings(muteFor int32, sound string, showPreview bool) *ScopeNotificationSettings {
+// @param disablePinnedMessageNotifications True, if notifications for incoming pinned messages will be created as for an ordinary unread message
+// @param disableMentionNotifications True, if notifications for messages with mentions will be created as for an ordinary unread message
+func NewScopeNotificationSettings(muteFor int32, sound string, showPreview bool, disablePinnedMessageNotifications bool, disableMentionNotifications bool) *ScopeNotificationSettings {
 	scopeNotificationSettingsTemp := ScopeNotificationSettings{
-		tdCommon:    tdCommon{Type: "scopeNotificationSettings"},
-		MuteFor:     muteFor,
-		Sound:       sound,
-		ShowPreview: showPreview,
+		tdCommon:                          tdCommon{Type: "scopeNotificationSettings"},
+		MuteFor:                           muteFor,
+		Sound:                             sound,
+		ShowPreview:                       showPreview,
+		DisablePinnedMessageNotifications: disablePinnedMessageNotifications,
+		DisableMentionNotifications:       disableMentionNotifications,
 	}
 
 	return &scopeNotificationSettingsTemp
@@ -4893,6 +5267,8 @@ type Chat struct {
 	IsPinned                   bool                      `json:"is_pinned"`                    // True, if the chat is pinned
 	IsMarkedAsUnread           bool                      `json:"is_marked_as_unread"`          // True, if the chat is marked as unread
 	IsSponsored                bool                      `json:"is_sponsored"`                 // True, if the chat is sponsored by the user's MTProxy server
+	CanBeDeletedOnlyForSelf    bool                      `json:"can_be_deleted_only_for_self"` // True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
+	CanBeDeletedForAllUsers    bool                      `json:"can_be_deleted_for_all_users"` // True, if the chat messages can be deleted for all users
 	CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat
 	DefaultDisableNotification bool                      `json:"default_disable_notification"` // Default value of the disable_notification parameter, used when a message is sent to the chat
 	UnreadCount                int32                     `json:"unread_count"`                 // Number of unread messages in the chat
@@ -4900,6 +5276,7 @@ type Chat struct {
 	LastReadOutboxMessageID    int64                     `json:"last_read_outbox_message_id"`  // Identifier of the last read outgoing message
 	UnreadMentionCount         int32                     `json:"unread_mention_count"`         // Number of unread messages with a mention/reply in the chat
 	NotificationSettings       *ChatNotificationSettings `json:"notification_settings"`        // Notification settings for this chat
+	PinnedMessageID            int64                     `json:"pinned_message_id"`            // Identifier of the pinned message in the chat; 0 if none
 	ReplyMarkupMessageID       int64                     `json:"reply_markup_message_id"`      // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 	DraftMessage               *DraftMessage             `json:"draft_message"`                // A draft of a message in the chat; may be null
 	ClientData                 string                    `json:"client_data"`                  // Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
@@ -4921,6 +5298,8 @@ func (chat *Chat) MessageType() string {
 // @param isPinned True, if the chat is pinned
 // @param isMarkedAsUnread True, if the chat is marked as unread
 // @param isSponsored True, if the chat is sponsored by the user's MTProxy server
+// @param canBeDeletedOnlyForSelf True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
+// @param canBeDeletedForAllUsers True, if the chat messages can be deleted for all users
 // @param canBeReported True, if the chat can be reported to Telegram moderators through reportChat
 // @param defaultDisableNotification Default value of the disable_notification parameter, used when a message is sent to the chat
 // @param unreadCount Number of unread messages in the chat
@@ -4928,10 +5307,11 @@ func (chat *Chat) MessageType() string {
 // @param lastReadOutboxMessageID Identifier of the last read outgoing message
 // @param unreadMentionCount Number of unread messages with a mention/reply in the chat
 // @param notificationSettings Notification settings for this chat
+// @param pinnedMessageID Identifier of the pinned message in the chat; 0 if none
 // @param replyMarkupMessageID Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 // @param draftMessage A draft of a message in the chat; may be null
 // @param clientData Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
-func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastMessage *Message, order JSONInt64, isPinned bool, isMarkedAsUnread bool, isSponsored bool, canBeReported bool, defaultDisableNotification bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *ChatNotificationSettings, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
+func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastMessage *Message, order JSONInt64, isPinned bool, isMarkedAsUnread bool, isSponsored bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, canBeReported bool, defaultDisableNotification bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *ChatNotificationSettings, pinnedMessageID int64, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
 	chatTemp := Chat{
 		tdCommon:                   tdCommon{Type: "chat"},
 		ID:                         iD,
@@ -4943,6 +5323,8 @@ func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastM
 		IsPinned:                   isPinned,
 		IsMarkedAsUnread:           isMarkedAsUnread,
 		IsSponsored:                isSponsored,
+		CanBeDeletedOnlyForSelf:    canBeDeletedOnlyForSelf,
+		CanBeDeletedForAllUsers:    canBeDeletedForAllUsers,
 		CanBeReported:              canBeReported,
 		DefaultDisableNotification: defaultDisableNotification,
 		UnreadCount:                unreadCount,
@@ -4950,6 +5332,7 @@ func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastM
 		LastReadOutboxMessageID:    lastReadOutboxMessageID,
 		UnreadMentionCount:         unreadMentionCount,
 		NotificationSettings:       notificationSettings,
+		PinnedMessageID:            pinnedMessageID,
 		ReplyMarkupMessageID:       replyMarkupMessageID,
 		DraftMessage:               draftMessage,
 		ClientData:                 clientData,
@@ -4975,6 +5358,8 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 		IsPinned                   bool                      `json:"is_pinned"`                    // True, if the chat is pinned
 		IsMarkedAsUnread           bool                      `json:"is_marked_as_unread"`          // True, if the chat is marked as unread
 		IsSponsored                bool                      `json:"is_sponsored"`                 // True, if the chat is sponsored by the user's MTProxy server
+		CanBeDeletedOnlyForSelf    bool                      `json:"can_be_deleted_only_for_self"` // True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
+		CanBeDeletedForAllUsers    bool                      `json:"can_be_deleted_for_all_users"` // True, if the chat messages can be deleted for all users
 		CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat
 		DefaultDisableNotification bool                      `json:"default_disable_notification"` // Default value of the disable_notification parameter, used when a message is sent to the chat
 		UnreadCount                int32                     `json:"unread_count"`                 // Number of unread messages in the chat
@@ -4982,6 +5367,7 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 		LastReadOutboxMessageID    int64                     `json:"last_read_outbox_message_id"`  // Identifier of the last read outgoing message
 		UnreadMentionCount         int32                     `json:"unread_mention_count"`         // Number of unread messages with a mention/reply in the chat
 		NotificationSettings       *ChatNotificationSettings `json:"notification_settings"`        // Notification settings for this chat
+		PinnedMessageID            int64                     `json:"pinned_message_id"`            // Identifier of the pinned message in the chat; 0 if none
 		ReplyMarkupMessageID       int64                     `json:"reply_markup_message_id"`      // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 		DraftMessage               *DraftMessage             `json:"draft_message"`                // A draft of a message in the chat; may be null
 		ClientData                 string                    `json:"client_data"`                  // Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
@@ -5000,6 +5386,8 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 	chat.IsPinned = tempObj.IsPinned
 	chat.IsMarkedAsUnread = tempObj.IsMarkedAsUnread
 	chat.IsSponsored = tempObj.IsSponsored
+	chat.CanBeDeletedOnlyForSelf = tempObj.CanBeDeletedOnlyForSelf
+	chat.CanBeDeletedForAllUsers = tempObj.CanBeDeletedForAllUsers
 	chat.CanBeReported = tempObj.CanBeReported
 	chat.DefaultDisableNotification = tempObj.DefaultDisableNotification
 	chat.UnreadCount = tempObj.UnreadCount
@@ -5007,6 +5395,7 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 	chat.LastReadOutboxMessageID = tempObj.LastReadOutboxMessageID
 	chat.UnreadMentionCount = tempObj.UnreadMentionCount
 	chat.NotificationSettings = tempObj.NotificationSettings
+	chat.PinnedMessageID = tempObj.PinnedMessageID
 	chat.ReplyMarkupMessageID = tempObj.ReplyMarkupMessageID
 	chat.DraftMessage = tempObj.DraftMessage
 	chat.ClientData = tempObj.ClientData
@@ -5971,6 +6360,305 @@ func (richTextEmailAddress *RichTextEmailAddress) GetRichTextEnum() RichTextEnum
 	return RichTextEmailAddressType
 }
 
+// RichTextSubscript A subscript rich text
+type RichTextSubscript struct {
+	tdCommon
+	Text RichText `json:"text"` // Text
+}
+
+// MessageType return the string telegram-type of RichTextSubscript
+func (richTextSubscript *RichTextSubscript) MessageType() string {
+	return "richTextSubscript"
+}
+
+// NewRichTextSubscript creates a new RichTextSubscript
+//
+// @param text Text
+func NewRichTextSubscript(text RichText) *RichTextSubscript {
+	richTextSubscriptTemp := RichTextSubscript{
+		tdCommon: tdCommon{Type: "richTextSubscript"},
+		Text:     text,
+	}
+
+	return &richTextSubscriptTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (richTextSubscript *RichTextSubscript) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	richTextSubscript.tdCommon = tempObj.tdCommon
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	richTextSubscript.Text = fieldText
+
+	return nil
+}
+
+// GetRichTextEnum return the enum type of this object
+func (richTextSubscript *RichTextSubscript) GetRichTextEnum() RichTextEnum {
+	return RichTextSubscriptType
+}
+
+// RichTextSuperscript A superscript rich text
+type RichTextSuperscript struct {
+	tdCommon
+	Text RichText `json:"text"` // Text
+}
+
+// MessageType return the string telegram-type of RichTextSuperscript
+func (richTextSuperscript *RichTextSuperscript) MessageType() string {
+	return "richTextSuperscript"
+}
+
+// NewRichTextSuperscript creates a new RichTextSuperscript
+//
+// @param text Text
+func NewRichTextSuperscript(text RichText) *RichTextSuperscript {
+	richTextSuperscriptTemp := RichTextSuperscript{
+		tdCommon: tdCommon{Type: "richTextSuperscript"},
+		Text:     text,
+	}
+
+	return &richTextSuperscriptTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (richTextSuperscript *RichTextSuperscript) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	richTextSuperscript.tdCommon = tempObj.tdCommon
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	richTextSuperscript.Text = fieldText
+
+	return nil
+}
+
+// GetRichTextEnum return the enum type of this object
+func (richTextSuperscript *RichTextSuperscript) GetRichTextEnum() RichTextEnum {
+	return RichTextSuperscriptType
+}
+
+// RichTextMarked A marked rich text
+type RichTextMarked struct {
+	tdCommon
+	Text RichText `json:"text"` // Text
+}
+
+// MessageType return the string telegram-type of RichTextMarked
+func (richTextMarked *RichTextMarked) MessageType() string {
+	return "richTextMarked"
+}
+
+// NewRichTextMarked creates a new RichTextMarked
+//
+// @param text Text
+func NewRichTextMarked(text RichText) *RichTextMarked {
+	richTextMarkedTemp := RichTextMarked{
+		tdCommon: tdCommon{Type: "richTextMarked"},
+		Text:     text,
+	}
+
+	return &richTextMarkedTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (richTextMarked *RichTextMarked) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	richTextMarked.tdCommon = tempObj.tdCommon
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	richTextMarked.Text = fieldText
+
+	return nil
+}
+
+// GetRichTextEnum return the enum type of this object
+func (richTextMarked *RichTextMarked) GetRichTextEnum() RichTextEnum {
+	return RichTextMarkedType
+}
+
+// RichTextPhoneNumber A rich text phone number
+type RichTextPhoneNumber struct {
+	tdCommon
+	Text        RichText `json:"text"`         // Text
+	PhoneNumber string   `json:"phone_number"` // Phone number
+}
+
+// MessageType return the string telegram-type of RichTextPhoneNumber
+func (richTextPhoneNumber *RichTextPhoneNumber) MessageType() string {
+	return "richTextPhoneNumber"
+}
+
+// NewRichTextPhoneNumber creates a new RichTextPhoneNumber
+//
+// @param text Text
+// @param phoneNumber Phone number
+func NewRichTextPhoneNumber(text RichText, phoneNumber string) *RichTextPhoneNumber {
+	richTextPhoneNumberTemp := RichTextPhoneNumber{
+		tdCommon:    tdCommon{Type: "richTextPhoneNumber"},
+		Text:        text,
+		PhoneNumber: phoneNumber,
+	}
+
+	return &richTextPhoneNumberTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (richTextPhoneNumber *RichTextPhoneNumber) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		PhoneNumber string `json:"phone_number"` // Phone number
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	richTextPhoneNumber.tdCommon = tempObj.tdCommon
+	richTextPhoneNumber.PhoneNumber = tempObj.PhoneNumber
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	richTextPhoneNumber.Text = fieldText
+
+	return nil
+}
+
+// GetRichTextEnum return the enum type of this object
+func (richTextPhoneNumber *RichTextPhoneNumber) GetRichTextEnum() RichTextEnum {
+	return RichTextPhoneNumberType
+}
+
+// RichTextIcon A small image inside the text
+type RichTextIcon struct {
+	tdCommon
+	Document *Document `json:"document"` // The image represented as a document. The image can be in GIF, JPEG or PNG format
+	Width    int32     `json:"width"`    // Width of a bounding box in which the image should be shown, 0 if unknown
+	Height   int32     `json:"height"`   // Height of a bounding box in which the image should be shown, 0 if unknown
+}
+
+// MessageType return the string telegram-type of RichTextIcon
+func (richTextIcon *RichTextIcon) MessageType() string {
+	return "richTextIcon"
+}
+
+// NewRichTextIcon creates a new RichTextIcon
+//
+// @param document The image represented as a document. The image can be in GIF, JPEG or PNG format
+// @param width Width of a bounding box in which the image should be shown, 0 if unknown
+// @param height Height of a bounding box in which the image should be shown, 0 if unknown
+func NewRichTextIcon(document *Document, width int32, height int32) *RichTextIcon {
+	richTextIconTemp := RichTextIcon{
+		tdCommon: tdCommon{Type: "richTextIcon"},
+		Document: document,
+		Width:    width,
+		Height:   height,
+	}
+
+	return &richTextIconTemp
+}
+
+// GetRichTextEnum return the enum type of this object
+func (richTextIcon *RichTextIcon) GetRichTextEnum() RichTextEnum {
+	return RichTextIconType
+}
+
+// RichTextAnchor A rich text anchor
+type RichTextAnchor struct {
+	tdCommon
+	Text RichText `json:"text"` // Text
+	Name string   `json:"name"` // Anchor name
+}
+
+// MessageType return the string telegram-type of RichTextAnchor
+func (richTextAnchor *RichTextAnchor) MessageType() string {
+	return "richTextAnchor"
+}
+
+// NewRichTextAnchor creates a new RichTextAnchor
+//
+// @param text Text
+// @param name Anchor name
+func NewRichTextAnchor(text RichText, name string) *RichTextAnchor {
+	richTextAnchorTemp := RichTextAnchor{
+		tdCommon: tdCommon{Type: "richTextAnchor"},
+		Text:     text,
+		Name:     name,
+	}
+
+	return &richTextAnchorTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (richTextAnchor *RichTextAnchor) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Name string `json:"name"` // Anchor name
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	richTextAnchor.tdCommon = tempObj.tdCommon
+	richTextAnchor.Name = tempObj.Name
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	richTextAnchor.Text = fieldText
+
+	return nil
+}
+
+// GetRichTextEnum return the enum type of this object
+func (richTextAnchor *RichTextAnchor) GetRichTextEnum() RichTextEnum {
+	return RichTextAnchorType
+}
+
 // RichTexts A concatenation of rich texts
 type RichTexts struct {
 	tdCommon
@@ -5997,6 +6685,346 @@ func NewRichTexts(texts []RichText) *RichTexts {
 // GetRichTextEnum return the enum type of this object
 func (richTexts *RichTexts) GetRichTextEnum() RichTextEnum {
 	return RichTextsType
+}
+
+// PageBlockCaption Contains a caption of an instant view web page block, consisting of a text and a trailing credit
+type PageBlockCaption struct {
+	tdCommon
+	Text   RichText `json:"text"`   // Content of the caption
+	Credit RichText `json:"credit"` // Block credit (like HTML tag <cite>)
+}
+
+// MessageType return the string telegram-type of PageBlockCaption
+func (pageBlockCaption *PageBlockCaption) MessageType() string {
+	return "pageBlockCaption"
+}
+
+// NewPageBlockCaption creates a new PageBlockCaption
+//
+// @param text Content of the caption
+// @param credit Block credit (like HTML tag <cite>)
+func NewPageBlockCaption(text RichText, credit RichText) *PageBlockCaption {
+	pageBlockCaptionTemp := PageBlockCaption{
+		tdCommon: tdCommon{Type: "pageBlockCaption"},
+		Text:     text,
+		Credit:   credit,
+	}
+
+	return &pageBlockCaptionTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (pageBlockCaption *PageBlockCaption) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	pageBlockCaption.tdCommon = tempObj.tdCommon
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	pageBlockCaption.Text = fieldText
+
+	fieldCredit, _ := unmarshalRichText(objMap["credit"])
+	pageBlockCaption.Credit = fieldCredit
+
+	return nil
+}
+
+// PageBlockListItem Describes an item of a list page block
+type PageBlockListItem struct {
+	tdCommon
+	Label      string      `json:"label"`       // Item label
+	PageBlocks []PageBlock `json:"page_blocks"` // Item blocks
+}
+
+// MessageType return the string telegram-type of PageBlockListItem
+func (pageBlockListItem *PageBlockListItem) MessageType() string {
+	return "pageBlockListItem"
+}
+
+// NewPageBlockListItem creates a new PageBlockListItem
+//
+// @param label Item label
+// @param pageBlocks Item blocks
+func NewPageBlockListItem(label string, pageBlocks []PageBlock) *PageBlockListItem {
+	pageBlockListItemTemp := PageBlockListItem{
+		tdCommon:   tdCommon{Type: "pageBlockListItem"},
+		Label:      label,
+		PageBlocks: pageBlocks,
+	}
+
+	return &pageBlockListItemTemp
+}
+
+// PageBlockHorizontalAlignmentLeft The content should be left-aligned
+type PageBlockHorizontalAlignmentLeft struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PageBlockHorizontalAlignmentLeft
+func (pageBlockHorizontalAlignmentLeft *PageBlockHorizontalAlignmentLeft) MessageType() string {
+	return "pageBlockHorizontalAlignmentLeft"
+}
+
+// NewPageBlockHorizontalAlignmentLeft creates a new PageBlockHorizontalAlignmentLeft
+//
+func NewPageBlockHorizontalAlignmentLeft() *PageBlockHorizontalAlignmentLeft {
+	pageBlockHorizontalAlignmentLeftTemp := PageBlockHorizontalAlignmentLeft{
+		tdCommon: tdCommon{Type: "pageBlockHorizontalAlignmentLeft"},
+	}
+
+	return &pageBlockHorizontalAlignmentLeftTemp
+}
+
+// GetPageBlockHorizontalAlignmentEnum return the enum type of this object
+func (pageBlockHorizontalAlignmentLeft *PageBlockHorizontalAlignmentLeft) GetPageBlockHorizontalAlignmentEnum() PageBlockHorizontalAlignmentEnum {
+	return PageBlockHorizontalAlignmentLeftType
+}
+
+// PageBlockHorizontalAlignmentCenter The content should be center-aligned
+type PageBlockHorizontalAlignmentCenter struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PageBlockHorizontalAlignmentCenter
+func (pageBlockHorizontalAlignmentCenter *PageBlockHorizontalAlignmentCenter) MessageType() string {
+	return "pageBlockHorizontalAlignmentCenter"
+}
+
+// NewPageBlockHorizontalAlignmentCenter creates a new PageBlockHorizontalAlignmentCenter
+//
+func NewPageBlockHorizontalAlignmentCenter() *PageBlockHorizontalAlignmentCenter {
+	pageBlockHorizontalAlignmentCenterTemp := PageBlockHorizontalAlignmentCenter{
+		tdCommon: tdCommon{Type: "pageBlockHorizontalAlignmentCenter"},
+	}
+
+	return &pageBlockHorizontalAlignmentCenterTemp
+}
+
+// GetPageBlockHorizontalAlignmentEnum return the enum type of this object
+func (pageBlockHorizontalAlignmentCenter *PageBlockHorizontalAlignmentCenter) GetPageBlockHorizontalAlignmentEnum() PageBlockHorizontalAlignmentEnum {
+	return PageBlockHorizontalAlignmentCenterType
+}
+
+// PageBlockHorizontalAlignmentRight The content should be right-aligned
+type PageBlockHorizontalAlignmentRight struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PageBlockHorizontalAlignmentRight
+func (pageBlockHorizontalAlignmentRight *PageBlockHorizontalAlignmentRight) MessageType() string {
+	return "pageBlockHorizontalAlignmentRight"
+}
+
+// NewPageBlockHorizontalAlignmentRight creates a new PageBlockHorizontalAlignmentRight
+//
+func NewPageBlockHorizontalAlignmentRight() *PageBlockHorizontalAlignmentRight {
+	pageBlockHorizontalAlignmentRightTemp := PageBlockHorizontalAlignmentRight{
+		tdCommon: tdCommon{Type: "pageBlockHorizontalAlignmentRight"},
+	}
+
+	return &pageBlockHorizontalAlignmentRightTemp
+}
+
+// GetPageBlockHorizontalAlignmentEnum return the enum type of this object
+func (pageBlockHorizontalAlignmentRight *PageBlockHorizontalAlignmentRight) GetPageBlockHorizontalAlignmentEnum() PageBlockHorizontalAlignmentEnum {
+	return PageBlockHorizontalAlignmentRightType
+}
+
+// PageBlockVerticalAlignmentTop The content should be top-aligned
+type PageBlockVerticalAlignmentTop struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PageBlockVerticalAlignmentTop
+func (pageBlockVerticalAlignmentTop *PageBlockVerticalAlignmentTop) MessageType() string {
+	return "pageBlockVerticalAlignmentTop"
+}
+
+// NewPageBlockVerticalAlignmentTop creates a new PageBlockVerticalAlignmentTop
+//
+func NewPageBlockVerticalAlignmentTop() *PageBlockVerticalAlignmentTop {
+	pageBlockVerticalAlignmentTopTemp := PageBlockVerticalAlignmentTop{
+		tdCommon: tdCommon{Type: "pageBlockVerticalAlignmentTop"},
+	}
+
+	return &pageBlockVerticalAlignmentTopTemp
+}
+
+// GetPageBlockVerticalAlignmentEnum return the enum type of this object
+func (pageBlockVerticalAlignmentTop *PageBlockVerticalAlignmentTop) GetPageBlockVerticalAlignmentEnum() PageBlockVerticalAlignmentEnum {
+	return PageBlockVerticalAlignmentTopType
+}
+
+// PageBlockVerticalAlignmentMiddle The content should be middle-aligned
+type PageBlockVerticalAlignmentMiddle struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PageBlockVerticalAlignmentMiddle
+func (pageBlockVerticalAlignmentMiddle *PageBlockVerticalAlignmentMiddle) MessageType() string {
+	return "pageBlockVerticalAlignmentMiddle"
+}
+
+// NewPageBlockVerticalAlignmentMiddle creates a new PageBlockVerticalAlignmentMiddle
+//
+func NewPageBlockVerticalAlignmentMiddle() *PageBlockVerticalAlignmentMiddle {
+	pageBlockVerticalAlignmentMiddleTemp := PageBlockVerticalAlignmentMiddle{
+		tdCommon: tdCommon{Type: "pageBlockVerticalAlignmentMiddle"},
+	}
+
+	return &pageBlockVerticalAlignmentMiddleTemp
+}
+
+// GetPageBlockVerticalAlignmentEnum return the enum type of this object
+func (pageBlockVerticalAlignmentMiddle *PageBlockVerticalAlignmentMiddle) GetPageBlockVerticalAlignmentEnum() PageBlockVerticalAlignmentEnum {
+	return PageBlockVerticalAlignmentMiddleType
+}
+
+// PageBlockVerticalAlignmentBottom The content should be bottom-aligned
+type PageBlockVerticalAlignmentBottom struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PageBlockVerticalAlignmentBottom
+func (pageBlockVerticalAlignmentBottom *PageBlockVerticalAlignmentBottom) MessageType() string {
+	return "pageBlockVerticalAlignmentBottom"
+}
+
+// NewPageBlockVerticalAlignmentBottom creates a new PageBlockVerticalAlignmentBottom
+//
+func NewPageBlockVerticalAlignmentBottom() *PageBlockVerticalAlignmentBottom {
+	pageBlockVerticalAlignmentBottomTemp := PageBlockVerticalAlignmentBottom{
+		tdCommon: tdCommon{Type: "pageBlockVerticalAlignmentBottom"},
+	}
+
+	return &pageBlockVerticalAlignmentBottomTemp
+}
+
+// GetPageBlockVerticalAlignmentEnum return the enum type of this object
+func (pageBlockVerticalAlignmentBottom *PageBlockVerticalAlignmentBottom) GetPageBlockVerticalAlignmentEnum() PageBlockVerticalAlignmentEnum {
+	return PageBlockVerticalAlignmentBottomType
+}
+
+// PageBlockTableCell Represents a cell of a table
+type PageBlockTableCell struct {
+	tdCommon
+	Text     RichText                     `json:"text"`      // Cell text
+	IsHeader bool                         `json:"is_header"` // True, if it is a header cell
+	Colspan  int32                        `json:"colspan"`   // The number of columns the cell should span
+	Rowspan  int32                        `json:"rowspan"`   // The number of rows the cell should span
+	Align    PageBlockHorizontalAlignment `json:"align"`     // Horizontal cell content alignment
+	Valign   PageBlockVerticalAlignment   `json:"valign"`    // Vertical cell content alignment
+}
+
+// MessageType return the string telegram-type of PageBlockTableCell
+func (pageBlockTableCell *PageBlockTableCell) MessageType() string {
+	return "pageBlockTableCell"
+}
+
+// NewPageBlockTableCell creates a new PageBlockTableCell
+//
+// @param text Cell text
+// @param isHeader True, if it is a header cell
+// @param colspan The number of columns the cell should span
+// @param rowspan The number of rows the cell should span
+// @param align Horizontal cell content alignment
+// @param valign Vertical cell content alignment
+func NewPageBlockTableCell(text RichText, isHeader bool, colspan int32, rowspan int32, align PageBlockHorizontalAlignment, valign PageBlockVerticalAlignment) *PageBlockTableCell {
+	pageBlockTableCellTemp := PageBlockTableCell{
+		tdCommon: tdCommon{Type: "pageBlockTableCell"},
+		Text:     text,
+		IsHeader: isHeader,
+		Colspan:  colspan,
+		Rowspan:  rowspan,
+		Align:    align,
+		Valign:   valign,
+	}
+
+	return &pageBlockTableCellTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (pageBlockTableCell *PageBlockTableCell) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		IsHeader bool  `json:"is_header"` // True, if it is a header cell
+		Colspan  int32 `json:"colspan"`   // The number of columns the cell should span
+		Rowspan  int32 `json:"rowspan"`   // The number of rows the cell should span
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	pageBlockTableCell.tdCommon = tempObj.tdCommon
+	pageBlockTableCell.IsHeader = tempObj.IsHeader
+	pageBlockTableCell.Colspan = tempObj.Colspan
+	pageBlockTableCell.Rowspan = tempObj.Rowspan
+
+	fieldText, _ := unmarshalRichText(objMap["text"])
+	pageBlockTableCell.Text = fieldText
+
+	fieldAlign, _ := unmarshalPageBlockHorizontalAlignment(objMap["align"])
+	pageBlockTableCell.Align = fieldAlign
+
+	fieldValign, _ := unmarshalPageBlockVerticalAlignment(objMap["valign"])
+	pageBlockTableCell.Valign = fieldValign
+
+	return nil
+}
+
+// PageBlockRelatedArticle Contains information about a related article
+type PageBlockRelatedArticle struct {
+	tdCommon
+	URL         string `json:"url"`          // Related article URL
+	Title       string `json:"title"`        // Article title; may be empty
+	Description string `json:"description"`  //
+	Photo       *Photo `json:"photo"`        // Article photo; may be null
+	Author      string `json:"author"`       // Article author; may be empty
+	PublishDate int32  `json:"publish_date"` // Point in time (Unix timestamp) when the article was published; 0 if unknown
+}
+
+// MessageType return the string telegram-type of PageBlockRelatedArticle
+func (pageBlockRelatedArticle *PageBlockRelatedArticle) MessageType() string {
+	return "pageBlockRelatedArticle"
+}
+
+// NewPageBlockRelatedArticle creates a new PageBlockRelatedArticle
+//
+// @param uRL Related article URL
+// @param title Article title; may be empty
+// @param description
+// @param photo Article photo; may be null
+// @param author Article author; may be empty
+// @param publishDate Point in time (Unix timestamp) when the article was published; 0 if unknown
+func NewPageBlockRelatedArticle(uRL string, title string, description string, photo *Photo, author string, publishDate int32) *PageBlockRelatedArticle {
+	pageBlockRelatedArticleTemp := PageBlockRelatedArticle{
+		tdCommon:    tdCommon{Type: "pageBlockRelatedArticle"},
+		URL:         uRL,
+		Title:       title,
+		Description: description,
+		Photo:       photo,
+		Author:      author,
+		PublishDate: publishDate,
+	}
+
+	return &pageBlockRelatedArticleTemp
 }
 
 // PageBlockTitle The title of a page
@@ -6259,6 +7287,57 @@ func (pageBlockSubheader *PageBlockSubheader) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockSubheaderType
 }
 
+// PageBlockKicker A kicker
+type PageBlockKicker struct {
+	tdCommon
+	Kicker RichText `json:"kicker"` // Kicker
+}
+
+// MessageType return the string telegram-type of PageBlockKicker
+func (pageBlockKicker *PageBlockKicker) MessageType() string {
+	return "pageBlockKicker"
+}
+
+// NewPageBlockKicker creates a new PageBlockKicker
+//
+// @param kicker Kicker
+func NewPageBlockKicker(kicker RichText) *PageBlockKicker {
+	pageBlockKickerTemp := PageBlockKicker{
+		tdCommon: tdCommon{Type: "pageBlockKicker"},
+		Kicker:   kicker,
+	}
+
+	return &pageBlockKickerTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (pageBlockKicker *PageBlockKicker) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	pageBlockKicker.tdCommon = tempObj.tdCommon
+
+	fieldKicker, _ := unmarshalRichText(objMap["kicker"])
+	pageBlockKicker.Kicker = fieldKicker
+
+	return nil
+}
+
+// GetPageBlockEnum return the enum type of this object
+func (pageBlockKicker *PageBlockKicker) GetPageBlockEnum() PageBlockEnum {
+	return PageBlockKickerType
+}
+
 // PageBlockParagraph A text paragraph
 type PageBlockParagraph struct {
 	tdCommon
@@ -6470,11 +7549,10 @@ func (pageBlockAnchor *PageBlockAnchor) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockAnchorType
 }
 
-// PageBlockList A list of texts
+// PageBlockList A list of data blocks
 type PageBlockList struct {
 	tdCommon
-	Items     []RichText `json:"items"`      // Texts
-	IsOrdered bool       `json:"is_ordered"` // True, if the items should be marked with numbers
+	Items []PageBlockListItem `json:"items"` // The items of the list
 }
 
 // MessageType return the string telegram-type of PageBlockList
@@ -6484,13 +7562,11 @@ func (pageBlockList *PageBlockList) MessageType() string {
 
 // NewPageBlockList creates a new PageBlockList
 //
-// @param items Texts
-// @param isOrdered True, if the items should be marked with numbers
-func NewPageBlockList(items []RichText, isOrdered bool) *PageBlockList {
+// @param items The items of the list
+func NewPageBlockList(items []PageBlockListItem) *PageBlockList {
 	pageBlockListTemp := PageBlockList{
-		tdCommon:  tdCommon{Type: "pageBlockList"},
-		Items:     items,
-		IsOrdered: isOrdered,
+		tdCommon: tdCommon{Type: "pageBlockList"},
+		Items:    items,
 	}
 
 	return &pageBlockListTemp
@@ -6504,8 +7580,8 @@ func (pageBlockList *PageBlockList) GetPageBlockEnum() PageBlockEnum {
 // PageBlockBlockQuote A block quote
 type PageBlockBlockQuote struct {
 	tdCommon
-	Text    RichText `json:"text"`    // Quote text
-	Caption RichText `json:"caption"` // Quote caption
+	Text   RichText `json:"text"`   // Quote text
+	Credit RichText `json:"credit"` // Quote credit
 }
 
 // MessageType return the string telegram-type of PageBlockBlockQuote
@@ -6516,12 +7592,12 @@ func (pageBlockBlockQuote *PageBlockBlockQuote) MessageType() string {
 // NewPageBlockBlockQuote creates a new PageBlockBlockQuote
 //
 // @param text Quote text
-// @param caption Quote caption
-func NewPageBlockBlockQuote(text RichText, caption RichText) *PageBlockBlockQuote {
+// @param credit Quote credit
+func NewPageBlockBlockQuote(text RichText, credit RichText) *PageBlockBlockQuote {
 	pageBlockBlockQuoteTemp := PageBlockBlockQuote{
 		tdCommon: tdCommon{Type: "pageBlockBlockQuote"},
 		Text:     text,
-		Caption:  caption,
+		Credit:   credit,
 	}
 
 	return &pageBlockBlockQuoteTemp
@@ -6547,8 +7623,8 @@ func (pageBlockBlockQuote *PageBlockBlockQuote) UnmarshalJSON(b []byte) error {
 	fieldText, _ := unmarshalRichText(objMap["text"])
 	pageBlockBlockQuote.Text = fieldText
 
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockBlockQuote.Caption = fieldCaption
+	fieldCredit, _ := unmarshalRichText(objMap["credit"])
+	pageBlockBlockQuote.Credit = fieldCredit
 
 	return nil
 }
@@ -6561,8 +7637,8 @@ func (pageBlockBlockQuote *PageBlockBlockQuote) GetPageBlockEnum() PageBlockEnum
 // PageBlockPullQuote A pull quote
 type PageBlockPullQuote struct {
 	tdCommon
-	Text    RichText `json:"text"`    // Quote text
-	Caption RichText `json:"caption"` // Quote caption
+	Text   RichText `json:"text"`   // Quote text
+	Credit RichText `json:"credit"` // Quote credit
 }
 
 // MessageType return the string telegram-type of PageBlockPullQuote
@@ -6573,12 +7649,12 @@ func (pageBlockPullQuote *PageBlockPullQuote) MessageType() string {
 // NewPageBlockPullQuote creates a new PageBlockPullQuote
 //
 // @param text Quote text
-// @param caption Quote caption
-func NewPageBlockPullQuote(text RichText, caption RichText) *PageBlockPullQuote {
+// @param credit Quote credit
+func NewPageBlockPullQuote(text RichText, credit RichText) *PageBlockPullQuote {
 	pageBlockPullQuoteTemp := PageBlockPullQuote{
 		tdCommon: tdCommon{Type: "pageBlockPullQuote"},
 		Text:     text,
-		Caption:  caption,
+		Credit:   credit,
 	}
 
 	return &pageBlockPullQuoteTemp
@@ -6604,8 +7680,8 @@ func (pageBlockPullQuote *PageBlockPullQuote) UnmarshalJSON(b []byte) error {
 	fieldText, _ := unmarshalRichText(objMap["text"])
 	pageBlockPullQuote.Text = fieldText
 
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockPullQuote.Caption = fieldCaption
+	fieldCredit, _ := unmarshalRichText(objMap["credit"])
+	pageBlockPullQuote.Credit = fieldCredit
 
 	return nil
 }
@@ -6618,9 +7694,9 @@ func (pageBlockPullQuote *PageBlockPullQuote) GetPageBlockEnum() PageBlockEnum {
 // PageBlockAnimation An animation
 type PageBlockAnimation struct {
 	tdCommon
-	Animation    *Animation `json:"animation"`     // Animation file; may be null
-	Caption      RichText   `json:"caption"`       // Animation caption
-	NeedAutoplay bool       `json:"need_autoplay"` // True, if the animation should be played automatically
+	Animation    *Animation        `json:"animation"`     // Animation file; may be null
+	Caption      *PageBlockCaption `json:"caption"`       // Animation caption
+	NeedAutoplay bool              `json:"need_autoplay"` // True, if the animation should be played automatically
 }
 
 // MessageType return the string telegram-type of PageBlockAnimation
@@ -6633,7 +7709,7 @@ func (pageBlockAnimation *PageBlockAnimation) MessageType() string {
 // @param animation Animation file; may be null
 // @param caption Animation caption
 // @param needAutoplay True, if the animation should be played automatically
-func NewPageBlockAnimation(animation *Animation, caption RichText, needAutoplay bool) *PageBlockAnimation {
+func NewPageBlockAnimation(animation *Animation, caption *PageBlockCaption, needAutoplay bool) *PageBlockAnimation {
 	pageBlockAnimationTemp := PageBlockAnimation{
 		tdCommon:     tdCommon{Type: "pageBlockAnimation"},
 		Animation:    animation,
@@ -6644,33 +7720,6 @@ func NewPageBlockAnimation(animation *Animation, caption RichText, needAutoplay 
 	return &pageBlockAnimationTemp
 }
 
-// UnmarshalJSON unmarshal to json
-func (pageBlockAnimation *PageBlockAnimation) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		Animation    *Animation `json:"animation"`     // Animation file; may be null
-		NeedAutoplay bool       `json:"need_autoplay"` // True, if the animation should be played automatically
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockAnimation.tdCommon = tempObj.tdCommon
-	pageBlockAnimation.Animation = tempObj.Animation
-	pageBlockAnimation.NeedAutoplay = tempObj.NeedAutoplay
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockAnimation.Caption = fieldCaption
-
-	return nil
-}
-
 // GetPageBlockEnum return the enum type of this object
 func (pageBlockAnimation *PageBlockAnimation) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockAnimationType
@@ -6679,8 +7728,8 @@ func (pageBlockAnimation *PageBlockAnimation) GetPageBlockEnum() PageBlockEnum {
 // PageBlockAudio An audio file
 type PageBlockAudio struct {
 	tdCommon
-	Audio   *Audio   `json:"audio"`   // Audio file; may be null
-	Caption RichText `json:"caption"` // Audio file caption
+	Audio   *Audio            `json:"audio"`   // Audio file; may be null
+	Caption *PageBlockCaption `json:"caption"` // Audio file caption
 }
 
 // MessageType return the string telegram-type of PageBlockAudio
@@ -6692,7 +7741,7 @@ func (pageBlockAudio *PageBlockAudio) MessageType() string {
 //
 // @param audio Audio file; may be null
 // @param caption Audio file caption
-func NewPageBlockAudio(audio *Audio, caption RichText) *PageBlockAudio {
+func NewPageBlockAudio(audio *Audio, caption *PageBlockCaption) *PageBlockAudio {
 	pageBlockAudioTemp := PageBlockAudio{
 		tdCommon: tdCommon{Type: "pageBlockAudio"},
 		Audio:    audio,
@@ -6700,32 +7749,6 @@ func NewPageBlockAudio(audio *Audio, caption RichText) *PageBlockAudio {
 	}
 
 	return &pageBlockAudioTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (pageBlockAudio *PageBlockAudio) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		Audio *Audio `json:"audio"` // Audio file; may be null
-
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockAudio.tdCommon = tempObj.tdCommon
-	pageBlockAudio.Audio = tempObj.Audio
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockAudio.Caption = fieldCaption
-
-	return nil
 }
 
 // GetPageBlockEnum return the enum type of this object
@@ -6736,8 +7759,9 @@ func (pageBlockAudio *PageBlockAudio) GetPageBlockEnum() PageBlockEnum {
 // PageBlockPhoto A photo
 type PageBlockPhoto struct {
 	tdCommon
-	Photo   *Photo   `json:"photo"`   // Photo file; may be null
-	Caption RichText `json:"caption"` // Photo caption
+	Photo   *Photo            `json:"photo"`   // Photo file; may be null
+	Caption *PageBlockCaption `json:"caption"` // Photo caption
+	URL     string            `json:"url"`     // URL that needs to be opened when the photo is clicked
 }
 
 // MessageType return the string telegram-type of PageBlockPhoto
@@ -6749,40 +7773,16 @@ func (pageBlockPhoto *PageBlockPhoto) MessageType() string {
 //
 // @param photo Photo file; may be null
 // @param caption Photo caption
-func NewPageBlockPhoto(photo *Photo, caption RichText) *PageBlockPhoto {
+// @param uRL URL that needs to be opened when the photo is clicked
+func NewPageBlockPhoto(photo *Photo, caption *PageBlockCaption, uRL string) *PageBlockPhoto {
 	pageBlockPhotoTemp := PageBlockPhoto{
 		tdCommon: tdCommon{Type: "pageBlockPhoto"},
 		Photo:    photo,
 		Caption:  caption,
+		URL:      uRL,
 	}
 
 	return &pageBlockPhotoTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (pageBlockPhoto *PageBlockPhoto) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		Photo *Photo `json:"photo"` // Photo file; may be null
-
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockPhoto.tdCommon = tempObj.tdCommon
-	pageBlockPhoto.Photo = tempObj.Photo
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockPhoto.Caption = fieldCaption
-
-	return nil
 }
 
 // GetPageBlockEnum return the enum type of this object
@@ -6793,10 +7793,10 @@ func (pageBlockPhoto *PageBlockPhoto) GetPageBlockEnum() PageBlockEnum {
 // PageBlockVideo A video
 type PageBlockVideo struct {
 	tdCommon
-	Video        *Video   `json:"video"`         // Video file; may be null
-	Caption      RichText `json:"caption"`       // Video caption
-	NeedAutoplay bool     `json:"need_autoplay"` // True, if the video should be played automatically
-	IsLooped     bool     `json:"is_looped"`     // True, if the video should be looped
+	Video        *Video            `json:"video"`         // Video file; may be null
+	Caption      *PageBlockCaption `json:"caption"`       // Video caption
+	NeedAutoplay bool              `json:"need_autoplay"` // True, if the video should be played automatically
+	IsLooped     bool              `json:"is_looped"`     // True, if the video should be looped
 }
 
 // MessageType return the string telegram-type of PageBlockVideo
@@ -6810,7 +7810,7 @@ func (pageBlockVideo *PageBlockVideo) MessageType() string {
 // @param caption Video caption
 // @param needAutoplay True, if the video should be played automatically
 // @param isLooped True, if the video should be looped
-func NewPageBlockVideo(video *Video, caption RichText, needAutoplay bool, isLooped bool) *PageBlockVideo {
+func NewPageBlockVideo(video *Video, caption *PageBlockCaption, needAutoplay bool, isLooped bool) *PageBlockVideo {
 	pageBlockVideoTemp := PageBlockVideo{
 		tdCommon:     tdCommon{Type: "pageBlockVideo"},
 		Video:        video,
@@ -6820,35 +7820,6 @@ func NewPageBlockVideo(video *Video, caption RichText, needAutoplay bool, isLoop
 	}
 
 	return &pageBlockVideoTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (pageBlockVideo *PageBlockVideo) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		Video        *Video `json:"video"`         // Video file; may be null
-		NeedAutoplay bool   `json:"need_autoplay"` // True, if the video should be played automatically
-		IsLooped     bool   `json:"is_looped"`     // True, if the video should be looped
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockVideo.tdCommon = tempObj.tdCommon
-	pageBlockVideo.Video = tempObj.Video
-	pageBlockVideo.NeedAutoplay = tempObj.NeedAutoplay
-	pageBlockVideo.IsLooped = tempObj.IsLooped
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockVideo.Caption = fieldCaption
-
-	return nil
 }
 
 // GetPageBlockEnum return the enum type of this object
@@ -6910,14 +7881,14 @@ func (pageBlockCover *PageBlockCover) GetPageBlockEnum() PageBlockEnum {
 // PageBlockEmbedded An embedded web page
 type PageBlockEmbedded struct {
 	tdCommon
-	URL            string   `json:"url"`             // Web page URL, if available
-	HTML           string   `json:"html"`            // HTML-markup of the embedded page
-	PosterPhoto    *Photo   `json:"poster_photo"`    // Poster photo, if available; may be null
-	Width          int32    `json:"width"`           // Block width
-	Height         int32    `json:"height"`          // Block height
-	Caption        RichText `json:"caption"`         // Block caption
-	IsFullWidth    bool     `json:"is_full_width"`   // True, if the block should be full width
-	AllowScrolling bool     `json:"allow_scrolling"` // True, if scrolling should be allowed
+	URL            string            `json:"url"`             // Web page URL, if available
+	HTML           string            `json:"html"`            // HTML-markup of the embedded page
+	PosterPhoto    *Photo            `json:"poster_photo"`    // Poster photo, if available; may be null
+	Width          int32             `json:"width"`           // Block width, 0 if unknown
+	Height         int32             `json:"height"`          // Block height, 0 if unknown
+	Caption        *PageBlockCaption `json:"caption"`         // Block caption
+	IsFullWidth    bool              `json:"is_full_width"`   // True, if the block should be full width
+	AllowScrolling bool              `json:"allow_scrolling"` // True, if scrolling should be allowed
 }
 
 // MessageType return the string telegram-type of PageBlockEmbedded
@@ -6930,12 +7901,12 @@ func (pageBlockEmbedded *PageBlockEmbedded) MessageType() string {
 // @param uRL Web page URL, if available
 // @param hTML HTML-markup of the embedded page
 // @param posterPhoto Poster photo, if available; may be null
-// @param width Block width
-// @param height Block height
+// @param width Block width, 0 if unknown
+// @param height Block height, 0 if unknown
 // @param caption Block caption
 // @param isFullWidth True, if the block should be full width
 // @param allowScrolling True, if scrolling should be allowed
-func NewPageBlockEmbedded(uRL string, hTML string, posterPhoto *Photo, width int32, height int32, caption RichText, isFullWidth bool, allowScrolling bool) *PageBlockEmbedded {
+func NewPageBlockEmbedded(uRL string, hTML string, posterPhoto *Photo, width int32, height int32, caption *PageBlockCaption, isFullWidth bool, allowScrolling bool) *PageBlockEmbedded {
 	pageBlockEmbeddedTemp := PageBlockEmbedded{
 		tdCommon:       tdCommon{Type: "pageBlockEmbedded"},
 		URL:            uRL,
@@ -6951,43 +7922,6 @@ func NewPageBlockEmbedded(uRL string, hTML string, posterPhoto *Photo, width int
 	return &pageBlockEmbeddedTemp
 }
 
-// UnmarshalJSON unmarshal to json
-func (pageBlockEmbedded *PageBlockEmbedded) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		URL            string `json:"url"`             // Web page URL, if available
-		HTML           string `json:"html"`            // HTML-markup of the embedded page
-		PosterPhoto    *Photo `json:"poster_photo"`    // Poster photo, if available; may be null
-		Width          int32  `json:"width"`           // Block width
-		Height         int32  `json:"height"`          // Block height
-		IsFullWidth    bool   `json:"is_full_width"`   // True, if the block should be full width
-		AllowScrolling bool   `json:"allow_scrolling"` // True, if scrolling should be allowed
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockEmbedded.tdCommon = tempObj.tdCommon
-	pageBlockEmbedded.URL = tempObj.URL
-	pageBlockEmbedded.HTML = tempObj.HTML
-	pageBlockEmbedded.PosterPhoto = tempObj.PosterPhoto
-	pageBlockEmbedded.Width = tempObj.Width
-	pageBlockEmbedded.Height = tempObj.Height
-	pageBlockEmbedded.IsFullWidth = tempObj.IsFullWidth
-	pageBlockEmbedded.AllowScrolling = tempObj.AllowScrolling
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockEmbedded.Caption = fieldCaption
-
-	return nil
-}
-
 // GetPageBlockEnum return the enum type of this object
 func (pageBlockEmbedded *PageBlockEmbedded) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockEmbeddedType
@@ -6996,12 +7930,12 @@ func (pageBlockEmbedded *PageBlockEmbedded) GetPageBlockEnum() PageBlockEnum {
 // PageBlockEmbeddedPost An embedded post
 type PageBlockEmbeddedPost struct {
 	tdCommon
-	URL         string      `json:"url"`          // Web page URL
-	Author      string      `json:"author"`       // Post author
-	AuthorPhoto *Photo      `json:"author_photo"` // Post author photo
-	Date        int32       `json:"date"`         // Point in time (Unix timestamp) when the post was created; 0 if unknown
-	PageBlocks  []PageBlock `json:"page_blocks"`  // Post content
-	Caption     RichText    `json:"caption"`      // Post caption
+	URL         string            `json:"url"`          // Web page URL
+	Author      string            `json:"author"`       // Post author
+	AuthorPhoto *Photo            `json:"author_photo"` // Post author photo
+	Date        int32             `json:"date"`         // Point in time (Unix timestamp) when the post was created; 0 if unknown
+	PageBlocks  []PageBlock       `json:"page_blocks"`  // Post content
+	Caption     *PageBlockCaption `json:"caption"`      // Post caption
 }
 
 // MessageType return the string telegram-type of PageBlockEmbeddedPost
@@ -7017,7 +7951,7 @@ func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) MessageType() string {
 // @param date Point in time (Unix timestamp) when the post was created; 0 if unknown
 // @param pageBlocks Post content
 // @param caption Post caption
-func NewPageBlockEmbeddedPost(uRL string, author string, authorPhoto *Photo, date int32, pageBlocks []PageBlock, caption RichText) *PageBlockEmbeddedPost {
+func NewPageBlockEmbeddedPost(uRL string, author string, authorPhoto *Photo, date int32, pageBlocks []PageBlock, caption *PageBlockCaption) *PageBlockEmbeddedPost {
 	pageBlockEmbeddedPostTemp := PageBlockEmbeddedPost{
 		tdCommon:    tdCommon{Type: "pageBlockEmbeddedPost"},
 		URL:         uRL,
@@ -7031,40 +7965,6 @@ func NewPageBlockEmbeddedPost(uRL string, author string, authorPhoto *Photo, dat
 	return &pageBlockEmbeddedPostTemp
 }
 
-// UnmarshalJSON unmarshal to json
-func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		URL         string      `json:"url"`          // Web page URL
-		Author      string      `json:"author"`       // Post author
-		AuthorPhoto *Photo      `json:"author_photo"` // Post author photo
-		Date        int32       `json:"date"`         // Point in time (Unix timestamp) when the post was created; 0 if unknown
-		PageBlocks  []PageBlock `json:"page_blocks"`  // Post content
-
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockEmbeddedPost.tdCommon = tempObj.tdCommon
-	pageBlockEmbeddedPost.URL = tempObj.URL
-	pageBlockEmbeddedPost.Author = tempObj.Author
-	pageBlockEmbeddedPost.AuthorPhoto = tempObj.AuthorPhoto
-	pageBlockEmbeddedPost.Date = tempObj.Date
-	pageBlockEmbeddedPost.PageBlocks = tempObj.PageBlocks
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockEmbeddedPost.Caption = fieldCaption
-
-	return nil
-}
-
 // GetPageBlockEnum return the enum type of this object
 func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockEmbeddedPostType
@@ -7073,8 +7973,8 @@ func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) GetPageBlockEnum() PageBlock
 // PageBlockCollage A collage
 type PageBlockCollage struct {
 	tdCommon
-	PageBlocks []PageBlock `json:"page_blocks"` // Collage item contents
-	Caption    RichText    `json:"caption"`     // Block caption
+	PageBlocks []PageBlock       `json:"page_blocks"` // Collage item contents
+	Caption    *PageBlockCaption `json:"caption"`     // Block caption
 }
 
 // MessageType return the string telegram-type of PageBlockCollage
@@ -7086,7 +7986,7 @@ func (pageBlockCollage *PageBlockCollage) MessageType() string {
 //
 // @param pageBlocks Collage item contents
 // @param caption Block caption
-func NewPageBlockCollage(pageBlocks []PageBlock, caption RichText) *PageBlockCollage {
+func NewPageBlockCollage(pageBlocks []PageBlock, caption *PageBlockCaption) *PageBlockCollage {
 	pageBlockCollageTemp := PageBlockCollage{
 		tdCommon:   tdCommon{Type: "pageBlockCollage"},
 		PageBlocks: pageBlocks,
@@ -7094,32 +7994,6 @@ func NewPageBlockCollage(pageBlocks []PageBlock, caption RichText) *PageBlockCol
 	}
 
 	return &pageBlockCollageTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (pageBlockCollage *PageBlockCollage) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		PageBlocks []PageBlock `json:"page_blocks"` // Collage item contents
-
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockCollage.tdCommon = tempObj.tdCommon
-	pageBlockCollage.PageBlocks = tempObj.PageBlocks
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockCollage.Caption = fieldCaption
-
-	return nil
 }
 
 // GetPageBlockEnum return the enum type of this object
@@ -7130,8 +8004,8 @@ func (pageBlockCollage *PageBlockCollage) GetPageBlockEnum() PageBlockEnum {
 // PageBlockSlideshow A slideshow
 type PageBlockSlideshow struct {
 	tdCommon
-	PageBlocks []PageBlock `json:"page_blocks"` // Slideshow item contents
-	Caption    RichText    `json:"caption"`     // Block caption
+	PageBlocks []PageBlock       `json:"page_blocks"` // Slideshow item contents
+	Caption    *PageBlockCaption `json:"caption"`     // Block caption
 }
 
 // MessageType return the string telegram-type of PageBlockSlideshow
@@ -7143,7 +8017,7 @@ func (pageBlockSlideshow *PageBlockSlideshow) MessageType() string {
 //
 // @param pageBlocks Slideshow item contents
 // @param caption Block caption
-func NewPageBlockSlideshow(pageBlocks []PageBlock, caption RichText) *PageBlockSlideshow {
+func NewPageBlockSlideshow(pageBlocks []PageBlock, caption *PageBlockCaption) *PageBlockSlideshow {
 	pageBlockSlideshowTemp := PageBlockSlideshow{
 		tdCommon:   tdCommon{Type: "pageBlockSlideshow"},
 		PageBlocks: pageBlocks,
@@ -7151,32 +8025,6 @@ func NewPageBlockSlideshow(pageBlocks []PageBlock, caption RichText) *PageBlockS
 	}
 
 	return &pageBlockSlideshowTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (pageBlockSlideshow *PageBlockSlideshow) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		PageBlocks []PageBlock `json:"page_blocks"` // Slideshow item contents
-
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	pageBlockSlideshow.tdCommon = tempObj.tdCommon
-	pageBlockSlideshow.PageBlocks = tempObj.PageBlocks
-
-	fieldCaption, _ := unmarshalRichText(objMap["caption"])
-	pageBlockSlideshow.Caption = fieldCaption
-
-	return nil
 }
 
 // GetPageBlockEnum return the enum type of this object
@@ -7218,10 +8066,236 @@ func (pageBlockChatLink *PageBlockChatLink) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockChatLinkType
 }
 
+// PageBlockTable A table
+type PageBlockTable struct {
+	tdCommon
+	Caption    RichText               `json:"caption"`     // Table caption
+	Cells      [][]PageBlockTableCell `json:"cells"`       // Table cells
+	IsBordered bool                   `json:"is_bordered"` // True, if the table is bordered
+	IsStriped  bool                   `json:"is_striped"`  // True, if the table is striped
+}
+
+// MessageType return the string telegram-type of PageBlockTable
+func (pageBlockTable *PageBlockTable) MessageType() string {
+	return "pageBlockTable"
+}
+
+// NewPageBlockTable creates a new PageBlockTable
+//
+// @param caption Table caption
+// @param cells Table cells
+// @param isBordered True, if the table is bordered
+// @param isStriped True, if the table is striped
+func NewPageBlockTable(caption RichText, cells [][]PageBlockTableCell, isBordered bool, isStriped bool) *PageBlockTable {
+	pageBlockTableTemp := PageBlockTable{
+		tdCommon:   tdCommon{Type: "pageBlockTable"},
+		Caption:    caption,
+		Cells:      cells,
+		IsBordered: isBordered,
+		IsStriped:  isStriped,
+	}
+
+	return &pageBlockTableTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (pageBlockTable *PageBlockTable) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Cells      [][]PageBlockTableCell `json:"cells"`       // Table cells
+		IsBordered bool                   `json:"is_bordered"` // True, if the table is bordered
+		IsStriped  bool                   `json:"is_striped"`  // True, if the table is striped
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	pageBlockTable.tdCommon = tempObj.tdCommon
+	pageBlockTable.Cells = tempObj.Cells
+	pageBlockTable.IsBordered = tempObj.IsBordered
+	pageBlockTable.IsStriped = tempObj.IsStriped
+
+	fieldCaption, _ := unmarshalRichText(objMap["caption"])
+	pageBlockTable.Caption = fieldCaption
+
+	return nil
+}
+
+// GetPageBlockEnum return the enum type of this object
+func (pageBlockTable *PageBlockTable) GetPageBlockEnum() PageBlockEnum {
+	return PageBlockTableType
+}
+
+// PageBlockDetails A collapsible block
+type PageBlockDetails struct {
+	tdCommon
+	Header     RichText    `json:"header"`      // Always visible heading for the block
+	PageBlocks []PageBlock `json:"page_blocks"` // Block contents
+	IsOpen     bool        `json:"is_open"`     // True, if the block is open by default
+}
+
+// MessageType return the string telegram-type of PageBlockDetails
+func (pageBlockDetails *PageBlockDetails) MessageType() string {
+	return "pageBlockDetails"
+}
+
+// NewPageBlockDetails creates a new PageBlockDetails
+//
+// @param header Always visible heading for the block
+// @param pageBlocks Block contents
+// @param isOpen True, if the block is open by default
+func NewPageBlockDetails(header RichText, pageBlocks []PageBlock, isOpen bool) *PageBlockDetails {
+	pageBlockDetailsTemp := PageBlockDetails{
+		tdCommon:   tdCommon{Type: "pageBlockDetails"},
+		Header:     header,
+		PageBlocks: pageBlocks,
+		IsOpen:     isOpen,
+	}
+
+	return &pageBlockDetailsTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (pageBlockDetails *PageBlockDetails) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		PageBlocks []PageBlock `json:"page_blocks"` // Block contents
+		IsOpen     bool        `json:"is_open"`     // True, if the block is open by default
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	pageBlockDetails.tdCommon = tempObj.tdCommon
+	pageBlockDetails.PageBlocks = tempObj.PageBlocks
+	pageBlockDetails.IsOpen = tempObj.IsOpen
+
+	fieldHeader, _ := unmarshalRichText(objMap["header"])
+	pageBlockDetails.Header = fieldHeader
+
+	return nil
+}
+
+// GetPageBlockEnum return the enum type of this object
+func (pageBlockDetails *PageBlockDetails) GetPageBlockEnum() PageBlockEnum {
+	return PageBlockDetailsType
+}
+
+// PageBlockRelatedArticles Related articles
+type PageBlockRelatedArticles struct {
+	tdCommon
+	Header   RichText                  `json:"header"`   // Block header
+	Articles []PageBlockRelatedArticle `json:"articles"` // List of related articles
+}
+
+// MessageType return the string telegram-type of PageBlockRelatedArticles
+func (pageBlockRelatedArticles *PageBlockRelatedArticles) MessageType() string {
+	return "pageBlockRelatedArticles"
+}
+
+// NewPageBlockRelatedArticles creates a new PageBlockRelatedArticles
+//
+// @param header Block header
+// @param articles List of related articles
+func NewPageBlockRelatedArticles(header RichText, articles []PageBlockRelatedArticle) *PageBlockRelatedArticles {
+	pageBlockRelatedArticlesTemp := PageBlockRelatedArticles{
+		tdCommon: tdCommon{Type: "pageBlockRelatedArticles"},
+		Header:   header,
+		Articles: articles,
+	}
+
+	return &pageBlockRelatedArticlesTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (pageBlockRelatedArticles *PageBlockRelatedArticles) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Articles []PageBlockRelatedArticle `json:"articles"` // List of related articles
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	pageBlockRelatedArticles.tdCommon = tempObj.tdCommon
+	pageBlockRelatedArticles.Articles = tempObj.Articles
+
+	fieldHeader, _ := unmarshalRichText(objMap["header"])
+	pageBlockRelatedArticles.Header = fieldHeader
+
+	return nil
+}
+
+// GetPageBlockEnum return the enum type of this object
+func (pageBlockRelatedArticles *PageBlockRelatedArticles) GetPageBlockEnum() PageBlockEnum {
+	return PageBlockRelatedArticlesType
+}
+
+// PageBlockMap A map
+type PageBlockMap struct {
+	tdCommon
+	Location *Location         `json:"location"` // Location of the map center
+	Zoom     int32             `json:"zoom"`     // Map zoom level
+	Width    int32             `json:"width"`    // Map width
+	Height   int32             `json:"height"`   // Map height
+	Caption  *PageBlockCaption `json:"caption"`  // Block caption
+}
+
+// MessageType return the string telegram-type of PageBlockMap
+func (pageBlockMap *PageBlockMap) MessageType() string {
+	return "pageBlockMap"
+}
+
+// NewPageBlockMap creates a new PageBlockMap
+//
+// @param location Location of the map center
+// @param zoom Map zoom level
+// @param width Map width
+// @param height Map height
+// @param caption Block caption
+func NewPageBlockMap(location *Location, zoom int32, width int32, height int32, caption *PageBlockCaption) *PageBlockMap {
+	pageBlockMapTemp := PageBlockMap{
+		tdCommon: tdCommon{Type: "pageBlockMap"},
+		Location: location,
+		Zoom:     zoom,
+		Width:    width,
+		Height:   height,
+		Caption:  caption,
+	}
+
+	return &pageBlockMapTemp
+}
+
+// GetPageBlockEnum return the enum type of this object
+func (pageBlockMap *PageBlockMap) GetPageBlockEnum() PageBlockEnum {
+	return PageBlockMapType
+}
+
 // WebPageInstantView Describes an instant view page for a web page
 type WebPageInstantView struct {
 	tdCommon
 	PageBlocks []PageBlock `json:"page_blocks"` // Content of the web page
+	Version    int32       `json:"version"`     // Version of the instant view, currently can be 1 or 2
+	URL        string      `json:"url"`         // Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling
+	IsRtl      bool        `json:"is_rtl"`      // True, if the instant view must be shown from right to left
 	IsFull     bool        `json:"is_full"`     // True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
 }
 
@@ -7233,11 +8307,17 @@ func (webPageInstantView *WebPageInstantView) MessageType() string {
 // NewWebPageInstantView creates a new WebPageInstantView
 //
 // @param pageBlocks Content of the web page
+// @param version Version of the instant view, currently can be 1 or 2
+// @param uRL Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling
+// @param isRtl True, if the instant view must be shown from right to left
 // @param isFull True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
-func NewWebPageInstantView(pageBlocks []PageBlock, isFull bool) *WebPageInstantView {
+func NewWebPageInstantView(pageBlocks []PageBlock, version int32, uRL string, isRtl bool, isFull bool) *WebPageInstantView {
 	webPageInstantViewTemp := WebPageInstantView{
 		tdCommon:   tdCommon{Type: "webPageInstantView"},
 		PageBlocks: pageBlocks,
+		Version:    version,
+		URL:        uRL,
+		IsRtl:      isRtl,
 		IsFull:     isFull,
 	}
 
@@ -7247,27 +8327,27 @@ func NewWebPageInstantView(pageBlocks []PageBlock, isFull bool) *WebPageInstantV
 // WebPage Describes a web page preview
 type WebPage struct {
 	tdCommon
-	URL            string     `json:"url"`              // Original URL of the link
-	DisplayURL     string     `json:"display_url"`      // URL to display
-	Type           string     `json:"type"`             // Type of the web page. Can be: article, photo, audio, video, document, profile, app, or something else
-	SiteName       string     `json:"site_name"`        // Short name of the site (e.g., Google Docs, App Store)
-	Title          string     `json:"title"`            // Title of the content
-	Description    string     `json:"description"`      //
-	Photo          *Photo     `json:"photo"`            // Image representing the content; may be null
-	EmbedURL       string     `json:"embed_url"`        // URL to show in the embedded preview
-	EmbedType      string     `json:"embed_type"`       // MIME type of the embedded preview, (e.g., text/html or video/mp4)
-	EmbedWidth     int32      `json:"embed_width"`      // Width of the embedded preview
-	EmbedHeight    int32      `json:"embed_height"`     // Height of the embedded preview
-	Duration       int32      `json:"duration"`         // Duration of the content, in seconds
-	Author         string     `json:"author"`           // Author of the content
-	Animation      *Animation `json:"animation"`        // Preview of the content as an animation, if available; may be null
-	Audio          *Audio     `json:"audio"`            // Preview of the content as an audio file, if available; may be null
-	Document       *Document  `json:"document"`         // Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null
-	Sticker        *Sticker   `json:"sticker"`          // Preview of the content as a sticker for small WEBP files, if available; may be null
-	Video          *Video     `json:"video"`            // Preview of the content as a video, if available; may be null
-	VideoNote      *VideoNote `json:"video_note"`       // Preview of the content as a video note, if available; may be null
-	VoiceNote      *VoiceNote `json:"voice_note"`       // Preview of the content as a voice note, if available; may be null
-	HasInstantView bool       `json:"has_instant_view"` // True, if the web page has an instant view
+	URL                string     `json:"url"`                  // Original URL of the link
+	DisplayURL         string     `json:"display_url"`          // URL to display
+	Type               string     `json:"type"`                 // Type of the web page. Can be: article, photo, audio, video, document, profile, app, or something else
+	SiteName           string     `json:"site_name"`            // Short name of the site (e.g., Google Docs, App Store)
+	Title              string     `json:"title"`                // Title of the content
+	Description        string     `json:"description"`          //
+	Photo              *Photo     `json:"photo"`                // Image representing the content; may be null
+	EmbedURL           string     `json:"embed_url"`            // URL to show in the embedded preview
+	EmbedType          string     `json:"embed_type"`           // MIME type of the embedded preview, (e.g., text/html or video/mp4)
+	EmbedWidth         int32      `json:"embed_width"`          // Width of the embedded preview
+	EmbedHeight        int32      `json:"embed_height"`         // Height of the embedded preview
+	Duration           int32      `json:"duration"`             // Duration of the content, in seconds
+	Author             string     `json:"author"`               // Author of the content
+	Animation          *Animation `json:"animation"`            // Preview of the content as an animation, if available; may be null
+	Audio              *Audio     `json:"audio"`                // Preview of the content as an audio file, if available; may be null
+	Document           *Document  `json:"document"`             // Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null
+	Sticker            *Sticker   `json:"sticker"`              // Preview of the content as a sticker for small WEBP files, if available; may be null
+	Video              *Video     `json:"video"`                // Preview of the content as a video, if available; may be null
+	VideoNote          *VideoNote `json:"video_note"`           // Preview of the content as a video note, if available; may be null
+	VoiceNote          *VoiceNote `json:"voice_note"`           // Preview of the content as a voice note, if available; may be null
+	InstantViewVersion int32      `json:"instant_view_version"` // Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
 }
 
 // MessageType return the string telegram-type of WebPage
@@ -7297,31 +8377,31 @@ func (webPage *WebPage) MessageType() string {
 // @param video Preview of the content as a video, if available; may be null
 // @param videoNote Preview of the content as a video note, if available; may be null
 // @param voiceNote Preview of the content as a voice note, if available; may be null
-// @param hasInstantView True, if the web page has an instant view
-func NewWebPage(uRL string, displayURL string, typeParam string, siteName string, title string, description string, photo *Photo, embedURL string, embedType string, embedWidth int32, embedHeight int32, duration int32, author string, animation *Animation, audio *Audio, document *Document, sticker *Sticker, video *Video, videoNote *VideoNote, voiceNote *VoiceNote, hasInstantView bool) *WebPage {
+// @param instantViewVersion Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
+func NewWebPage(uRL string, displayURL string, typeParam string, siteName string, title string, description string, photo *Photo, embedURL string, embedType string, embedWidth int32, embedHeight int32, duration int32, author string, animation *Animation, audio *Audio, document *Document, sticker *Sticker, video *Video, videoNote *VideoNote, voiceNote *VoiceNote, instantViewVersion int32) *WebPage {
 	webPageTemp := WebPage{
-		tdCommon:       tdCommon{Type: "webPage"},
-		URL:            uRL,
-		DisplayURL:     displayURL,
-		Type:           typeParam,
-		SiteName:       siteName,
-		Title:          title,
-		Description:    description,
-		Photo:          photo,
-		EmbedURL:       embedURL,
-		EmbedType:      embedType,
-		EmbedWidth:     embedWidth,
-		EmbedHeight:    embedHeight,
-		Duration:       duration,
-		Author:         author,
-		Animation:      animation,
-		Audio:          audio,
-		Document:       document,
-		Sticker:        sticker,
-		Video:          video,
-		VideoNote:      videoNote,
-		VoiceNote:      voiceNote,
-		HasInstantView: hasInstantView,
+		tdCommon:           tdCommon{Type: "webPage"},
+		URL:                uRL,
+		DisplayURL:         displayURL,
+		Type:               typeParam,
+		SiteName:           siteName,
+		Title:              title,
+		Description:        description,
+		Photo:              photo,
+		EmbedURL:           embedURL,
+		EmbedType:          embedType,
+		EmbedWidth:         embedWidth,
+		EmbedHeight:        embedHeight,
+		Duration:           duration,
+		Author:             author,
+		Animation:          animation,
+		Audio:              audio,
+		Document:           document,
+		Sticker:            sticker,
+		Video:              video,
+		VideoNote:          videoNote,
+		VoiceNote:          voiceNote,
+		InstantViewVersion: instantViewVersion,
 	}
 
 	return &webPageTemp
@@ -9281,6 +10361,7 @@ func (passportElementErrorSourceSelfie *PassportElementErrorSourceSelfie) GetPas
 // PassportElementErrorSourceTranslationFile One of files with the translation of the document contains an error. The error will be considered resolved when the file changes
 type PassportElementErrorSourceTranslationFile struct {
 	tdCommon
+	FileIndex int32 `json:"file_index"` // Index of a file with the error
 }
 
 // MessageType return the string telegram-type of PassportElementErrorSourceTranslationFile
@@ -9290,9 +10371,11 @@ func (passportElementErrorSourceTranslationFile *PassportElementErrorSourceTrans
 
 // NewPassportElementErrorSourceTranslationFile creates a new PassportElementErrorSourceTranslationFile
 //
-func NewPassportElementErrorSourceTranslationFile() *PassportElementErrorSourceTranslationFile {
+// @param fileIndex Index of a file with the error
+func NewPassportElementErrorSourceTranslationFile(fileIndex int32) *PassportElementErrorSourceTranslationFile {
 	passportElementErrorSourceTranslationFileTemp := PassportElementErrorSourceTranslationFile{
-		tdCommon: tdCommon{Type: "passportElementErrorSourceTranslationFile"},
+		tdCommon:  tdCommon{Type: "passportElementErrorSourceTranslationFile"},
+		FileIndex: fileIndex,
 	}
 
 	return &passportElementErrorSourceTranslationFileTemp
@@ -9331,6 +10414,7 @@ func (passportElementErrorSourceTranslationFiles *PassportElementErrorSourceTran
 // PassportElementErrorSourceFile The file contains an error. The error will be considered resolved when the file changes
 type PassportElementErrorSourceFile struct {
 	tdCommon
+	FileIndex int32 `json:"file_index"` // Index of a file with the error
 }
 
 // MessageType return the string telegram-type of PassportElementErrorSourceFile
@@ -9340,9 +10424,11 @@ func (passportElementErrorSourceFile *PassportElementErrorSourceFile) MessageTyp
 
 // NewPassportElementErrorSourceFile creates a new PassportElementErrorSourceFile
 //
-func NewPassportElementErrorSourceFile() *PassportElementErrorSourceFile {
+// @param fileIndex Index of a file with the error
+func NewPassportElementErrorSourceFile(fileIndex int32) *PassportElementErrorSourceFile {
 	passportElementErrorSourceFileTemp := PassportElementErrorSourceFile{
-		tdCommon: tdCommon{Type: "passportElementErrorSourceFile"},
+		tdCommon:  tdCommon{Type: "passportElementErrorSourceFile"},
+		FileIndex: fileIndex,
 	}
 
 	return &passportElementErrorSourceFileTemp
@@ -9525,9 +10611,7 @@ type PassportAuthorizationForm struct {
 	tdCommon
 	ID               int32                     `json:"id"`                 // Unique identifier of the authorization form
 	RequiredElements []PassportRequiredElement `json:"required_elements"`  // Information about the Telegram Passport elements that need to be provided to complete the form
-	Elements         []PassportElement         `json:"elements"`           // Already available Telegram Passport elements
-	Errors           []PassportElementError    `json:"errors"`             // Errors in the elements that are already available
-	PrivacyPolicyURL string                    `json:"privacy_policy_url"` // URL for the privacy policy of the service; can be empty
+	PrivacyPolicyURL string                    `json:"privacy_policy_url"` // URL for the privacy policy of the service; may be empty
 }
 
 // MessageType return the string telegram-type of PassportAuthorizationForm
@@ -9539,20 +10623,42 @@ func (passportAuthorizationForm *PassportAuthorizationForm) MessageType() string
 //
 // @param iD Unique identifier of the authorization form
 // @param requiredElements Information about the Telegram Passport elements that need to be provided to complete the form
-// @param elements Already available Telegram Passport elements
-// @param errors Errors in the elements that are already available
-// @param privacyPolicyURL URL for the privacy policy of the service; can be empty
-func NewPassportAuthorizationForm(iD int32, requiredElements []PassportRequiredElement, elements []PassportElement, errors []PassportElementError, privacyPolicyURL string) *PassportAuthorizationForm {
+// @param privacyPolicyURL URL for the privacy policy of the service; may be empty
+func NewPassportAuthorizationForm(iD int32, requiredElements []PassportRequiredElement, privacyPolicyURL string) *PassportAuthorizationForm {
 	passportAuthorizationFormTemp := PassportAuthorizationForm{
 		tdCommon:         tdCommon{Type: "passportAuthorizationForm"},
 		ID:               iD,
 		RequiredElements: requiredElements,
-		Elements:         elements,
-		Errors:           errors,
 		PrivacyPolicyURL: privacyPolicyURL,
 	}
 
 	return &passportAuthorizationFormTemp
+}
+
+// PassportElementsWithErrors Contains information about a Telegram Passport elements and corresponding errors
+type PassportElementsWithErrors struct {
+	tdCommon
+	Elements []PassportElement      `json:"elements"` // Telegram Passport elements
+	Errors   []PassportElementError `json:"errors"`   // Errors in the elements that are already available
+}
+
+// MessageType return the string telegram-type of PassportElementsWithErrors
+func (passportElementsWithErrors *PassportElementsWithErrors) MessageType() string {
+	return "passportElementsWithErrors"
+}
+
+// NewPassportElementsWithErrors creates a new PassportElementsWithErrors
+//
+// @param elements Telegram Passport elements
+// @param errors Errors in the elements that are already available
+func NewPassportElementsWithErrors(elements []PassportElement, errors []PassportElementError) *PassportElementsWithErrors {
+	passportElementsWithErrorsTemp := PassportElementsWithErrors{
+		tdCommon: tdCommon{Type: "passportElementsWithErrors"},
+		Elements: elements,
+		Errors:   errors,
+	}
+
+	return &passportElementsWithErrorsTemp
 }
 
 // EncryptedCredentials Contains encrypted Telegram Passport data credentials
@@ -10442,6 +11548,34 @@ func (messageGame *MessageGame) GetMessageContentEnum() MessageContentEnum {
 	return MessageGameType
 }
 
+// MessagePoll A message with a poll
+type MessagePoll struct {
+	tdCommon
+	Poll *Poll `json:"poll"` // Poll
+}
+
+// MessageType return the string telegram-type of MessagePoll
+func (messagePoll *MessagePoll) MessageType() string {
+	return "messagePoll"
+}
+
+// NewMessagePoll creates a new MessagePoll
+//
+// @param poll Poll
+func NewMessagePoll(poll *Poll) *MessagePoll {
+	messagePollTemp := MessagePoll{
+		tdCommon: tdCommon{Type: "messagePoll"},
+		Poll:     poll,
+	}
+
+	return &messagePollTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messagePoll *MessagePoll) GetMessageContentEnum() MessageContentEnum {
+	return MessagePollType
+}
+
 // MessageInvoice A message with an invoice from a bot
 type MessageInvoice struct {
 	tdCommon
@@ -10833,7 +11967,7 @@ func (messageChatUpgradeFrom *MessageChatUpgradeFrom) GetMessageContentEnum() Me
 // MessagePinMessage A message has been pinned
 type MessagePinMessage struct {
 	tdCommon
-	MessageID int64 `json:"message_id"` // Identifier of the pinned message, can be an identifier of a deleted message
+	MessageID int64 `json:"message_id"` // Identifier of the pinned message, can be an identifier of a deleted message or 0
 }
 
 // MessageType return the string telegram-type of MessagePinMessage
@@ -10843,7 +11977,7 @@ func (messagePinMessage *MessagePinMessage) MessageType() string {
 
 // NewMessagePinMessage creates a new MessagePinMessage
 //
-// @param messageID Identifier of the pinned message, can be an identifier of a deleted message
+// @param messageID Identifier of the pinned message, can be an identifier of a deleted message or 0
 func NewMessagePinMessage(messageID int64) *MessagePinMessage {
 	messagePinMessageTemp := MessagePinMessage{
 		tdCommon:  tdCommon{Type: "messagePinMessage"},
@@ -10943,7 +12077,7 @@ func (messageCustomServiceAction *MessageCustomServiceAction) GetMessageContentE
 type MessageGameScore struct {
 	tdCommon
 	GameMessageID int64     `json:"game_message_id"` // Identifier of the message with the game, can be an identifier of a deleted message
-	GameID        JSONInt64 `json:"game_id"`         // Identifier of the game, may be different from the games presented in the message with the game
+	GameID        JSONInt64 `json:"game_id"`         // Identifier of the game; may be different from the games presented in the message with the game
 	Score         int32     `json:"score"`           // New score
 }
 
@@ -10955,7 +12089,7 @@ func (messageGameScore *MessageGameScore) MessageType() string {
 // NewMessageGameScore creates a new MessageGameScore
 //
 // @param gameMessageID Identifier of the message with the game, can be an identifier of a deleted message
-// @param gameID Identifier of the game, may be different from the games presented in the message with the game
+// @param gameID Identifier of the game; may be different from the games presented in the message with the game
 // @param score New score
 func NewMessageGameScore(gameMessageID int64, gameID JSONInt64, score int32) *MessageGameScore {
 	messageGameScoreTemp := MessageGameScore{
@@ -11556,8 +12690,8 @@ func (textEntityTypePhoneNumber *TextEntityTypePhoneNumber) GetTextEntityTypeEnu
 type InputThumbnail struct {
 	tdCommon
 	Thumbnail InputFile `json:"thumbnail"` // Thumbnail file to send. Sending thumbnails by file_id is currently not supported
-	Width     int32     `json:"width"`     // Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown
-	Height    int32     `json:"height"`    // Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
+	Width     int32     `json:"width"`     // Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
+	Height    int32     `json:"height"`    // Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
 }
 
 // MessageType return the string telegram-type of InputThumbnail
@@ -11568,8 +12702,8 @@ func (inputThumbnail *InputThumbnail) MessageType() string {
 // NewInputThumbnail creates a new InputThumbnail
 //
 // @param thumbnail Thumbnail file to send. Sending thumbnails by file_id is currently not supported
-// @param width Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown
-// @param height Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
+// @param width Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
+// @param height Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
 func NewInputThumbnail(thumbnail InputFile, width int32, height int32) *InputThumbnail {
 	inputThumbnailTemp := InputThumbnail{
 		tdCommon:  tdCommon{Type: "inputThumbnail"},
@@ -11590,8 +12724,8 @@ func (inputThumbnail *InputThumbnail) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		Width  int32 `json:"width"`  // Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown
-		Height int32 `json:"height"` // Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
+		Width  int32 `json:"width"`  // Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
+		Height int32 `json:"height"` // Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -12401,6 +13535,37 @@ func (inputMessageInvoice *InputMessageInvoice) GetInputMessageContentEnum() Inp
 	return InputMessageInvoiceType
 }
 
+// InputMessagePoll A message with a poll. Polls can't be sent to private or secret chats
+type InputMessagePoll struct {
+	tdCommon
+	Question string   `json:"question"` // Poll question, 1-255 characters
+	Options  []string `json:"options"`  // List of poll answer options, 2-10 strings 1-100 characters each
+}
+
+// MessageType return the string telegram-type of InputMessagePoll
+func (inputMessagePoll *InputMessagePoll) MessageType() string {
+	return "inputMessagePoll"
+}
+
+// NewInputMessagePoll creates a new InputMessagePoll
+//
+// @param question Poll question, 1-255 characters
+// @param options List of poll answer options, 2-10 strings 1-100 characters each
+func NewInputMessagePoll(question string, options []string) *InputMessagePoll {
+	inputMessagePollTemp := InputMessagePoll{
+		tdCommon: tdCommon{Type: "inputMessagePoll"},
+		Question: question,
+		Options:  options,
+	}
+
+	return &inputMessagePollTemp
+}
+
+// GetInputMessageContentEnum return the enum type of this object
+func (inputMessagePoll *InputMessagePoll) GetInputMessageContentEnum() InputMessageContentEnum {
+	return InputMessagePollType
+}
+
 // InputMessageForwarded A forwarded message
 type InputMessageForwarded struct {
 	tdCommon
@@ -12810,7 +13975,7 @@ func (searchMessagesFilterMention *SearchMessagesFilterMention) GetSearchMessage
 	return SearchMessagesFilterMentionType
 }
 
-// SearchMessagesFilterUnreadMention Returns only messages with unread mentions of the current user or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
+// SearchMessagesFilterUnreadMention Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
 type SearchMessagesFilterUnreadMention struct {
 	tdCommon
 }
@@ -13782,6 +14947,7 @@ type CallStateReady struct {
 	Config        string           `json:"config"`         // A JSON-encoded call config
 	EncryptionKey []byte           `json:"encryption_key"` // Call encryption key
 	Emojis        []string         `json:"emojis"`         // Encryption key emojis fingerprint
+	AllowP2p      bool             `json:"allow_p2p"`      // True, if peer-to-peer connection is allowed by users privacy settings
 }
 
 // MessageType return the string telegram-type of CallStateReady
@@ -13796,7 +14962,8 @@ func (callStateReady *CallStateReady) MessageType() string {
 // @param config A JSON-encoded call config
 // @param encryptionKey Call encryption key
 // @param emojis Encryption key emojis fingerprint
-func NewCallStateReady(protocol *CallProtocol, connections []CallConnection, config string, encryptionKey []byte, emojis []string) *CallStateReady {
+// @param allowP2p True, if peer-to-peer connection is allowed by users privacy settings
+func NewCallStateReady(protocol *CallProtocol, connections []CallConnection, config string, encryptionKey []byte, emojis []string, allowP2p bool) *CallStateReady {
 	callStateReadyTemp := CallStateReady{
 		tdCommon:      tdCommon{Type: "callStateReady"},
 		Protocol:      protocol,
@@ -13804,6 +14971,7 @@ func NewCallStateReady(protocol *CallProtocol, connections []CallConnection, con
 		Config:        config,
 		EncryptionKey: encryptionKey,
 		Emojis:        emojis,
+		AllowP2p:      allowP2p,
 	}
 
 	return &callStateReadyTemp
@@ -14037,6 +15205,29 @@ func NewImportedContacts(userIDs []int32, importerCount []int32) *ImportedContac
 	}
 
 	return &importedContactsTemp
+}
+
+// HttpURL Contains an HTTP URL
+type HttpURL struct {
+	tdCommon
+	URL string `json:"url"` // The URL
+}
+
+// MessageType return the string telegram-type of HttpURL
+func (httpURL *HttpURL) MessageType() string {
+	return "httpUrl"
+}
+
+// NewHttpURL creates a new HttpURL
+//
+// @param uRL The URL
+func NewHttpURL(uRL string) *HttpURL {
+	httpURLTemp := HttpURL{
+		tdCommon: tdCommon{Type: "httpUrl"},
+		URL:      uRL,
+	}
+
+	return &httpURLTemp
 }
 
 // InputInlineQueryResultAnimatedGif Represents a link to an animated GIF
@@ -16544,7 +17735,7 @@ func (languagePackStringValueOrdinary *LanguagePackStringValueOrdinary) GetLangu
 	return LanguagePackStringValueOrdinaryType
 }
 
-// LanguagePackStringValuePluralized A language pack string which has different forms based on the number of some object it mentions
+// LanguagePackStringValuePluralized A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
 type LanguagePackStringValuePluralized struct {
 	tdCommon
 	ZeroValue  string `json:"zero_value"`  // Value for zero objects
@@ -16690,10 +17881,19 @@ func NewLanguagePackStrings(strings []LanguagePackString) *LanguagePackStrings {
 // LanguagePackInfo Contains information about a language pack
 type LanguagePackInfo struct {
 	tdCommon
-	ID               string `json:"id"`                 // Unique language pack identifier
-	Name             string `json:"name"`               // Language name
-	NativeName       string `json:"native_name"`        // Name of the language in that language
-	LocalStringCount int32  `json:"local_string_count"` // Total number of non-deleted strings from the language pack available locally
+	ID                    string `json:"id"`                      // Unique language pack identifier
+	BaseLanguagePackID    string `json:"base_language_pack_id"`   // Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs
+	Name                  string `json:"name"`                    // Language name
+	NativeName            string `json:"native_name"`             // Name of the language in that language
+	PluralCode            string `json:"plural_code"`             // A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
+	IsOfficial            bool   `json:"is_official"`             // True, if the language pack is official
+	IsRtl                 bool   `json:"is_rtl"`                  // True, if the language pack strings are RTL
+	IsBeta                bool   `json:"is_beta"`                 // True, if the language pack is a beta language pack
+	IsInstalled           bool   `json:"is_installed"`            // True, if the language pack is installed by the current user
+	TotalStringCount      int32  `json:"total_string_count"`      // Total number of non-deleted strings from the language pack
+	TranslatedStringCount int32  `json:"translated_string_count"` // Total number of translated strings from the language pack
+	LocalStringCount      int32  `json:"local_string_count"`      // Total number of non-deleted strings from the language pack available locally
+	TranslationURL        string `json:"translation_url"`         // Link to language translation interface; empty for custom local language packs
 }
 
 // MessageType return the string telegram-type of LanguagePackInfo
@@ -16704,16 +17904,34 @@ func (languagePackInfo *LanguagePackInfo) MessageType() string {
 // NewLanguagePackInfo creates a new LanguagePackInfo
 //
 // @param iD Unique language pack identifier
+// @param baseLanguagePackID Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs
 // @param name Language name
 // @param nativeName Name of the language in that language
+// @param pluralCode A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
+// @param isOfficial True, if the language pack is official
+// @param isRtl True, if the language pack strings are RTL
+// @param isBeta True, if the language pack is a beta language pack
+// @param isInstalled True, if the language pack is installed by the current user
+// @param totalStringCount Total number of non-deleted strings from the language pack
+// @param translatedStringCount Total number of translated strings from the language pack
 // @param localStringCount Total number of non-deleted strings from the language pack available locally
-func NewLanguagePackInfo(iD string, name string, nativeName string, localStringCount int32) *LanguagePackInfo {
+// @param translationURL Link to language translation interface; empty for custom local language packs
+func NewLanguagePackInfo(iD string, baseLanguagePackID string, name string, nativeName string, pluralCode string, isOfficial bool, isRtl bool, isBeta bool, isInstalled bool, totalStringCount int32, translatedStringCount int32, localStringCount int32, translationURL string) *LanguagePackInfo {
 	languagePackInfoTemp := LanguagePackInfo{
-		tdCommon:         tdCommon{Type: "languagePackInfo"},
-		ID:               iD,
-		Name:             name,
-		NativeName:       nativeName,
-		LocalStringCount: localStringCount,
+		tdCommon:              tdCommon{Type: "languagePackInfo"},
+		ID:                    iD,
+		BaseLanguagePackID:    baseLanguagePackID,
+		Name:                  name,
+		NativeName:            nativeName,
+		PluralCode:            pluralCode,
+		IsOfficial:            isOfficial,
+		IsRtl:                 isRtl,
+		IsBeta:                isBeta,
+		IsInstalled:           isInstalled,
+		TotalStringCount:      totalStringCount,
+		TranslatedStringCount: translatedStringCount,
+		LocalStringCount:      localStringCount,
+		TranslationURL:        translationURL,
 	}
 
 	return &languagePackInfoTemp
@@ -16742,32 +17960,35 @@ func NewLocalizationTargetInfo(languagePacks []LanguagePackInfo) *LocalizationTa
 	return &localizationTargetInfoTemp
 }
 
-// DeviceTokenGoogleCloudMessaging A token for Google Cloud Messaging
-type DeviceTokenGoogleCloudMessaging struct {
+// DeviceTokenFirebaseCloudMessaging A token for Firebase Cloud Messaging
+type DeviceTokenFirebaseCloudMessaging struct {
 	tdCommon
-	Token string `json:"token"` // Device registration token; may be empty to de-register a device
+	Token   string `json:"token"`   // Device registration token; may be empty to de-register a device
+	Encrypt bool   `json:"encrypt"` // True, if push notifications should be additionally encrypted
 }
 
-// MessageType return the string telegram-type of DeviceTokenGoogleCloudMessaging
-func (deviceTokenGoogleCloudMessaging *DeviceTokenGoogleCloudMessaging) MessageType() string {
-	return "deviceTokenGoogleCloudMessaging"
+// MessageType return the string telegram-type of DeviceTokenFirebaseCloudMessaging
+func (deviceTokenFirebaseCloudMessaging *DeviceTokenFirebaseCloudMessaging) MessageType() string {
+	return "deviceTokenFirebaseCloudMessaging"
 }
 
-// NewDeviceTokenGoogleCloudMessaging creates a new DeviceTokenGoogleCloudMessaging
+// NewDeviceTokenFirebaseCloudMessaging creates a new DeviceTokenFirebaseCloudMessaging
 //
 // @param token Device registration token; may be empty to de-register a device
-func NewDeviceTokenGoogleCloudMessaging(token string) *DeviceTokenGoogleCloudMessaging {
-	deviceTokenGoogleCloudMessagingTemp := DeviceTokenGoogleCloudMessaging{
-		tdCommon: tdCommon{Type: "deviceTokenGoogleCloudMessaging"},
+// @param encrypt True, if push notifications should be additionally encrypted
+func NewDeviceTokenFirebaseCloudMessaging(token string, encrypt bool) *DeviceTokenFirebaseCloudMessaging {
+	deviceTokenFirebaseCloudMessagingTemp := DeviceTokenFirebaseCloudMessaging{
+		tdCommon: tdCommon{Type: "deviceTokenFirebaseCloudMessaging"},
 		Token:    token,
+		Encrypt:  encrypt,
 	}
 
-	return &deviceTokenGoogleCloudMessagingTemp
+	return &deviceTokenFirebaseCloudMessagingTemp
 }
 
 // GetDeviceTokenEnum return the enum type of this object
-func (deviceTokenGoogleCloudMessaging *DeviceTokenGoogleCloudMessaging) GetDeviceTokenEnum() DeviceTokenEnum {
-	return DeviceTokenGoogleCloudMessagingType
+func (deviceTokenFirebaseCloudMessaging *DeviceTokenFirebaseCloudMessaging) GetDeviceTokenEnum() DeviceTokenEnum {
+	return DeviceTokenFirebaseCloudMessagingType
 }
 
 // DeviceTokenApplePush A token for Apple Push Notification service
@@ -16806,6 +18027,7 @@ type DeviceTokenApplePushVoIP struct {
 	tdCommon
 	DeviceToken  string `json:"device_token"`   // Device token; may be empty to de-register a device
 	IsAppSandbox bool   `json:"is_app_sandbox"` // True, if App Sandbox is enabled
+	Encrypt      bool   `json:"encrypt"`        // True, if push notifications should be additionally encrypted
 }
 
 // MessageType return the string telegram-type of DeviceTokenApplePushVoIP
@@ -16817,11 +18039,13 @@ func (deviceTokenApplePushVoIP *DeviceTokenApplePushVoIP) MessageType() string {
 //
 // @param deviceToken Device token; may be empty to de-register a device
 // @param isAppSandbox True, if App Sandbox is enabled
-func NewDeviceTokenApplePushVoIP(deviceToken string, isAppSandbox bool) *DeviceTokenApplePushVoIP {
+// @param encrypt True, if push notifications should be additionally encrypted
+func NewDeviceTokenApplePushVoIP(deviceToken string, isAppSandbox bool, encrypt bool) *DeviceTokenApplePushVoIP {
 	deviceTokenApplePushVoIPTemp := DeviceTokenApplePushVoIP{
 		tdCommon:     tdCommon{Type: "deviceTokenApplePushVoIP"},
 		DeviceToken:  deviceToken,
 		IsAppSandbox: isAppSandbox,
+		Encrypt:      encrypt,
 	}
 
 	return &deviceTokenApplePushVoIPTemp
@@ -17062,6 +18286,29 @@ func (deviceTokenTizenPush *DeviceTokenTizenPush) GetDeviceTokenEnum() DeviceTok
 	return DeviceTokenTizenPushType
 }
 
+// PushReceiverID Contains a globally unique push receiver identifier, which can be used to identify which account has received a push notification
+type PushReceiverID struct {
+	tdCommon
+	ID JSONInt64 `json:"id"` // The globally unique identifier of push notification subscription
+}
+
+// MessageType return the string telegram-type of PushReceiverID
+func (pushReceiverID *PushReceiverID) MessageType() string {
+	return "pushReceiverId"
+}
+
+// NewPushReceiverID creates a new PushReceiverID
+//
+// @param iD The globally unique identifier of push notification subscription
+func NewPushReceiverID(iD JSONInt64) *PushReceiverID {
+	pushReceiverIDTemp := PushReceiverID{
+		tdCommon: tdCommon{Type: "pushReceiverId"},
+		ID:       iD,
+	}
+
+	return &pushReceiverIDTemp
+}
+
 // Wallpaper Contains information about a wallpaper
 type Wallpaper struct {
 	tdCommon
@@ -17262,7 +18509,1170 @@ func (checkChatUsernameResultPublicGroupsUnavailable *CheckChatUsernameResultPub
 	return CheckChatUsernameResultPublicGroupsUnavailableType
 }
 
-// OptionValueBoolean Boolean option
+// PushMessageContentHidden A general message with hidden content
+type PushMessageContentHidden struct {
+	tdCommon
+	IsPinned bool `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentHidden
+func (pushMessageContentHidden *PushMessageContentHidden) MessageType() string {
+	return "pushMessageContentHidden"
+}
+
+// NewPushMessageContentHidden creates a new PushMessageContentHidden
+//
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentHidden(isPinned bool) *PushMessageContentHidden {
+	pushMessageContentHiddenTemp := PushMessageContentHidden{
+		tdCommon: tdCommon{Type: "pushMessageContentHidden"},
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentHiddenTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentHidden *PushMessageContentHidden) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentHiddenType
+}
+
+// PushMessageContentAnimation An animation message (GIF-style)
+type PushMessageContentAnimation struct {
+	tdCommon
+	Animation *Animation `json:"animation"` // Message content; may be null
+	Caption   string     `json:"caption"`   // Animation caption
+	IsPinned  bool       `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentAnimation
+func (pushMessageContentAnimation *PushMessageContentAnimation) MessageType() string {
+	return "pushMessageContentAnimation"
+}
+
+// NewPushMessageContentAnimation creates a new PushMessageContentAnimation
+//
+// @param animation Message content; may be null
+// @param caption Animation caption
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentAnimation(animation *Animation, caption string, isPinned bool) *PushMessageContentAnimation {
+	pushMessageContentAnimationTemp := PushMessageContentAnimation{
+		tdCommon:  tdCommon{Type: "pushMessageContentAnimation"},
+		Animation: animation,
+		Caption:   caption,
+		IsPinned:  isPinned,
+	}
+
+	return &pushMessageContentAnimationTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentAnimation *PushMessageContentAnimation) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentAnimationType
+}
+
+// PushMessageContentAudio An audio message
+type PushMessageContentAudio struct {
+	tdCommon
+	Audio    *Audio `json:"audio"`     // Message content; may be null
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentAudio
+func (pushMessageContentAudio *PushMessageContentAudio) MessageType() string {
+	return "pushMessageContentAudio"
+}
+
+// NewPushMessageContentAudio creates a new PushMessageContentAudio
+//
+// @param audio Message content; may be null
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentAudio(audio *Audio, isPinned bool) *PushMessageContentAudio {
+	pushMessageContentAudioTemp := PushMessageContentAudio{
+		tdCommon: tdCommon{Type: "pushMessageContentAudio"},
+		Audio:    audio,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentAudioTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentAudio *PushMessageContentAudio) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentAudioType
+}
+
+// PushMessageContentContact A message with a user contact
+type PushMessageContentContact struct {
+	tdCommon
+	Name     string `json:"name"`      // Contact's name
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentContact
+func (pushMessageContentContact *PushMessageContentContact) MessageType() string {
+	return "pushMessageContentContact"
+}
+
+// NewPushMessageContentContact creates a new PushMessageContentContact
+//
+// @param name Contact's name
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentContact(name string, isPinned bool) *PushMessageContentContact {
+	pushMessageContentContactTemp := PushMessageContentContact{
+		tdCommon: tdCommon{Type: "pushMessageContentContact"},
+		Name:     name,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentContactTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentContact *PushMessageContentContact) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentContactType
+}
+
+// PushMessageContentContactRegistered A contact has registered with Telegram
+type PushMessageContentContactRegistered struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PushMessageContentContactRegistered
+func (pushMessageContentContactRegistered *PushMessageContentContactRegistered) MessageType() string {
+	return "pushMessageContentContactRegistered"
+}
+
+// NewPushMessageContentContactRegistered creates a new PushMessageContentContactRegistered
+//
+func NewPushMessageContentContactRegistered() *PushMessageContentContactRegistered {
+	pushMessageContentContactRegisteredTemp := PushMessageContentContactRegistered{
+		tdCommon: tdCommon{Type: "pushMessageContentContactRegistered"},
+	}
+
+	return &pushMessageContentContactRegisteredTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentContactRegistered *PushMessageContentContactRegistered) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentContactRegisteredType
+}
+
+// PushMessageContentDocument A document message (a general file)
+type PushMessageContentDocument struct {
+	tdCommon
+	Document *Document `json:"document"`  // Message content; may be null
+	IsPinned bool      `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentDocument
+func (pushMessageContentDocument *PushMessageContentDocument) MessageType() string {
+	return "pushMessageContentDocument"
+}
+
+// NewPushMessageContentDocument creates a new PushMessageContentDocument
+//
+// @param document Message content; may be null
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentDocument(document *Document, isPinned bool) *PushMessageContentDocument {
+	pushMessageContentDocumentTemp := PushMessageContentDocument{
+		tdCommon: tdCommon{Type: "pushMessageContentDocument"},
+		Document: document,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentDocumentTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentDocument *PushMessageContentDocument) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentDocumentType
+}
+
+// PushMessageContentGame A message with a game
+type PushMessageContentGame struct {
+	tdCommon
+	Title    string `json:"title"`     // Game title, empty for pinned game message
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentGame
+func (pushMessageContentGame *PushMessageContentGame) MessageType() string {
+	return "pushMessageContentGame"
+}
+
+// NewPushMessageContentGame creates a new PushMessageContentGame
+//
+// @param title Game title, empty for pinned game message
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentGame(title string, isPinned bool) *PushMessageContentGame {
+	pushMessageContentGameTemp := PushMessageContentGame{
+		tdCommon: tdCommon{Type: "pushMessageContentGame"},
+		Title:    title,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentGameTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentGame *PushMessageContentGame) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentGameType
+}
+
+// PushMessageContentGameScore A new high score was achieved in a game
+type PushMessageContentGameScore struct {
+	tdCommon
+	Title    string `json:"title"`     // Game title, empty for pinned message
+	Score    int32  `json:"score"`     // New score, 0 for pinned message
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentGameScore
+func (pushMessageContentGameScore *PushMessageContentGameScore) MessageType() string {
+	return "pushMessageContentGameScore"
+}
+
+// NewPushMessageContentGameScore creates a new PushMessageContentGameScore
+//
+// @param title Game title, empty for pinned message
+// @param score New score, 0 for pinned message
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentGameScore(title string, score int32, isPinned bool) *PushMessageContentGameScore {
+	pushMessageContentGameScoreTemp := PushMessageContentGameScore{
+		tdCommon: tdCommon{Type: "pushMessageContentGameScore"},
+		Title:    title,
+		Score:    score,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentGameScoreTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentGameScore *PushMessageContentGameScore) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentGameScoreType
+}
+
+// PushMessageContentInvoice A message with an invoice from a bot
+type PushMessageContentInvoice struct {
+	tdCommon
+	Price    string `json:"price"`     // Product price
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentInvoice
+func (pushMessageContentInvoice *PushMessageContentInvoice) MessageType() string {
+	return "pushMessageContentInvoice"
+}
+
+// NewPushMessageContentInvoice creates a new PushMessageContentInvoice
+//
+// @param price Product price
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentInvoice(price string, isPinned bool) *PushMessageContentInvoice {
+	pushMessageContentInvoiceTemp := PushMessageContentInvoice{
+		tdCommon: tdCommon{Type: "pushMessageContentInvoice"},
+		Price:    price,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentInvoiceTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentInvoice *PushMessageContentInvoice) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentInvoiceType
+}
+
+// PushMessageContentLocation A message with a location
+type PushMessageContentLocation struct {
+	tdCommon
+	IsLive   bool `json:"is_live"`   // True, if the location is live
+	IsPinned bool `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentLocation
+func (pushMessageContentLocation *PushMessageContentLocation) MessageType() string {
+	return "pushMessageContentLocation"
+}
+
+// NewPushMessageContentLocation creates a new PushMessageContentLocation
+//
+// @param isLive True, if the location is live
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentLocation(isLive bool, isPinned bool) *PushMessageContentLocation {
+	pushMessageContentLocationTemp := PushMessageContentLocation{
+		tdCommon: tdCommon{Type: "pushMessageContentLocation"},
+		IsLive:   isLive,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentLocationTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentLocation *PushMessageContentLocation) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentLocationType
+}
+
+// PushMessageContentPhoto A photo message
+type PushMessageContentPhoto struct {
+	tdCommon
+	Photo    *Photo `json:"photo"`     // Message content; may be null
+	Caption  string `json:"caption"`   // Photo caption
+	IsSecret bool   `json:"is_secret"` // True, if the photo is secret
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentPhoto
+func (pushMessageContentPhoto *PushMessageContentPhoto) MessageType() string {
+	return "pushMessageContentPhoto"
+}
+
+// NewPushMessageContentPhoto creates a new PushMessageContentPhoto
+//
+// @param photo Message content; may be null
+// @param caption Photo caption
+// @param isSecret True, if the photo is secret
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentPhoto(photo *Photo, caption string, isSecret bool, isPinned bool) *PushMessageContentPhoto {
+	pushMessageContentPhotoTemp := PushMessageContentPhoto{
+		tdCommon: tdCommon{Type: "pushMessageContentPhoto"},
+		Photo:    photo,
+		Caption:  caption,
+		IsSecret: isSecret,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentPhotoTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentPhoto *PushMessageContentPhoto) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentPhotoType
+}
+
+// PushMessageContentPoll A message with a poll
+type PushMessageContentPoll struct {
+	tdCommon
+	Question string `json:"question"`  // Poll question
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentPoll
+func (pushMessageContentPoll *PushMessageContentPoll) MessageType() string {
+	return "pushMessageContentPoll"
+}
+
+// NewPushMessageContentPoll creates a new PushMessageContentPoll
+//
+// @param question Poll question
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentPoll(question string, isPinned bool) *PushMessageContentPoll {
+	pushMessageContentPollTemp := PushMessageContentPoll{
+		tdCommon: tdCommon{Type: "pushMessageContentPoll"},
+		Question: question,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentPollTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentPoll *PushMessageContentPoll) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentPollType
+}
+
+// PushMessageContentScreenshotTaken A screenshot of a message in the chat has been taken
+type PushMessageContentScreenshotTaken struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PushMessageContentScreenshotTaken
+func (pushMessageContentScreenshotTaken *PushMessageContentScreenshotTaken) MessageType() string {
+	return "pushMessageContentScreenshotTaken"
+}
+
+// NewPushMessageContentScreenshotTaken creates a new PushMessageContentScreenshotTaken
+//
+func NewPushMessageContentScreenshotTaken() *PushMessageContentScreenshotTaken {
+	pushMessageContentScreenshotTakenTemp := PushMessageContentScreenshotTaken{
+		tdCommon: tdCommon{Type: "pushMessageContentScreenshotTaken"},
+	}
+
+	return &pushMessageContentScreenshotTakenTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentScreenshotTaken *PushMessageContentScreenshotTaken) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentScreenshotTakenType
+}
+
+// PushMessageContentSticker A message with a sticker
+type PushMessageContentSticker struct {
+	tdCommon
+	Sticker  *Sticker `json:"sticker"`   // Message content; may be null
+	Emoji    string   `json:"emoji"`     // Emoji corresponding to the sticker; may be empty
+	IsPinned bool     `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentSticker
+func (pushMessageContentSticker *PushMessageContentSticker) MessageType() string {
+	return "pushMessageContentSticker"
+}
+
+// NewPushMessageContentSticker creates a new PushMessageContentSticker
+//
+// @param sticker Message content; may be null
+// @param emoji Emoji corresponding to the sticker; may be empty
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentSticker(sticker *Sticker, emoji string, isPinned bool) *PushMessageContentSticker {
+	pushMessageContentStickerTemp := PushMessageContentSticker{
+		tdCommon: tdCommon{Type: "pushMessageContentSticker"},
+		Sticker:  sticker,
+		Emoji:    emoji,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentStickerTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentSticker *PushMessageContentSticker) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentStickerType
+}
+
+// PushMessageContentText A text message
+type PushMessageContentText struct {
+	tdCommon
+	Text     string `json:"text"`      // Message text
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentText
+func (pushMessageContentText *PushMessageContentText) MessageType() string {
+	return "pushMessageContentText"
+}
+
+// NewPushMessageContentText creates a new PushMessageContentText
+//
+// @param text Message text
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentText(text string, isPinned bool) *PushMessageContentText {
+	pushMessageContentTextTemp := PushMessageContentText{
+		tdCommon: tdCommon{Type: "pushMessageContentText"},
+		Text:     text,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentTextTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentText *PushMessageContentText) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentTextType
+}
+
+// PushMessageContentVideo A video message
+type PushMessageContentVideo struct {
+	tdCommon
+	Video    *Video `json:"video"`     // Message content; may be null
+	Caption  string `json:"caption"`   // Video caption
+	IsSecret bool   `json:"is_secret"` // True, if the video is secret
+	IsPinned bool   `json:"is_pinned"` // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentVideo
+func (pushMessageContentVideo *PushMessageContentVideo) MessageType() string {
+	return "pushMessageContentVideo"
+}
+
+// NewPushMessageContentVideo creates a new PushMessageContentVideo
+//
+// @param video Message content; may be null
+// @param caption Video caption
+// @param isSecret True, if the video is secret
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentVideo(video *Video, caption string, isSecret bool, isPinned bool) *PushMessageContentVideo {
+	pushMessageContentVideoTemp := PushMessageContentVideo{
+		tdCommon: tdCommon{Type: "pushMessageContentVideo"},
+		Video:    video,
+		Caption:  caption,
+		IsSecret: isSecret,
+		IsPinned: isPinned,
+	}
+
+	return &pushMessageContentVideoTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentVideo *PushMessageContentVideo) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentVideoType
+}
+
+// PushMessageContentVideoNote A video note message
+type PushMessageContentVideoNote struct {
+	tdCommon
+	VideoNote *VideoNote `json:"video_note"` // Message content; may be null
+	IsPinned  bool       `json:"is_pinned"`  // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentVideoNote
+func (pushMessageContentVideoNote *PushMessageContentVideoNote) MessageType() string {
+	return "pushMessageContentVideoNote"
+}
+
+// NewPushMessageContentVideoNote creates a new PushMessageContentVideoNote
+//
+// @param videoNote Message content; may be null
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentVideoNote(videoNote *VideoNote, isPinned bool) *PushMessageContentVideoNote {
+	pushMessageContentVideoNoteTemp := PushMessageContentVideoNote{
+		tdCommon:  tdCommon{Type: "pushMessageContentVideoNote"},
+		VideoNote: videoNote,
+		IsPinned:  isPinned,
+	}
+
+	return &pushMessageContentVideoNoteTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentVideoNote *PushMessageContentVideoNote) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentVideoNoteType
+}
+
+// PushMessageContentVoiceNote A voice note message
+type PushMessageContentVoiceNote struct {
+	tdCommon
+	VoiceNote *VoiceNote `json:"voice_note"` // Message content; may be null
+	IsPinned  bool       `json:"is_pinned"`  // True, if the message is a pinned message with the specified content
+}
+
+// MessageType return the string telegram-type of PushMessageContentVoiceNote
+func (pushMessageContentVoiceNote *PushMessageContentVoiceNote) MessageType() string {
+	return "pushMessageContentVoiceNote"
+}
+
+// NewPushMessageContentVoiceNote creates a new PushMessageContentVoiceNote
+//
+// @param voiceNote Message content; may be null
+// @param isPinned True, if the message is a pinned message with the specified content
+func NewPushMessageContentVoiceNote(voiceNote *VoiceNote, isPinned bool) *PushMessageContentVoiceNote {
+	pushMessageContentVoiceNoteTemp := PushMessageContentVoiceNote{
+		tdCommon:  tdCommon{Type: "pushMessageContentVoiceNote"},
+		VoiceNote: voiceNote,
+		IsPinned:  isPinned,
+	}
+
+	return &pushMessageContentVoiceNoteTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentVoiceNote *PushMessageContentVoiceNote) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentVoiceNoteType
+}
+
+// PushMessageContentBasicGroupChatCreate A newly created basic group
+type PushMessageContentBasicGroupChatCreate struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PushMessageContentBasicGroupChatCreate
+func (pushMessageContentBasicGroupChatCreate *PushMessageContentBasicGroupChatCreate) MessageType() string {
+	return "pushMessageContentBasicGroupChatCreate"
+}
+
+// NewPushMessageContentBasicGroupChatCreate creates a new PushMessageContentBasicGroupChatCreate
+//
+func NewPushMessageContentBasicGroupChatCreate() *PushMessageContentBasicGroupChatCreate {
+	pushMessageContentBasicGroupChatCreateTemp := PushMessageContentBasicGroupChatCreate{
+		tdCommon: tdCommon{Type: "pushMessageContentBasicGroupChatCreate"},
+	}
+
+	return &pushMessageContentBasicGroupChatCreateTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentBasicGroupChatCreate *PushMessageContentBasicGroupChatCreate) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentBasicGroupChatCreateType
+}
+
+// PushMessageContentChatAddMembers New chat members were invited to a group
+type PushMessageContentChatAddMembers struct {
+	tdCommon
+	MemberName    string `json:"member_name"`     // Name of the added member
+	IsCurrentUser bool   `json:"is_current_user"` // True, if the current user was added to the group
+	IsReturned    bool   `json:"is_returned"`     // True, if the user has returned to the group himself
+}
+
+// MessageType return the string telegram-type of PushMessageContentChatAddMembers
+func (pushMessageContentChatAddMembers *PushMessageContentChatAddMembers) MessageType() string {
+	return "pushMessageContentChatAddMembers"
+}
+
+// NewPushMessageContentChatAddMembers creates a new PushMessageContentChatAddMembers
+//
+// @param memberName Name of the added member
+// @param isCurrentUser True, if the current user was added to the group
+// @param isReturned True, if the user has returned to the group himself
+func NewPushMessageContentChatAddMembers(memberName string, isCurrentUser bool, isReturned bool) *PushMessageContentChatAddMembers {
+	pushMessageContentChatAddMembersTemp := PushMessageContentChatAddMembers{
+		tdCommon:      tdCommon{Type: "pushMessageContentChatAddMembers"},
+		MemberName:    memberName,
+		IsCurrentUser: isCurrentUser,
+		IsReturned:    isReturned,
+	}
+
+	return &pushMessageContentChatAddMembersTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentChatAddMembers *PushMessageContentChatAddMembers) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentChatAddMembersType
+}
+
+// PushMessageContentChatChangePhoto A chat photo was edited
+type PushMessageContentChatChangePhoto struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PushMessageContentChatChangePhoto
+func (pushMessageContentChatChangePhoto *PushMessageContentChatChangePhoto) MessageType() string {
+	return "pushMessageContentChatChangePhoto"
+}
+
+// NewPushMessageContentChatChangePhoto creates a new PushMessageContentChatChangePhoto
+//
+func NewPushMessageContentChatChangePhoto() *PushMessageContentChatChangePhoto {
+	pushMessageContentChatChangePhotoTemp := PushMessageContentChatChangePhoto{
+		tdCommon: tdCommon{Type: "pushMessageContentChatChangePhoto"},
+	}
+
+	return &pushMessageContentChatChangePhotoTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentChatChangePhoto *PushMessageContentChatChangePhoto) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentChatChangePhotoType
+}
+
+// PushMessageContentChatChangeTitle A chat title was edited
+type PushMessageContentChatChangeTitle struct {
+	tdCommon
+	Title string `json:"title"` // New chat title
+}
+
+// MessageType return the string telegram-type of PushMessageContentChatChangeTitle
+func (pushMessageContentChatChangeTitle *PushMessageContentChatChangeTitle) MessageType() string {
+	return "pushMessageContentChatChangeTitle"
+}
+
+// NewPushMessageContentChatChangeTitle creates a new PushMessageContentChatChangeTitle
+//
+// @param title New chat title
+func NewPushMessageContentChatChangeTitle(title string) *PushMessageContentChatChangeTitle {
+	pushMessageContentChatChangeTitleTemp := PushMessageContentChatChangeTitle{
+		tdCommon: tdCommon{Type: "pushMessageContentChatChangeTitle"},
+		Title:    title,
+	}
+
+	return &pushMessageContentChatChangeTitleTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentChatChangeTitle *PushMessageContentChatChangeTitle) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentChatChangeTitleType
+}
+
+// PushMessageContentChatDeleteMember A chat member was deleted
+type PushMessageContentChatDeleteMember struct {
+	tdCommon
+	MemberName    string `json:"member_name"`     // Name of the deleted member
+	IsCurrentUser bool   `json:"is_current_user"` // True, if the current user was deleted from the group
+	IsLeft        bool   `json:"is_left"`         // True, if the user has left the group himself
+}
+
+// MessageType return the string telegram-type of PushMessageContentChatDeleteMember
+func (pushMessageContentChatDeleteMember *PushMessageContentChatDeleteMember) MessageType() string {
+	return "pushMessageContentChatDeleteMember"
+}
+
+// NewPushMessageContentChatDeleteMember creates a new PushMessageContentChatDeleteMember
+//
+// @param memberName Name of the deleted member
+// @param isCurrentUser True, if the current user was deleted from the group
+// @param isLeft True, if the user has left the group himself
+func NewPushMessageContentChatDeleteMember(memberName string, isCurrentUser bool, isLeft bool) *PushMessageContentChatDeleteMember {
+	pushMessageContentChatDeleteMemberTemp := PushMessageContentChatDeleteMember{
+		tdCommon:      tdCommon{Type: "pushMessageContentChatDeleteMember"},
+		MemberName:    memberName,
+		IsCurrentUser: isCurrentUser,
+		IsLeft:        isLeft,
+	}
+
+	return &pushMessageContentChatDeleteMemberTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentChatDeleteMember *PushMessageContentChatDeleteMember) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentChatDeleteMemberType
+}
+
+// PushMessageContentChatJoinByLink A new member joined the chat by invite link
+type PushMessageContentChatJoinByLink struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PushMessageContentChatJoinByLink
+func (pushMessageContentChatJoinByLink *PushMessageContentChatJoinByLink) MessageType() string {
+	return "pushMessageContentChatJoinByLink"
+}
+
+// NewPushMessageContentChatJoinByLink creates a new PushMessageContentChatJoinByLink
+//
+func NewPushMessageContentChatJoinByLink() *PushMessageContentChatJoinByLink {
+	pushMessageContentChatJoinByLinkTemp := PushMessageContentChatJoinByLink{
+		tdCommon: tdCommon{Type: "pushMessageContentChatJoinByLink"},
+	}
+
+	return &pushMessageContentChatJoinByLinkTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentChatJoinByLink *PushMessageContentChatJoinByLink) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentChatJoinByLinkType
+}
+
+// PushMessageContentMessageForwards A forwarded messages
+type PushMessageContentMessageForwards struct {
+	tdCommon
+	TotalCount int32 `json:"total_count"` // Number of forwarded messages
+}
+
+// MessageType return the string telegram-type of PushMessageContentMessageForwards
+func (pushMessageContentMessageForwards *PushMessageContentMessageForwards) MessageType() string {
+	return "pushMessageContentMessageForwards"
+}
+
+// NewPushMessageContentMessageForwards creates a new PushMessageContentMessageForwards
+//
+// @param totalCount Number of forwarded messages
+func NewPushMessageContentMessageForwards(totalCount int32) *PushMessageContentMessageForwards {
+	pushMessageContentMessageForwardsTemp := PushMessageContentMessageForwards{
+		tdCommon:   tdCommon{Type: "pushMessageContentMessageForwards"},
+		TotalCount: totalCount,
+	}
+
+	return &pushMessageContentMessageForwardsTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentMessageForwards *PushMessageContentMessageForwards) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentMessageForwardsType
+}
+
+// PushMessageContentMediaAlbum A media album
+type PushMessageContentMediaAlbum struct {
+	tdCommon
+	TotalCount int32 `json:"total_count"` // Number of messages in the album
+	HasPhotos  bool  `json:"has_photos"`  // True, if the album has at least one photo
+	HasVideos  bool  `json:"has_videos"`  // True, if the album has at least one video
+}
+
+// MessageType return the string telegram-type of PushMessageContentMediaAlbum
+func (pushMessageContentMediaAlbum *PushMessageContentMediaAlbum) MessageType() string {
+	return "pushMessageContentMediaAlbum"
+}
+
+// NewPushMessageContentMediaAlbum creates a new PushMessageContentMediaAlbum
+//
+// @param totalCount Number of messages in the album
+// @param hasPhotos True, if the album has at least one photo
+// @param hasVideos True, if the album has at least one video
+func NewPushMessageContentMediaAlbum(totalCount int32, hasPhotos bool, hasVideos bool) *PushMessageContentMediaAlbum {
+	pushMessageContentMediaAlbumTemp := PushMessageContentMediaAlbum{
+		tdCommon:   tdCommon{Type: "pushMessageContentMediaAlbum"},
+		TotalCount: totalCount,
+		HasPhotos:  hasPhotos,
+		HasVideos:  hasVideos,
+	}
+
+	return &pushMessageContentMediaAlbumTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentMediaAlbum *PushMessageContentMediaAlbum) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentMediaAlbumType
+}
+
+// NotificationTypeNewMessage New message was received
+type NotificationTypeNewMessage struct {
+	tdCommon
+	Message *Message `json:"message"` // The message
+}
+
+// MessageType return the string telegram-type of NotificationTypeNewMessage
+func (notificationTypeNewMessage *NotificationTypeNewMessage) MessageType() string {
+	return "notificationTypeNewMessage"
+}
+
+// NewNotificationTypeNewMessage creates a new NotificationTypeNewMessage
+//
+// @param message The message
+func NewNotificationTypeNewMessage(message *Message) *NotificationTypeNewMessage {
+	notificationTypeNewMessageTemp := NotificationTypeNewMessage{
+		tdCommon: tdCommon{Type: "notificationTypeNewMessage"},
+		Message:  message,
+	}
+
+	return &notificationTypeNewMessageTemp
+}
+
+// GetNotificationTypeEnum return the enum type of this object
+func (notificationTypeNewMessage *NotificationTypeNewMessage) GetNotificationTypeEnum() NotificationTypeEnum {
+	return NotificationTypeNewMessageType
+}
+
+// NotificationTypeNewSecretChat New secret chat was created
+type NotificationTypeNewSecretChat struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of NotificationTypeNewSecretChat
+func (notificationTypeNewSecretChat *NotificationTypeNewSecretChat) MessageType() string {
+	return "notificationTypeNewSecretChat"
+}
+
+// NewNotificationTypeNewSecretChat creates a new NotificationTypeNewSecretChat
+//
+func NewNotificationTypeNewSecretChat() *NotificationTypeNewSecretChat {
+	notificationTypeNewSecretChatTemp := NotificationTypeNewSecretChat{
+		tdCommon: tdCommon{Type: "notificationTypeNewSecretChat"},
+	}
+
+	return &notificationTypeNewSecretChatTemp
+}
+
+// GetNotificationTypeEnum return the enum type of this object
+func (notificationTypeNewSecretChat *NotificationTypeNewSecretChat) GetNotificationTypeEnum() NotificationTypeEnum {
+	return NotificationTypeNewSecretChatType
+}
+
+// NotificationTypeNewCall New call was received
+type NotificationTypeNewCall struct {
+	tdCommon
+	CallID int32 `json:"call_id"` // Call identifier
+}
+
+// MessageType return the string telegram-type of NotificationTypeNewCall
+func (notificationTypeNewCall *NotificationTypeNewCall) MessageType() string {
+	return "notificationTypeNewCall"
+}
+
+// NewNotificationTypeNewCall creates a new NotificationTypeNewCall
+//
+// @param callID Call identifier
+func NewNotificationTypeNewCall(callID int32) *NotificationTypeNewCall {
+	notificationTypeNewCallTemp := NotificationTypeNewCall{
+		tdCommon: tdCommon{Type: "notificationTypeNewCall"},
+		CallID:   callID,
+	}
+
+	return &notificationTypeNewCallTemp
+}
+
+// GetNotificationTypeEnum return the enum type of this object
+func (notificationTypeNewCall *NotificationTypeNewCall) GetNotificationTypeEnum() NotificationTypeEnum {
+	return NotificationTypeNewCallType
+}
+
+// NotificationTypeNewPushMessage New message was received through a push notification
+type NotificationTypeNewPushMessage struct {
+	tdCommon
+	MessageID    int64              `json:"message_id"`     // The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
+	SenderUserID int32              `json:"sender_user_id"` // Sender of the message. Corresponding user may be inaccessible
+	Content      PushMessageContent `json:"content"`        // Push message content
+}
+
+// MessageType return the string telegram-type of NotificationTypeNewPushMessage
+func (notificationTypeNewPushMessage *NotificationTypeNewPushMessage) MessageType() string {
+	return "notificationTypeNewPushMessage"
+}
+
+// NewNotificationTypeNewPushMessage creates a new NotificationTypeNewPushMessage
+//
+// @param messageID The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
+// @param senderUserID Sender of the message. Corresponding user may be inaccessible
+// @param content Push message content
+func NewNotificationTypeNewPushMessage(messageID int64, senderUserID int32, content PushMessageContent) *NotificationTypeNewPushMessage {
+	notificationTypeNewPushMessageTemp := NotificationTypeNewPushMessage{
+		tdCommon:     tdCommon{Type: "notificationTypeNewPushMessage"},
+		MessageID:    messageID,
+		SenderUserID: senderUserID,
+		Content:      content,
+	}
+
+	return &notificationTypeNewPushMessageTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (notificationTypeNewPushMessage *NotificationTypeNewPushMessage) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		MessageID    int64 `json:"message_id"`     // The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id
+		SenderUserID int32 `json:"sender_user_id"` // Sender of the message. Corresponding user may be inaccessible
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	notificationTypeNewPushMessage.tdCommon = tempObj.tdCommon
+	notificationTypeNewPushMessage.MessageID = tempObj.MessageID
+	notificationTypeNewPushMessage.SenderUserID = tempObj.SenderUserID
+
+	fieldContent, _ := unmarshalPushMessageContent(objMap["content"])
+	notificationTypeNewPushMessage.Content = fieldContent
+
+	return nil
+}
+
+// GetNotificationTypeEnum return the enum type of this object
+func (notificationTypeNewPushMessage *NotificationTypeNewPushMessage) GetNotificationTypeEnum() NotificationTypeEnum {
+	return NotificationTypeNewPushMessageType
+}
+
+// NotificationGroupTypeMessages A group containing notifications of type notificationTypeNewMessage and notificationTypeNewPushMessage with ordinary unread messages
+type NotificationGroupTypeMessages struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of NotificationGroupTypeMessages
+func (notificationGroupTypeMessages *NotificationGroupTypeMessages) MessageType() string {
+	return "notificationGroupTypeMessages"
+}
+
+// NewNotificationGroupTypeMessages creates a new NotificationGroupTypeMessages
+//
+func NewNotificationGroupTypeMessages() *NotificationGroupTypeMessages {
+	notificationGroupTypeMessagesTemp := NotificationGroupTypeMessages{
+		tdCommon: tdCommon{Type: "notificationGroupTypeMessages"},
+	}
+
+	return &notificationGroupTypeMessagesTemp
+}
+
+// GetNotificationGroupTypeEnum return the enum type of this object
+func (notificationGroupTypeMessages *NotificationGroupTypeMessages) GetNotificationGroupTypeEnum() NotificationGroupTypeEnum {
+	return NotificationGroupTypeMessagesType
+}
+
+// NotificationGroupTypeMentions A group containing notifications of type notificationTypeNewMessage and notificationTypeNewPushMessage with unread mentions of the current user, replies to their messages, or a pinned message
+type NotificationGroupTypeMentions struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of NotificationGroupTypeMentions
+func (notificationGroupTypeMentions *NotificationGroupTypeMentions) MessageType() string {
+	return "notificationGroupTypeMentions"
+}
+
+// NewNotificationGroupTypeMentions creates a new NotificationGroupTypeMentions
+//
+func NewNotificationGroupTypeMentions() *NotificationGroupTypeMentions {
+	notificationGroupTypeMentionsTemp := NotificationGroupTypeMentions{
+		tdCommon: tdCommon{Type: "notificationGroupTypeMentions"},
+	}
+
+	return &notificationGroupTypeMentionsTemp
+}
+
+// GetNotificationGroupTypeEnum return the enum type of this object
+func (notificationGroupTypeMentions *NotificationGroupTypeMentions) GetNotificationGroupTypeEnum() NotificationGroupTypeEnum {
+	return NotificationGroupTypeMentionsType
+}
+
+// NotificationGroupTypeSecretChat A group containing a notification of type notificationTypeNewSecretChat
+type NotificationGroupTypeSecretChat struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of NotificationGroupTypeSecretChat
+func (notificationGroupTypeSecretChat *NotificationGroupTypeSecretChat) MessageType() string {
+	return "notificationGroupTypeSecretChat"
+}
+
+// NewNotificationGroupTypeSecretChat creates a new NotificationGroupTypeSecretChat
+//
+func NewNotificationGroupTypeSecretChat() *NotificationGroupTypeSecretChat {
+	notificationGroupTypeSecretChatTemp := NotificationGroupTypeSecretChat{
+		tdCommon: tdCommon{Type: "notificationGroupTypeSecretChat"},
+	}
+
+	return &notificationGroupTypeSecretChatTemp
+}
+
+// GetNotificationGroupTypeEnum return the enum type of this object
+func (notificationGroupTypeSecretChat *NotificationGroupTypeSecretChat) GetNotificationGroupTypeEnum() NotificationGroupTypeEnum {
+	return NotificationGroupTypeSecretChatType
+}
+
+// NotificationGroupTypeCalls A group containing notifications of type notificationTypeNewCall
+type NotificationGroupTypeCalls struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of NotificationGroupTypeCalls
+func (notificationGroupTypeCalls *NotificationGroupTypeCalls) MessageType() string {
+	return "notificationGroupTypeCalls"
+}
+
+// NewNotificationGroupTypeCalls creates a new NotificationGroupTypeCalls
+//
+func NewNotificationGroupTypeCalls() *NotificationGroupTypeCalls {
+	notificationGroupTypeCallsTemp := NotificationGroupTypeCalls{
+		tdCommon: tdCommon{Type: "notificationGroupTypeCalls"},
+	}
+
+	return &notificationGroupTypeCallsTemp
+}
+
+// GetNotificationGroupTypeEnum return the enum type of this object
+func (notificationGroupTypeCalls *NotificationGroupTypeCalls) GetNotificationGroupTypeEnum() NotificationGroupTypeEnum {
+	return NotificationGroupTypeCallsType
+}
+
+// Notification Contains information about a notification
+type Notification struct {
+	tdCommon
+	ID   int32            `json:"id"`   // Unique persistent identifier of this notification
+	Date int32            `json:"date"` // Notification date
+	Type NotificationType `json:"type"` // Notification type
+}
+
+// MessageType return the string telegram-type of Notification
+func (notification *Notification) MessageType() string {
+	return "notification"
+}
+
+// NewNotification creates a new Notification
+//
+// @param iD Unique persistent identifier of this notification
+// @param date Notification date
+// @param typeParam Notification type
+func NewNotification(iD int32, date int32, typeParam NotificationType) *Notification {
+	notificationTemp := Notification{
+		tdCommon: tdCommon{Type: "notification"},
+		ID:       iD,
+		Date:     date,
+		Type:     typeParam,
+	}
+
+	return &notificationTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (notification *Notification) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		ID   int32 `json:"id"`   // Unique persistent identifier of this notification
+		Date int32 `json:"date"` // Notification date
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	notification.tdCommon = tempObj.tdCommon
+	notification.ID = tempObj.ID
+	notification.Date = tempObj.Date
+
+	fieldType, _ := unmarshalNotificationType(objMap["type"])
+	notification.Type = fieldType
+
+	return nil
+}
+
+// NotificationGroup Describes a group of notifications
+type NotificationGroup struct {
+	tdCommon
+	ID            int32                 `json:"id"`            // Unique persistent auto-incremented from 1 identifier of the notification group
+	Type          NotificationGroupType `json:"type"`          // Type of the group
+	ChatID        int64                 `json:"chat_id"`       // Identifier of a chat to which all notifications in the group belong
+	TotalCount    int32                 `json:"total_count"`   // Total number of active notifications in the group
+	Notifications []Notification        `json:"notifications"` // The list of active notifications
+}
+
+// MessageType return the string telegram-type of NotificationGroup
+func (notificationGroup *NotificationGroup) MessageType() string {
+	return "notificationGroup"
+}
+
+// NewNotificationGroup creates a new NotificationGroup
+//
+// @param iD Unique persistent auto-incremented from 1 identifier of the notification group
+// @param typeParam Type of the group
+// @param chatID Identifier of a chat to which all notifications in the group belong
+// @param totalCount Total number of active notifications in the group
+// @param notifications The list of active notifications
+func NewNotificationGroup(iD int32, typeParam NotificationGroupType, chatID int64, totalCount int32, notifications []Notification) *NotificationGroup {
+	notificationGroupTemp := NotificationGroup{
+		tdCommon:      tdCommon{Type: "notificationGroup"},
+		ID:            iD,
+		Type:          typeParam,
+		ChatID:        chatID,
+		TotalCount:    totalCount,
+		Notifications: notifications,
+	}
+
+	return &notificationGroupTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (notificationGroup *NotificationGroup) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		ID            int32          `json:"id"`            // Unique persistent auto-incremented from 1 identifier of the notification group
+		ChatID        int64          `json:"chat_id"`       // Identifier of a chat to which all notifications in the group belong
+		TotalCount    int32          `json:"total_count"`   // Total number of active notifications in the group
+		Notifications []Notification `json:"notifications"` // The list of active notifications
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	notificationGroup.tdCommon = tempObj.tdCommon
+	notificationGroup.ID = tempObj.ID
+	notificationGroup.ChatID = tempObj.ChatID
+	notificationGroup.TotalCount = tempObj.TotalCount
+	notificationGroup.Notifications = tempObj.Notifications
+
+	fieldType, _ := unmarshalNotificationGroupType(objMap["type"])
+	notificationGroup.Type = fieldType
+
+	return nil
+}
+
+// OptionValueBoolean Represents a boolean option
 type OptionValueBoolean struct {
 	tdCommon
 	Value bool `json:"value"` // The value of the option
@@ -17290,7 +19700,7 @@ func (optionValueBoolean *OptionValueBoolean) GetOptionValueEnum() OptionValueEn
 	return OptionValueBooleanType
 }
 
-// OptionValueEmpty An unknown option or an option which has a default value
+// OptionValueEmpty Represents an unknown option or an option which has a default value
 type OptionValueEmpty struct {
 	tdCommon
 }
@@ -17315,7 +19725,7 @@ func (optionValueEmpty *OptionValueEmpty) GetOptionValueEnum() OptionValueEnum {
 	return OptionValueEmptyType
 }
 
-// OptionValueInteger An integer option
+// OptionValueInteger Represents an integer option
 type OptionValueInteger struct {
 	tdCommon
 	Value int32 `json:"value"` // The value of the option
@@ -17343,7 +19753,7 @@ func (optionValueInteger *OptionValueInteger) GetOptionValueEnum() OptionValueEn
 	return OptionValueIntegerType
 }
 
-// OptionValueString A string option
+// OptionValueString Represents a string option
 type OptionValueString struct {
 	tdCommon
 	Value string `json:"value"` // The value of the option
@@ -17369,6 +19779,223 @@ func NewOptionValueString(value string) *OptionValueString {
 // GetOptionValueEnum return the enum type of this object
 func (optionValueString *OptionValueString) GetOptionValueEnum() OptionValueEnum {
 	return OptionValueStringType
+}
+
+// JsonObjectMember Represents one member of a JSON object
+type JsonObjectMember struct {
+	tdCommon
+	Key   string    `json:"key"`   // Member's key
+	Value JsonValue `json:"value"` // Member's value
+}
+
+// MessageType return the string telegram-type of JsonObjectMember
+func (jsonObjectMember *JsonObjectMember) MessageType() string {
+	return "jsonObjectMember"
+}
+
+// NewJsonObjectMember creates a new JsonObjectMember
+//
+// @param key Member's key
+// @param value Member's value
+func NewJsonObjectMember(key string, value JsonValue) *JsonObjectMember {
+	jsonObjectMemberTemp := JsonObjectMember{
+		tdCommon: tdCommon{Type: "jsonObjectMember"},
+		Key:      key,
+		Value:    value,
+	}
+
+	return &jsonObjectMemberTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (jsonObjectMember *JsonObjectMember) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Key string `json:"key"` // Member's key
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	jsonObjectMember.tdCommon = tempObj.tdCommon
+	jsonObjectMember.Key = tempObj.Key
+
+	fieldValue, _ := unmarshalJsonValue(objMap["value"])
+	jsonObjectMember.Value = fieldValue
+
+	return nil
+}
+
+// JsonValueNull Represents a null JSON value
+type JsonValueNull struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of JsonValueNull
+func (jsonValueNull *JsonValueNull) MessageType() string {
+	return "jsonValueNull"
+}
+
+// NewJsonValueNull creates a new JsonValueNull
+//
+func NewJsonValueNull() *JsonValueNull {
+	jsonValueNullTemp := JsonValueNull{
+		tdCommon: tdCommon{Type: "jsonValueNull"},
+	}
+
+	return &jsonValueNullTemp
+}
+
+// GetJsonValueEnum return the enum type of this object
+func (jsonValueNull *JsonValueNull) GetJsonValueEnum() JsonValueEnum {
+	return JsonValueNullType
+}
+
+// JsonValueBoolean Represents a boolean JSON value
+type JsonValueBoolean struct {
+	tdCommon
+	Value bool `json:"value"` // The value
+}
+
+// MessageType return the string telegram-type of JsonValueBoolean
+func (jsonValueBoolean *JsonValueBoolean) MessageType() string {
+	return "jsonValueBoolean"
+}
+
+// NewJsonValueBoolean creates a new JsonValueBoolean
+//
+// @param value The value
+func NewJsonValueBoolean(value bool) *JsonValueBoolean {
+	jsonValueBooleanTemp := JsonValueBoolean{
+		tdCommon: tdCommon{Type: "jsonValueBoolean"},
+		Value:    value,
+	}
+
+	return &jsonValueBooleanTemp
+}
+
+// GetJsonValueEnum return the enum type of this object
+func (jsonValueBoolean *JsonValueBoolean) GetJsonValueEnum() JsonValueEnum {
+	return JsonValueBooleanType
+}
+
+// JsonValueNumber Represents a numeric JSON value
+type JsonValueNumber struct {
+	tdCommon
+	Value float64 `json:"value"` // The value
+}
+
+// MessageType return the string telegram-type of JsonValueNumber
+func (jsonValueNumber *JsonValueNumber) MessageType() string {
+	return "jsonValueNumber"
+}
+
+// NewJsonValueNumber creates a new JsonValueNumber
+//
+// @param value The value
+func NewJsonValueNumber(value float64) *JsonValueNumber {
+	jsonValueNumberTemp := JsonValueNumber{
+		tdCommon: tdCommon{Type: "jsonValueNumber"},
+		Value:    value,
+	}
+
+	return &jsonValueNumberTemp
+}
+
+// GetJsonValueEnum return the enum type of this object
+func (jsonValueNumber *JsonValueNumber) GetJsonValueEnum() JsonValueEnum {
+	return JsonValueNumberType
+}
+
+// JsonValueString Represents a string JSON value
+type JsonValueString struct {
+	tdCommon
+	Value string `json:"value"` // The value
+}
+
+// MessageType return the string telegram-type of JsonValueString
+func (jsonValueString *JsonValueString) MessageType() string {
+	return "jsonValueString"
+}
+
+// NewJsonValueString creates a new JsonValueString
+//
+// @param value The value
+func NewJsonValueString(value string) *JsonValueString {
+	jsonValueStringTemp := JsonValueString{
+		tdCommon: tdCommon{Type: "jsonValueString"},
+		Value:    value,
+	}
+
+	return &jsonValueStringTemp
+}
+
+// GetJsonValueEnum return the enum type of this object
+func (jsonValueString *JsonValueString) GetJsonValueEnum() JsonValueEnum {
+	return JsonValueStringType
+}
+
+// JsonValueArray Represents a JSON array
+type JsonValueArray struct {
+	tdCommon
+	Values []JsonValue `json:"values"` // The list of array elements
+}
+
+// MessageType return the string telegram-type of JsonValueArray
+func (jsonValueArray *JsonValueArray) MessageType() string {
+	return "jsonValueArray"
+}
+
+// NewJsonValueArray creates a new JsonValueArray
+//
+// @param values The list of array elements
+func NewJsonValueArray(values []JsonValue) *JsonValueArray {
+	jsonValueArrayTemp := JsonValueArray{
+		tdCommon: tdCommon{Type: "jsonValueArray"},
+		Values:   values,
+	}
+
+	return &jsonValueArrayTemp
+}
+
+// GetJsonValueEnum return the enum type of this object
+func (jsonValueArray *JsonValueArray) GetJsonValueEnum() JsonValueEnum {
+	return JsonValueArrayType
+}
+
+// JsonValueObject Represents a JSON object
+type JsonValueObject struct {
+	tdCommon
+	Members []JsonObjectMember `json:"members"` // The list of object members
+}
+
+// MessageType return the string telegram-type of JsonValueObject
+func (jsonValueObject *JsonValueObject) MessageType() string {
+	return "jsonValueObject"
+}
+
+// NewJsonValueObject creates a new JsonValueObject
+//
+// @param members The list of object members
+func NewJsonValueObject(members []JsonObjectMember) *JsonValueObject {
+	jsonValueObjectTemp := JsonValueObject{
+		tdCommon: tdCommon{Type: "jsonValueObject"},
+		Members:  members,
+	}
+
+	return &jsonValueObjectTemp
+}
+
+// GetJsonValueEnum return the enum type of this object
+func (jsonValueObject *JsonValueObject) GetJsonValueEnum() JsonValueEnum {
+	return JsonValueObjectType
 }
 
 // UserPrivacySettingRuleAllowAll A rule to allow all users to do something
@@ -17625,6 +20252,31 @@ func (userPrivacySettingAllowCalls *UserPrivacySettingAllowCalls) GetUserPrivacy
 	return UserPrivacySettingAllowCallsType
 }
 
+// UserPrivacySettingAllowPeerToPeerCalls A privacy setting for managing whether peer-to-peer connections can be used for calls
+type UserPrivacySettingAllowPeerToPeerCalls struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of UserPrivacySettingAllowPeerToPeerCalls
+func (userPrivacySettingAllowPeerToPeerCalls *UserPrivacySettingAllowPeerToPeerCalls) MessageType() string {
+	return "userPrivacySettingAllowPeerToPeerCalls"
+}
+
+// NewUserPrivacySettingAllowPeerToPeerCalls creates a new UserPrivacySettingAllowPeerToPeerCalls
+//
+func NewUserPrivacySettingAllowPeerToPeerCalls() *UserPrivacySettingAllowPeerToPeerCalls {
+	userPrivacySettingAllowPeerToPeerCallsTemp := UserPrivacySettingAllowPeerToPeerCalls{
+		tdCommon: tdCommon{Type: "userPrivacySettingAllowPeerToPeerCalls"},
+	}
+
+	return &userPrivacySettingAllowPeerToPeerCallsTemp
+}
+
+// GetUserPrivacySettingEnum return the enum type of this object
+func (userPrivacySettingAllowPeerToPeerCalls *UserPrivacySettingAllowPeerToPeerCalls) GetUserPrivacySettingEnum() UserPrivacySettingEnum {
+	return UserPrivacySettingAllowPeerToPeerCallsType
+}
+
 // AccountTTL Contains information about the period of inactivity after which the current user's account will automatically be deleted
 type AccountTTL struct {
 	tdCommon
@@ -17648,11 +20300,12 @@ func NewAccountTTL(days int32) *AccountTTL {
 	return &accountTTLTemp
 }
 
-// Session Contains information about one session in a Telegram application used by the current user
+// Session Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order
 type Session struct {
 	tdCommon
 	ID                    JSONInt64 `json:"id"`                      // Session identifier
 	IsCurrent             bool      `json:"is_current"`              // True, if this session is the current session
+	IsPasswordPending     bool      `json:"is_password_pending"`     // True, if a password is needed to complete authorization of the session
 	APIID                 int32     `json:"api_id"`                  // Telegram API identifier, as provided by the application
 	ApplicationName       string    `json:"application_name"`        // Name of the application, as provided by the application
 	ApplicationVersion    string    `json:"application_version"`     // The version of the application, as provided by the application
@@ -17676,6 +20329,7 @@ func (session *Session) MessageType() string {
 //
 // @param iD Session identifier
 // @param isCurrent True, if this session is the current session
+// @param isPasswordPending True, if a password is needed to complete authorization of the session
 // @param aPIID Telegram API identifier, as provided by the application
 // @param applicationName Name of the application, as provided by the application
 // @param applicationVersion The version of the application, as provided by the application
@@ -17688,11 +20342,12 @@ func (session *Session) MessageType() string {
 // @param iP IP address from which the session was created, in human-readable format
 // @param country A two-letter country code for the country from which the session was created, based on the IP address
 // @param region Region code from which the session was created, based on the IP address
-func NewSession(iD JSONInt64, isCurrent bool, aPIID int32, applicationName string, applicationVersion string, isOfficialApplication bool, deviceModel string, platform string, systemVersion string, logInDate int32, lastActiveDate int32, iP string, country string, region string) *Session {
+func NewSession(iD JSONInt64, isCurrent bool, isPasswordPending bool, aPIID int32, applicationName string, applicationVersion string, isOfficialApplication bool, deviceModel string, platform string, systemVersion string, logInDate int32, lastActiveDate int32, iP string, country string, region string) *Session {
 	sessionTemp := Session{
 		tdCommon:              tdCommon{Type: "session"},
 		ID:                    iD,
 		IsCurrent:             isCurrent,
+		IsPasswordPending:     isPasswordPending,
 		APIID:                 aPIID,
 		ApplicationName:       applicationName,
 		ApplicationVersion:    applicationVersion,
@@ -17901,6 +20556,31 @@ func (chatReportReasonPornography *ChatReportReasonPornography) GetChatReportRea
 	return ChatReportReasonPornographyType
 }
 
+// ChatReportReasonChildAbuse The chat has child abuse related content
+type ChatReportReasonChildAbuse struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatReportReasonChildAbuse
+func (chatReportReasonChildAbuse *ChatReportReasonChildAbuse) MessageType() string {
+	return "chatReportReasonChildAbuse"
+}
+
+// NewChatReportReasonChildAbuse creates a new ChatReportReasonChildAbuse
+//
+func NewChatReportReasonChildAbuse() *ChatReportReasonChildAbuse {
+	chatReportReasonChildAbuseTemp := ChatReportReasonChildAbuse{
+		tdCommon: tdCommon{Type: "chatReportReasonChildAbuse"},
+	}
+
+	return &chatReportReasonChildAbuseTemp
+}
+
+// GetChatReportReasonEnum return the enum type of this object
+func (chatReportReasonChildAbuse *ChatReportReasonChildAbuse) GetChatReportReasonEnum() ChatReportReasonEnum {
+	return ChatReportReasonChildAbuseType
+}
+
 // ChatReportReasonCopyright The chat contains copyrighted content
 type ChatReportReasonCopyright struct {
 	tdCommon
@@ -17978,6 +20658,29 @@ func NewPublicMessageLink(link string, hTML string) *PublicMessageLink {
 	}
 
 	return &publicMessageLinkTemp
+}
+
+// FilePart Contains a part of a file
+type FilePart struct {
+	tdCommon
+	Data []byte `json:"data"` // File bytes
+}
+
+// MessageType return the string telegram-type of FilePart
+func (filePart *FilePart) MessageType() string {
+	return "filePart"
+}
+
+// NewFilePart creates a new FilePart
+//
+// @param data File bytes
+func NewFilePart(data []byte) *FilePart {
+	filePartTemp := FilePart{
+		tdCommon: tdCommon{Type: "filePart"},
+		Data:     data,
+	}
+
+	return &filePartTemp
 }
 
 // FileTypeNone The data is not a file
@@ -18500,9 +21203,11 @@ func NewStorageStatistics(size int64, count int32, byChat []StorageStatisticsByC
 // StorageStatisticsFast Contains approximate storage usage statistics, excluding files of unknown file type
 type StorageStatisticsFast struct {
 	tdCommon
-	FilesSize    int64 `json:"files_size"`    // Approximate total size of files
-	FileCount    int32 `json:"file_count"`    // Approximate number of files
-	DatabaseSize int64 `json:"database_size"` // Size of the database
+	FilesSize                int64 `json:"files_size"`                  // Approximate total size of files
+	FileCount                int32 `json:"file_count"`                  // Approximate number of files
+	DatabaseSize             int64 `json:"database_size"`               // Size of the database
+	LanguagePackDatabaseSize int64 `json:"language_pack_database_size"` // Size of the language pack database
+	LogSize                  int64 `json:"log_size"`                    // Size of the TDLib internal log
 }
 
 // MessageType return the string telegram-type of StorageStatisticsFast
@@ -18515,15 +21220,42 @@ func (storageStatisticsFast *StorageStatisticsFast) MessageType() string {
 // @param filesSize Approximate total size of files
 // @param fileCount Approximate number of files
 // @param databaseSize Size of the database
-func NewStorageStatisticsFast(filesSize int64, fileCount int32, databaseSize int64) *StorageStatisticsFast {
+// @param languagePackDatabaseSize Size of the language pack database
+// @param logSize Size of the TDLib internal log
+func NewStorageStatisticsFast(filesSize int64, fileCount int32, databaseSize int64, languagePackDatabaseSize int64, logSize int64) *StorageStatisticsFast {
 	storageStatisticsFastTemp := StorageStatisticsFast{
-		tdCommon:     tdCommon{Type: "storageStatisticsFast"},
-		FilesSize:    filesSize,
-		FileCount:    fileCount,
-		DatabaseSize: databaseSize,
+		tdCommon:                 tdCommon{Type: "storageStatisticsFast"},
+		FilesSize:                filesSize,
+		FileCount:                fileCount,
+		DatabaseSize:             databaseSize,
+		LanguagePackDatabaseSize: languagePackDatabaseSize,
+		LogSize:                  logSize,
 	}
 
 	return &storageStatisticsFastTemp
+}
+
+// DatabaseStatistics Contains database statistics
+type DatabaseStatistics struct {
+	tdCommon
+	Statistics string `json:"statistics"` // Database statistics in an unspecified human-readable format
+}
+
+// MessageType return the string telegram-type of DatabaseStatistics
+func (databaseStatistics *DatabaseStatistics) MessageType() string {
+	return "databaseStatistics"
+}
+
+// NewDatabaseStatistics creates a new DatabaseStatistics
+//
+// @param statistics Database statistics in an unspecified human-readable format
+func NewDatabaseStatistics(statistics string) *DatabaseStatistics {
+	databaseStatisticsTemp := DatabaseStatistics{
+		tdCommon:   tdCommon{Type: "databaseStatistics"},
+		Statistics: statistics,
+	}
+
+	return &databaseStatisticsTemp
 }
 
 // NetworkTypeNone The network is not available
@@ -19715,9 +22447,7 @@ func (updateAuthorizationState *UpdateAuthorizationState) GetUpdateEnum() Update
 // UpdateNewMessage A new message was received; can also be an outgoing message
 type UpdateNewMessage struct {
 	tdCommon
-	Message             *Message `json:"message"`              // The new message
-	DisableNotification bool     `json:"disable_notification"` // True, if this message must not generate a notification
-	ContainsMention     bool     `json:"contains_mention"`     // True, if the message contains a mention of the current user
+	Message *Message `json:"message"` // The new message
 }
 
 // MessageType return the string telegram-type of UpdateNewMessage
@@ -19728,14 +22458,10 @@ func (updateNewMessage *UpdateNewMessage) MessageType() string {
 // NewUpdateNewMessage creates a new UpdateNewMessage
 //
 // @param message The new message
-// @param disableNotification True, if this message must not generate a notification
-// @param containsMention True, if the message contains a mention of the current user
-func NewUpdateNewMessage(message *Message, disableNotification bool, containsMention bool) *UpdateNewMessage {
+func NewUpdateNewMessage(message *Message) *UpdateNewMessage {
 	updateNewMessageTemp := UpdateNewMessage{
-		tdCommon:            tdCommon{Type: "updateNewMessage"},
-		Message:             message,
-		DisableNotification: disableNotification,
-		ContainsMention:     containsMention,
+		tdCommon: tdCommon{Type: "updateNewMessage"},
+		Message:  message,
 	}
 
 	return &updateNewMessageTemp
@@ -20197,7 +22923,7 @@ func (updateChatLastMessage *UpdateChatLastMessage) GetUpdateEnum() UpdateEnum {
 	return UpdateChatLastMessageType
 }
 
-// UpdateChatOrder The order of the chat in the chats list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
+// UpdateChatOrder The order of the chat in the chat list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent
 type UpdateChatOrder struct {
 	tdCommon
 	ChatID int64     `json:"chat_id"` // Chat identifier
@@ -20541,6 +23267,37 @@ func (updateScopeNotificationSettings *UpdateScopeNotificationSettings) GetUpdat
 	return UpdateScopeNotificationSettingsType
 }
 
+// UpdateChatPinnedMessage The chat pinned message was changed
+type UpdateChatPinnedMessage struct {
+	tdCommon
+	ChatID          int64 `json:"chat_id"`           // Chat identifier
+	PinnedMessageID int64 `json:"pinned_message_id"` // The new identifier of the pinned message; 0 if there is no pinned message in the chat
+}
+
+// MessageType return the string telegram-type of UpdateChatPinnedMessage
+func (updateChatPinnedMessage *UpdateChatPinnedMessage) MessageType() string {
+	return "updateChatPinnedMessage"
+}
+
+// NewUpdateChatPinnedMessage creates a new UpdateChatPinnedMessage
+//
+// @param chatID Chat identifier
+// @param pinnedMessageID The new identifier of the pinned message; 0 if there is no pinned message in the chat
+func NewUpdateChatPinnedMessage(chatID int64, pinnedMessageID int64) *UpdateChatPinnedMessage {
+	updateChatPinnedMessageTemp := UpdateChatPinnedMessage{
+		tdCommon:        tdCommon{Type: "updateChatPinnedMessage"},
+		ChatID:          chatID,
+		PinnedMessageID: pinnedMessageID,
+	}
+
+	return &updateChatPinnedMessageTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatPinnedMessage *UpdateChatPinnedMessage) GetUpdateEnum() UpdateEnum {
+	return UpdateChatPinnedMessageType
+}
+
 // UpdateChatReplyMarkup The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
 type UpdateChatReplyMarkup struct {
 	tdCommon
@@ -20606,12 +23363,219 @@ func (updateChatDraftMessage *UpdateChatDraftMessage) GetUpdateEnum() UpdateEnum
 	return UpdateChatDraftMessageType
 }
 
+// UpdateChatOnlineMemberCount The number of online group members has changed. This update with non-zero count is sent only for currently opened chats. There is no guarantee that it will be sent just after the count has changed
+type UpdateChatOnlineMemberCount struct {
+	tdCommon
+	ChatID            int64 `json:"chat_id"`             // Identifier of the chat
+	OnlineMemberCount int32 `json:"online_member_count"` // New number of online members in the chat, or 0 if unknown
+}
+
+// MessageType return the string telegram-type of UpdateChatOnlineMemberCount
+func (updateChatOnlineMemberCount *UpdateChatOnlineMemberCount) MessageType() string {
+	return "updateChatOnlineMemberCount"
+}
+
+// NewUpdateChatOnlineMemberCount creates a new UpdateChatOnlineMemberCount
+//
+// @param chatID Identifier of the chat
+// @param onlineMemberCount New number of online members in the chat, or 0 if unknown
+func NewUpdateChatOnlineMemberCount(chatID int64, onlineMemberCount int32) *UpdateChatOnlineMemberCount {
+	updateChatOnlineMemberCountTemp := UpdateChatOnlineMemberCount{
+		tdCommon:          tdCommon{Type: "updateChatOnlineMemberCount"},
+		ChatID:            chatID,
+		OnlineMemberCount: onlineMemberCount,
+	}
+
+	return &updateChatOnlineMemberCountTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatOnlineMemberCount *UpdateChatOnlineMemberCount) GetUpdateEnum() UpdateEnum {
+	return UpdateChatOnlineMemberCountType
+}
+
+// UpdateNotification A notification was changed
+type UpdateNotification struct {
+	tdCommon
+	NotificationGroupID int32         `json:"notification_group_id"` // Unique notification group identifier
+	Notification        *Notification `json:"notification"`          // Changed notification
+}
+
+// MessageType return the string telegram-type of UpdateNotification
+func (updateNotification *UpdateNotification) MessageType() string {
+	return "updateNotification"
+}
+
+// NewUpdateNotification creates a new UpdateNotification
+//
+// @param notificationGroupID Unique notification group identifier
+// @param notification Changed notification
+func NewUpdateNotification(notificationGroupID int32, notification *Notification) *UpdateNotification {
+	updateNotificationTemp := UpdateNotification{
+		tdCommon:            tdCommon{Type: "updateNotification"},
+		NotificationGroupID: notificationGroupID,
+		Notification:        notification,
+	}
+
+	return &updateNotificationTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateNotification *UpdateNotification) GetUpdateEnum() UpdateEnum {
+	return UpdateNotificationType
+}
+
+// UpdateNotificationGroup A list of active notifications in a notification group has changed
+type UpdateNotificationGroup struct {
+	tdCommon
+	NotificationGroupID        int32                 `json:"notification_group_id"`         // Unique notification group identifier
+	Type                       NotificationGroupType `json:"type"`                          // New type of the notification group
+	ChatID                     int64                 `json:"chat_id"`                       // Identifier of a chat to which all notifications in the group belong
+	NotificationSettingsChatID int64                 `json:"notification_settings_chat_id"` // Chat identifier, which notification settings must be applied to the added notifications
+	IsSilent                   bool                  `json:"is_silent"`                     // True, if the notifications should be shown without sound
+	TotalCount                 int32                 `json:"total_count"`                   // Total number of unread notifications in the group, can be bigger than number of active notifications
+	AddedNotifications         []Notification        `json:"added_notifications"`           // List of added group notifications, sorted by notification ID
+	RemovedNotificationIDs     []int32               `json:"removed_notification_ids"`      // Identifiers of removed group notifications, sorted by notification ID
+}
+
+// MessageType return the string telegram-type of UpdateNotificationGroup
+func (updateNotificationGroup *UpdateNotificationGroup) MessageType() string {
+	return "updateNotificationGroup"
+}
+
+// NewUpdateNotificationGroup creates a new UpdateNotificationGroup
+//
+// @param notificationGroupID Unique notification group identifier
+// @param typeParam New type of the notification group
+// @param chatID Identifier of a chat to which all notifications in the group belong
+// @param notificationSettingsChatID Chat identifier, which notification settings must be applied to the added notifications
+// @param isSilent True, if the notifications should be shown without sound
+// @param totalCount Total number of unread notifications in the group, can be bigger than number of active notifications
+// @param addedNotifications List of added group notifications, sorted by notification ID
+// @param removedNotificationIDs Identifiers of removed group notifications, sorted by notification ID
+func NewUpdateNotificationGroup(notificationGroupID int32, typeParam NotificationGroupType, chatID int64, notificationSettingsChatID int64, isSilent bool, totalCount int32, addedNotifications []Notification, removedNotificationIDs []int32) *UpdateNotificationGroup {
+	updateNotificationGroupTemp := UpdateNotificationGroup{
+		tdCommon:                   tdCommon{Type: "updateNotificationGroup"},
+		NotificationGroupID:        notificationGroupID,
+		Type:                       typeParam,
+		ChatID:                     chatID,
+		NotificationSettingsChatID: notificationSettingsChatID,
+		IsSilent:                   isSilent,
+		TotalCount:                 totalCount,
+		AddedNotifications:         addedNotifications,
+		RemovedNotificationIDs:     removedNotificationIDs,
+	}
+
+	return &updateNotificationGroupTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (updateNotificationGroup *UpdateNotificationGroup) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		NotificationGroupID        int32          `json:"notification_group_id"`         // Unique notification group identifier
+		ChatID                     int64          `json:"chat_id"`                       // Identifier of a chat to which all notifications in the group belong
+		NotificationSettingsChatID int64          `json:"notification_settings_chat_id"` // Chat identifier, which notification settings must be applied to the added notifications
+		IsSilent                   bool           `json:"is_silent"`                     // True, if the notifications should be shown without sound
+		TotalCount                 int32          `json:"total_count"`                   // Total number of unread notifications in the group, can be bigger than number of active notifications
+		AddedNotifications         []Notification `json:"added_notifications"`           // List of added group notifications, sorted by notification ID
+		RemovedNotificationIDs     []int32        `json:"removed_notification_ids"`      // Identifiers of removed group notifications, sorted by notification ID
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	updateNotificationGroup.tdCommon = tempObj.tdCommon
+	updateNotificationGroup.NotificationGroupID = tempObj.NotificationGroupID
+	updateNotificationGroup.ChatID = tempObj.ChatID
+	updateNotificationGroup.NotificationSettingsChatID = tempObj.NotificationSettingsChatID
+	updateNotificationGroup.IsSilent = tempObj.IsSilent
+	updateNotificationGroup.TotalCount = tempObj.TotalCount
+	updateNotificationGroup.AddedNotifications = tempObj.AddedNotifications
+	updateNotificationGroup.RemovedNotificationIDs = tempObj.RemovedNotificationIDs
+
+	fieldType, _ := unmarshalNotificationGroupType(objMap["type"])
+	updateNotificationGroup.Type = fieldType
+
+	return nil
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateNotificationGroup *UpdateNotificationGroup) GetUpdateEnum() UpdateEnum {
+	return UpdateNotificationGroupType
+}
+
+// UpdateActiveNotifications Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
+type UpdateActiveNotifications struct {
+	tdCommon
+	Groups []NotificationGroup `json:"groups"` // Lists of active notification groups
+}
+
+// MessageType return the string telegram-type of UpdateActiveNotifications
+func (updateActiveNotifications *UpdateActiveNotifications) MessageType() string {
+	return "updateActiveNotifications"
+}
+
+// NewUpdateActiveNotifications creates a new UpdateActiveNotifications
+//
+// @param groups Lists of active notification groups
+func NewUpdateActiveNotifications(groups []NotificationGroup) *UpdateActiveNotifications {
+	updateActiveNotificationsTemp := UpdateActiveNotifications{
+		tdCommon: tdCommon{Type: "updateActiveNotifications"},
+		Groups:   groups,
+	}
+
+	return &updateActiveNotificationsTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateActiveNotifications *UpdateActiveNotifications) GetUpdateEnum() UpdateEnum {
+	return UpdateActiveNotificationsType
+}
+
+// UpdateHavePendingNotifications Describes, whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications
+type UpdateHavePendingNotifications struct {
+	tdCommon
+	HaveDelayedNotifications    bool `json:"have_delayed_notifications"`    // True, if there are some delayed notification updates, which will be sent soon
+	HaveUnreceivedNotifications bool `json:"have_unreceived_notifications"` // True, if there can be some yet unreceived notifications, which are being fetched from the server
+}
+
+// MessageType return the string telegram-type of UpdateHavePendingNotifications
+func (updateHavePendingNotifications *UpdateHavePendingNotifications) MessageType() string {
+	return "updateHavePendingNotifications"
+}
+
+// NewUpdateHavePendingNotifications creates a new UpdateHavePendingNotifications
+//
+// @param haveDelayedNotifications True, if there are some delayed notification updates, which will be sent soon
+// @param haveUnreceivedNotifications True, if there can be some yet unreceived notifications, which are being fetched from the server
+func NewUpdateHavePendingNotifications(haveDelayedNotifications bool, haveUnreceivedNotifications bool) *UpdateHavePendingNotifications {
+	updateHavePendingNotificationsTemp := UpdateHavePendingNotifications{
+		tdCommon:                    tdCommon{Type: "updateHavePendingNotifications"},
+		HaveDelayedNotifications:    haveDelayedNotifications,
+		HaveUnreceivedNotifications: haveUnreceivedNotifications,
+	}
+
+	return &updateHavePendingNotificationsTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateHavePendingNotifications *UpdateHavePendingNotifications) GetUpdateEnum() UpdateEnum {
+	return UpdateHavePendingNotificationsType
+}
+
 // UpdateDeleteMessages Some messages were deleted
 type UpdateDeleteMessages struct {
 	tdCommon
 	ChatID      int64   `json:"chat_id"`      // Chat identifier
 	MessageIDs  []int64 `json:"message_ids"`  // Identifiers of the deleted messages
-	IsPermanent bool    `json:"is_permanent"` // True, if the messages are permanently deleted by a user (as opposed to just becoming unaccessible)
+	IsPermanent bool    `json:"is_permanent"` // True, if the messages are permanently deleted by a user (as opposed to just becoming inaccessible)
 	FromCache   bool    `json:"from_cache"`   // True, if the messages are deleted only from the cache and can possibly be retrieved again in the future
 }
 
@@ -20624,7 +23588,7 @@ func (updateDeleteMessages *UpdateDeleteMessages) MessageType() string {
 //
 // @param chatID Chat identifier
 // @param messageIDs Identifiers of the deleted messages
-// @param isPermanent True, if the messages are permanently deleted by a user (as opposed to just becoming unaccessible)
+// @param isPermanent True, if the messages are permanently deleted by a user (as opposed to just becoming inaccessible)
 // @param fromCache True, if the messages are deleted only from the cache and can possibly be retrieved again in the future
 func NewUpdateDeleteMessages(chatID int64, messageIDs []int64, isPermanent bool, fromCache bool) *UpdateDeleteMessages {
 	updateDeleteMessagesTemp := UpdateDeleteMessages{
@@ -21962,6 +24926,184 @@ func (updateNewCustomQuery *UpdateNewCustomQuery) GetUpdateEnum() UpdateEnum {
 	return UpdateNewCustomQueryType
 }
 
+// UpdatePoll Information about a poll was updated; for bots only
+type UpdatePoll struct {
+	tdCommon
+	Poll *Poll `json:"poll"` // New data about the poll
+}
+
+// MessageType return the string telegram-type of UpdatePoll
+func (updatePoll *UpdatePoll) MessageType() string {
+	return "updatePoll"
+}
+
+// NewUpdatePoll creates a new UpdatePoll
+//
+// @param poll New data about the poll
+func NewUpdatePoll(poll *Poll) *UpdatePoll {
+	updatePollTemp := UpdatePoll{
+		tdCommon: tdCommon{Type: "updatePoll"},
+		Poll:     poll,
+	}
+
+	return &updatePollTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updatePoll *UpdatePoll) GetUpdateEnum() UpdateEnum {
+	return UpdatePollType
+}
+
+// Updates Contains a list of updates
+type Updates struct {
+	tdCommon
+	Updates []Update `json:"updates"` // List of updates
+}
+
+// MessageType return the string telegram-type of Updates
+func (updates *Updates) MessageType() string {
+	return "updates"
+}
+
+// NewUpdates creates a new Updates
+//
+// @param updates List of updates
+func NewUpdates(updates []Update) *Updates {
+	updatesTemp := Updates{
+		tdCommon: tdCommon{Type: "updates"},
+		Updates:  updates,
+	}
+
+	return &updatesTemp
+}
+
+// LogStreamDefault The log is written to stderr or an OS specific log
+type LogStreamDefault struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of LogStreamDefault
+func (logStreamDefault *LogStreamDefault) MessageType() string {
+	return "logStreamDefault"
+}
+
+// NewLogStreamDefault creates a new LogStreamDefault
+//
+func NewLogStreamDefault() *LogStreamDefault {
+	logStreamDefaultTemp := LogStreamDefault{
+		tdCommon: tdCommon{Type: "logStreamDefault"},
+	}
+
+	return &logStreamDefaultTemp
+}
+
+// GetLogStreamEnum return the enum type of this object
+func (logStreamDefault *LogStreamDefault) GetLogStreamEnum() LogStreamEnum {
+	return LogStreamDefaultType
+}
+
+// LogStreamFile The log is written to a file
+type LogStreamFile struct {
+	tdCommon
+	Path        string `json:"path"`          // Path to the file to where the internal TDLib log will be written
+	MaxFileSize int64  `json:"max_file_size"` // Maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+}
+
+// MessageType return the string telegram-type of LogStreamFile
+func (logStreamFile *LogStreamFile) MessageType() string {
+	return "logStreamFile"
+}
+
+// NewLogStreamFile creates a new LogStreamFile
+//
+// @param path Path to the file to where the internal TDLib log will be written
+// @param maxFileSize Maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+func NewLogStreamFile(path string, maxFileSize int64) *LogStreamFile {
+	logStreamFileTemp := LogStreamFile{
+		tdCommon:    tdCommon{Type: "logStreamFile"},
+		Path:        path,
+		MaxFileSize: maxFileSize,
+	}
+
+	return &logStreamFileTemp
+}
+
+// GetLogStreamEnum return the enum type of this object
+func (logStreamFile *LogStreamFile) GetLogStreamEnum() LogStreamEnum {
+	return LogStreamFileType
+}
+
+// LogStreamEmpty The log is written nowhere
+type LogStreamEmpty struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of LogStreamEmpty
+func (logStreamEmpty *LogStreamEmpty) MessageType() string {
+	return "logStreamEmpty"
+}
+
+// NewLogStreamEmpty creates a new LogStreamEmpty
+//
+func NewLogStreamEmpty() *LogStreamEmpty {
+	logStreamEmptyTemp := LogStreamEmpty{
+		tdCommon: tdCommon{Type: "logStreamEmpty"},
+	}
+
+	return &logStreamEmptyTemp
+}
+
+// GetLogStreamEnum return the enum type of this object
+func (logStreamEmpty *LogStreamEmpty) GetLogStreamEnum() LogStreamEnum {
+	return LogStreamEmptyType
+}
+
+// LogVerbosityLevel Contains a TDLib internal log verbosity level
+type LogVerbosityLevel struct {
+	tdCommon
+	VerbosityLevel int32 `json:"verbosity_level"` // Log verbosity level
+}
+
+// MessageType return the string telegram-type of LogVerbosityLevel
+func (logVerbosityLevel *LogVerbosityLevel) MessageType() string {
+	return "logVerbosityLevel"
+}
+
+// NewLogVerbosityLevel creates a new LogVerbosityLevel
+//
+// @param verbosityLevel Log verbosity level
+func NewLogVerbosityLevel(verbosityLevel int32) *LogVerbosityLevel {
+	logVerbosityLevelTemp := LogVerbosityLevel{
+		tdCommon:       tdCommon{Type: "logVerbosityLevel"},
+		VerbosityLevel: verbosityLevel,
+	}
+
+	return &logVerbosityLevelTemp
+}
+
+// LogTags Contains a list of available TDLib internal log tags
+type LogTags struct {
+	tdCommon
+	Tags []string `json:"tags"` // List of log tags
+}
+
+// MessageType return the string telegram-type of LogTags
+func (logTags *LogTags) MessageType() string {
+	return "logTags"
+}
+
+// NewLogTags creates a new LogTags
+//
+// @param tags List of log tags
+func NewLogTags(tags []string) *LogTags {
+	logTagsTemp := LogTags{
+		tdCommon: tdCommon{Type: "logTags"},
+		Tags:     tags,
+	}
+
+	return &logTagsTemp
+}
+
 // TestInt A simple object containing a number; for testing only
 type TestInt struct {
 	tdCommon
@@ -22533,7 +25675,7 @@ func unmarshalSecretChatState(rawMsg *json.RawMessage) (SecretChatState, error) 
 	}
 }
 
-func unmarshalMessageForwardInfo(rawMsg *json.RawMessage) (MessageForwardInfo, error) {
+func unmarshalMessageForwardOrigin(rawMsg *json.RawMessage) (MessageForwardOrigin, error) {
 
 	if rawMsg == nil {
 		return nil, nil
@@ -22544,16 +25686,21 @@ func unmarshalMessageForwardInfo(rawMsg *json.RawMessage) (MessageForwardInfo, e
 		return nil, err
 	}
 
-	switch MessageForwardInfoEnum(objMap["@type"].(string)) {
-	case MessageForwardedFromUserType:
-		var messageForwardedFromUser MessageForwardedFromUser
-		err := json.Unmarshal(*rawMsg, &messageForwardedFromUser)
-		return &messageForwardedFromUser, err
+	switch MessageForwardOriginEnum(objMap["@type"].(string)) {
+	case MessageForwardOriginUserType:
+		var messageForwardOriginUser MessageForwardOriginUser
+		err := json.Unmarshal(*rawMsg, &messageForwardOriginUser)
+		return &messageForwardOriginUser, err
 
-	case MessageForwardedPostType:
-		var messageForwardedPost MessageForwardedPost
-		err := json.Unmarshal(*rawMsg, &messageForwardedPost)
-		return &messageForwardedPost, err
+	case MessageForwardOriginHiddenUserType:
+		var messageForwardOriginHiddenUser MessageForwardOriginHiddenUser
+		err := json.Unmarshal(*rawMsg, &messageForwardOriginHiddenUser)
+		return &messageForwardOriginHiddenUser, err
+
+	case MessageForwardOriginChannelType:
+		var messageForwardOriginChannel MessageForwardOriginChannel
+		err := json.Unmarshal(*rawMsg, &messageForwardOriginChannel)
+		return &messageForwardOriginChannel, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -22608,6 +25755,11 @@ func unmarshalNotificationSettingsScope(rawMsg *json.RawMessage) (NotificationSe
 		var notificationSettingsScopeGroupChats NotificationSettingsScopeGroupChats
 		err := json.Unmarshal(*rawMsg, &notificationSettingsScopeGroupChats)
 		return &notificationSettingsScopeGroupChats, err
+
+	case NotificationSettingsScopeChannelChatsType:
+		var notificationSettingsScopeChannelChats NotificationSettingsScopeChannelChats
+		err := json.Unmarshal(*rawMsg, &notificationSettingsScopeChannelChats)
+		return &notificationSettingsScopeChannelChats, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -22814,10 +25966,104 @@ func unmarshalRichText(rawMsg *json.RawMessage) (RichText, error) {
 		err := json.Unmarshal(*rawMsg, &richTextEmailAddress)
 		return &richTextEmailAddress, err
 
+	case RichTextSubscriptType:
+		var richTextSubscript RichTextSubscript
+		err := json.Unmarshal(*rawMsg, &richTextSubscript)
+		return &richTextSubscript, err
+
+	case RichTextSuperscriptType:
+		var richTextSuperscript RichTextSuperscript
+		err := json.Unmarshal(*rawMsg, &richTextSuperscript)
+		return &richTextSuperscript, err
+
+	case RichTextMarkedType:
+		var richTextMarked RichTextMarked
+		err := json.Unmarshal(*rawMsg, &richTextMarked)
+		return &richTextMarked, err
+
+	case RichTextPhoneNumberType:
+		var richTextPhoneNumber RichTextPhoneNumber
+		err := json.Unmarshal(*rawMsg, &richTextPhoneNumber)
+		return &richTextPhoneNumber, err
+
+	case RichTextIconType:
+		var richTextIcon RichTextIcon
+		err := json.Unmarshal(*rawMsg, &richTextIcon)
+		return &richTextIcon, err
+
+	case RichTextAnchorType:
+		var richTextAnchor RichTextAnchor
+		err := json.Unmarshal(*rawMsg, &richTextAnchor)
+		return &richTextAnchor, err
+
 	case RichTextsType:
 		var richTexts RichTexts
 		err := json.Unmarshal(*rawMsg, &richTexts)
 		return &richTexts, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalPageBlockHorizontalAlignment(rawMsg *json.RawMessage) (PageBlockHorizontalAlignment, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch PageBlockHorizontalAlignmentEnum(objMap["@type"].(string)) {
+	case PageBlockHorizontalAlignmentLeftType:
+		var pageBlockHorizontalAlignmentLeft PageBlockHorizontalAlignmentLeft
+		err := json.Unmarshal(*rawMsg, &pageBlockHorizontalAlignmentLeft)
+		return &pageBlockHorizontalAlignmentLeft, err
+
+	case PageBlockHorizontalAlignmentCenterType:
+		var pageBlockHorizontalAlignmentCenter PageBlockHorizontalAlignmentCenter
+		err := json.Unmarshal(*rawMsg, &pageBlockHorizontalAlignmentCenter)
+		return &pageBlockHorizontalAlignmentCenter, err
+
+	case PageBlockHorizontalAlignmentRightType:
+		var pageBlockHorizontalAlignmentRight PageBlockHorizontalAlignmentRight
+		err := json.Unmarshal(*rawMsg, &pageBlockHorizontalAlignmentRight)
+		return &pageBlockHorizontalAlignmentRight, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalPageBlockVerticalAlignment(rawMsg *json.RawMessage) (PageBlockVerticalAlignment, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch PageBlockVerticalAlignmentEnum(objMap["@type"].(string)) {
+	case PageBlockVerticalAlignmentTopType:
+		var pageBlockVerticalAlignmentTop PageBlockVerticalAlignmentTop
+		err := json.Unmarshal(*rawMsg, &pageBlockVerticalAlignmentTop)
+		return &pageBlockVerticalAlignmentTop, err
+
+	case PageBlockVerticalAlignmentMiddleType:
+		var pageBlockVerticalAlignmentMiddle PageBlockVerticalAlignmentMiddle
+		err := json.Unmarshal(*rawMsg, &pageBlockVerticalAlignmentMiddle)
+		return &pageBlockVerticalAlignmentMiddle, err
+
+	case PageBlockVerticalAlignmentBottomType:
+		var pageBlockVerticalAlignmentBottom PageBlockVerticalAlignmentBottom
+		err := json.Unmarshal(*rawMsg, &pageBlockVerticalAlignmentBottom)
+		return &pageBlockVerticalAlignmentBottom, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -22860,6 +26106,11 @@ func unmarshalPageBlock(rawMsg *json.RawMessage) (PageBlock, error) {
 		var pageBlockSubheader PageBlockSubheader
 		err := json.Unmarshal(*rawMsg, &pageBlockSubheader)
 		return &pageBlockSubheader, err
+
+	case PageBlockKickerType:
+		var pageBlockKicker PageBlockKicker
+		err := json.Unmarshal(*rawMsg, &pageBlockKicker)
+		return &pageBlockKicker, err
 
 	case PageBlockParagraphType:
 		var pageBlockParagraph PageBlockParagraph
@@ -22950,6 +26201,26 @@ func unmarshalPageBlock(rawMsg *json.RawMessage) (PageBlock, error) {
 		var pageBlockChatLink PageBlockChatLink
 		err := json.Unmarshal(*rawMsg, &pageBlockChatLink)
 		return &pageBlockChatLink, err
+
+	case PageBlockTableType:
+		var pageBlockTable PageBlockTable
+		err := json.Unmarshal(*rawMsg, &pageBlockTable)
+		return &pageBlockTable, err
+
+	case PageBlockDetailsType:
+		var pageBlockDetails PageBlockDetails
+		err := json.Unmarshal(*rawMsg, &pageBlockDetails)
+		return &pageBlockDetails, err
+
+	case PageBlockRelatedArticlesType:
+		var pageBlockRelatedArticles PageBlockRelatedArticles
+		err := json.Unmarshal(*rawMsg, &pageBlockRelatedArticles)
+		return &pageBlockRelatedArticles, err
+
+	case PageBlockMapType:
+		var pageBlockMap PageBlockMap
+		err := json.Unmarshal(*rawMsg, &pageBlockMap)
+		return &pageBlockMap, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -23450,6 +26721,11 @@ func unmarshalMessageContent(rawMsg *json.RawMessage) (MessageContent, error) {
 		err := json.Unmarshal(*rawMsg, &messageGame)
 		return &messageGame, err
 
+	case MessagePollType:
+		var messagePoll MessagePoll
+		err := json.Unmarshal(*rawMsg, &messagePoll)
+		return &messagePoll, err
+
 	case MessageInvoiceType:
 		var messageInvoice MessageInvoice
 		err := json.Unmarshal(*rawMsg, &messageInvoice)
@@ -23743,6 +27019,11 @@ func unmarshalInputMessageContent(rawMsg *json.RawMessage) (InputMessageContent,
 		var inputMessageInvoice InputMessageInvoice
 		err := json.Unmarshal(*rawMsg, &inputMessageInvoice)
 		return &inputMessageInvoice, err
+
+	case InputMessagePollType:
+		var inputMessagePoll InputMessagePoll
+		err := json.Unmarshal(*rawMsg, &inputMessagePoll)
+		return &inputMessagePoll, err
 
 	case InputMessageForwardedType:
 		var inputMessageForwarded InputMessageForwarded
@@ -24401,10 +27682,10 @@ func unmarshalDeviceToken(rawMsg *json.RawMessage) (DeviceToken, error) {
 	}
 
 	switch DeviceTokenEnum(objMap["@type"].(string)) {
-	case DeviceTokenGoogleCloudMessagingType:
-		var deviceTokenGoogleCloudMessaging DeviceTokenGoogleCloudMessaging
-		err := json.Unmarshal(*rawMsg, &deviceTokenGoogleCloudMessaging)
-		return &deviceTokenGoogleCloudMessaging, err
+	case DeviceTokenFirebaseCloudMessagingType:
+		var deviceTokenFirebaseCloudMessaging DeviceTokenFirebaseCloudMessaging
+		err := json.Unmarshal(*rawMsg, &deviceTokenFirebaseCloudMessaging)
+		return &deviceTokenFirebaseCloudMessaging, err
 
 	case DeviceTokenApplePushType:
 		var deviceTokenApplePush DeviceTokenApplePush
@@ -24503,6 +27784,227 @@ func unmarshalCheckChatUsernameResult(rawMsg *json.RawMessage) (CheckChatUsernam
 	}
 }
 
+func unmarshalPushMessageContent(rawMsg *json.RawMessage) (PushMessageContent, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch PushMessageContentEnum(objMap["@type"].(string)) {
+	case PushMessageContentHiddenType:
+		var pushMessageContentHidden PushMessageContentHidden
+		err := json.Unmarshal(*rawMsg, &pushMessageContentHidden)
+		return &pushMessageContentHidden, err
+
+	case PushMessageContentAnimationType:
+		var pushMessageContentAnimation PushMessageContentAnimation
+		err := json.Unmarshal(*rawMsg, &pushMessageContentAnimation)
+		return &pushMessageContentAnimation, err
+
+	case PushMessageContentAudioType:
+		var pushMessageContentAudio PushMessageContentAudio
+		err := json.Unmarshal(*rawMsg, &pushMessageContentAudio)
+		return &pushMessageContentAudio, err
+
+	case PushMessageContentContactType:
+		var pushMessageContentContact PushMessageContentContact
+		err := json.Unmarshal(*rawMsg, &pushMessageContentContact)
+		return &pushMessageContentContact, err
+
+	case PushMessageContentContactRegisteredType:
+		var pushMessageContentContactRegistered PushMessageContentContactRegistered
+		err := json.Unmarshal(*rawMsg, &pushMessageContentContactRegistered)
+		return &pushMessageContentContactRegistered, err
+
+	case PushMessageContentDocumentType:
+		var pushMessageContentDocument PushMessageContentDocument
+		err := json.Unmarshal(*rawMsg, &pushMessageContentDocument)
+		return &pushMessageContentDocument, err
+
+	case PushMessageContentGameType:
+		var pushMessageContentGame PushMessageContentGame
+		err := json.Unmarshal(*rawMsg, &pushMessageContentGame)
+		return &pushMessageContentGame, err
+
+	case PushMessageContentGameScoreType:
+		var pushMessageContentGameScore PushMessageContentGameScore
+		err := json.Unmarshal(*rawMsg, &pushMessageContentGameScore)
+		return &pushMessageContentGameScore, err
+
+	case PushMessageContentInvoiceType:
+		var pushMessageContentInvoice PushMessageContentInvoice
+		err := json.Unmarshal(*rawMsg, &pushMessageContentInvoice)
+		return &pushMessageContentInvoice, err
+
+	case PushMessageContentLocationType:
+		var pushMessageContentLocation PushMessageContentLocation
+		err := json.Unmarshal(*rawMsg, &pushMessageContentLocation)
+		return &pushMessageContentLocation, err
+
+	case PushMessageContentPhotoType:
+		var pushMessageContentPhoto PushMessageContentPhoto
+		err := json.Unmarshal(*rawMsg, &pushMessageContentPhoto)
+		return &pushMessageContentPhoto, err
+
+	case PushMessageContentPollType:
+		var pushMessageContentPoll PushMessageContentPoll
+		err := json.Unmarshal(*rawMsg, &pushMessageContentPoll)
+		return &pushMessageContentPoll, err
+
+	case PushMessageContentScreenshotTakenType:
+		var pushMessageContentScreenshotTaken PushMessageContentScreenshotTaken
+		err := json.Unmarshal(*rawMsg, &pushMessageContentScreenshotTaken)
+		return &pushMessageContentScreenshotTaken, err
+
+	case PushMessageContentStickerType:
+		var pushMessageContentSticker PushMessageContentSticker
+		err := json.Unmarshal(*rawMsg, &pushMessageContentSticker)
+		return &pushMessageContentSticker, err
+
+	case PushMessageContentTextType:
+		var pushMessageContentText PushMessageContentText
+		err := json.Unmarshal(*rawMsg, &pushMessageContentText)
+		return &pushMessageContentText, err
+
+	case PushMessageContentVideoType:
+		var pushMessageContentVideo PushMessageContentVideo
+		err := json.Unmarshal(*rawMsg, &pushMessageContentVideo)
+		return &pushMessageContentVideo, err
+
+	case PushMessageContentVideoNoteType:
+		var pushMessageContentVideoNote PushMessageContentVideoNote
+		err := json.Unmarshal(*rawMsg, &pushMessageContentVideoNote)
+		return &pushMessageContentVideoNote, err
+
+	case PushMessageContentVoiceNoteType:
+		var pushMessageContentVoiceNote PushMessageContentVoiceNote
+		err := json.Unmarshal(*rawMsg, &pushMessageContentVoiceNote)
+		return &pushMessageContentVoiceNote, err
+
+	case PushMessageContentBasicGroupChatCreateType:
+		var pushMessageContentBasicGroupChatCreate PushMessageContentBasicGroupChatCreate
+		err := json.Unmarshal(*rawMsg, &pushMessageContentBasicGroupChatCreate)
+		return &pushMessageContentBasicGroupChatCreate, err
+
+	case PushMessageContentChatAddMembersType:
+		var pushMessageContentChatAddMembers PushMessageContentChatAddMembers
+		err := json.Unmarshal(*rawMsg, &pushMessageContentChatAddMembers)
+		return &pushMessageContentChatAddMembers, err
+
+	case PushMessageContentChatChangePhotoType:
+		var pushMessageContentChatChangePhoto PushMessageContentChatChangePhoto
+		err := json.Unmarshal(*rawMsg, &pushMessageContentChatChangePhoto)
+		return &pushMessageContentChatChangePhoto, err
+
+	case PushMessageContentChatChangeTitleType:
+		var pushMessageContentChatChangeTitle PushMessageContentChatChangeTitle
+		err := json.Unmarshal(*rawMsg, &pushMessageContentChatChangeTitle)
+		return &pushMessageContentChatChangeTitle, err
+
+	case PushMessageContentChatDeleteMemberType:
+		var pushMessageContentChatDeleteMember PushMessageContentChatDeleteMember
+		err := json.Unmarshal(*rawMsg, &pushMessageContentChatDeleteMember)
+		return &pushMessageContentChatDeleteMember, err
+
+	case PushMessageContentChatJoinByLinkType:
+		var pushMessageContentChatJoinByLink PushMessageContentChatJoinByLink
+		err := json.Unmarshal(*rawMsg, &pushMessageContentChatJoinByLink)
+		return &pushMessageContentChatJoinByLink, err
+
+	case PushMessageContentMessageForwardsType:
+		var pushMessageContentMessageForwards PushMessageContentMessageForwards
+		err := json.Unmarshal(*rawMsg, &pushMessageContentMessageForwards)
+		return &pushMessageContentMessageForwards, err
+
+	case PushMessageContentMediaAlbumType:
+		var pushMessageContentMediaAlbum PushMessageContentMediaAlbum
+		err := json.Unmarshal(*rawMsg, &pushMessageContentMediaAlbum)
+		return &pushMessageContentMediaAlbum, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalNotificationType(rawMsg *json.RawMessage) (NotificationType, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch NotificationTypeEnum(objMap["@type"].(string)) {
+	case NotificationTypeNewMessageType:
+		var notificationTypeNewMessage NotificationTypeNewMessage
+		err := json.Unmarshal(*rawMsg, &notificationTypeNewMessage)
+		return &notificationTypeNewMessage, err
+
+	case NotificationTypeNewSecretChatType:
+		var notificationTypeNewSecretChat NotificationTypeNewSecretChat
+		err := json.Unmarshal(*rawMsg, &notificationTypeNewSecretChat)
+		return &notificationTypeNewSecretChat, err
+
+	case NotificationTypeNewCallType:
+		var notificationTypeNewCall NotificationTypeNewCall
+		err := json.Unmarshal(*rawMsg, &notificationTypeNewCall)
+		return &notificationTypeNewCall, err
+
+	case NotificationTypeNewPushMessageType:
+		var notificationTypeNewPushMessage NotificationTypeNewPushMessage
+		err := json.Unmarshal(*rawMsg, &notificationTypeNewPushMessage)
+		return &notificationTypeNewPushMessage, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalNotificationGroupType(rawMsg *json.RawMessage) (NotificationGroupType, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch NotificationGroupTypeEnum(objMap["@type"].(string)) {
+	case NotificationGroupTypeMessagesType:
+		var notificationGroupTypeMessages NotificationGroupTypeMessages
+		err := json.Unmarshal(*rawMsg, &notificationGroupTypeMessages)
+		return &notificationGroupTypeMessages, err
+
+	case NotificationGroupTypeMentionsType:
+		var notificationGroupTypeMentions NotificationGroupTypeMentions
+		err := json.Unmarshal(*rawMsg, &notificationGroupTypeMentions)
+		return &notificationGroupTypeMentions, err
+
+	case NotificationGroupTypeSecretChatType:
+		var notificationGroupTypeSecretChat NotificationGroupTypeSecretChat
+		err := json.Unmarshal(*rawMsg, &notificationGroupTypeSecretChat)
+		return &notificationGroupTypeSecretChat, err
+
+	case NotificationGroupTypeCallsType:
+		var notificationGroupTypeCalls NotificationGroupTypeCalls
+		err := json.Unmarshal(*rawMsg, &notificationGroupTypeCalls)
+		return &notificationGroupTypeCalls, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
 func unmarshalOptionValue(rawMsg *json.RawMessage) (OptionValue, error) {
 
 	if rawMsg == nil {
@@ -24534,6 +28036,53 @@ func unmarshalOptionValue(rawMsg *json.RawMessage) (OptionValue, error) {
 		var optionValueString OptionValueString
 		err := json.Unmarshal(*rawMsg, &optionValueString)
 		return &optionValueString, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalJsonValue(rawMsg *json.RawMessage) (JsonValue, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch JsonValueEnum(objMap["@type"].(string)) {
+	case JsonValueNullType:
+		var jsonValueNull JsonValueNull
+		err := json.Unmarshal(*rawMsg, &jsonValueNull)
+		return &jsonValueNull, err
+
+	case JsonValueBooleanType:
+		var jsonValueBoolean JsonValueBoolean
+		err := json.Unmarshal(*rawMsg, &jsonValueBoolean)
+		return &jsonValueBoolean, err
+
+	case JsonValueNumberType:
+		var jsonValueNumber JsonValueNumber
+		err := json.Unmarshal(*rawMsg, &jsonValueNumber)
+		return &jsonValueNumber, err
+
+	case JsonValueStringType:
+		var jsonValueString JsonValueString
+		err := json.Unmarshal(*rawMsg, &jsonValueString)
+		return &jsonValueString, err
+
+	case JsonValueArrayType:
+		var jsonValueArray JsonValueArray
+		err := json.Unmarshal(*rawMsg, &jsonValueArray)
+		return &jsonValueArray, err
+
+	case JsonValueObjectType:
+		var jsonValueObject JsonValueObject
+		err := json.Unmarshal(*rawMsg, &jsonValueObject)
+		return &jsonValueObject, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -24614,6 +28163,11 @@ func unmarshalUserPrivacySetting(rawMsg *json.RawMessage) (UserPrivacySetting, e
 		err := json.Unmarshal(*rawMsg, &userPrivacySettingAllowCalls)
 		return &userPrivacySettingAllowCalls, err
 
+	case UserPrivacySettingAllowPeerToPeerCallsType:
+		var userPrivacySettingAllowPeerToPeerCalls UserPrivacySettingAllowPeerToPeerCalls
+		err := json.Unmarshal(*rawMsg, &userPrivacySettingAllowPeerToPeerCalls)
+		return &userPrivacySettingAllowPeerToPeerCalls, err
+
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
 	}
@@ -24645,6 +28199,11 @@ func unmarshalChatReportReason(rawMsg *json.RawMessage) (ChatReportReason, error
 		var chatReportReasonPornography ChatReportReasonPornography
 		err := json.Unmarshal(*rawMsg, &chatReportReasonPornography)
 		return &chatReportReasonPornography, err
+
+	case ChatReportReasonChildAbuseType:
+		var chatReportReasonChildAbuse ChatReportReasonChildAbuse
+		err := json.Unmarshal(*rawMsg, &chatReportReasonChildAbuse)
+		return &chatReportReasonChildAbuse, err
 
 	case ChatReportReasonCopyrightType:
 		var chatReportReasonCopyright ChatReportReasonCopyright
@@ -25144,6 +28703,11 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateScopeNotificationSettings)
 		return &updateScopeNotificationSettings, err
 
+	case UpdateChatPinnedMessageType:
+		var updateChatPinnedMessage UpdateChatPinnedMessage
+		err := json.Unmarshal(*rawMsg, &updateChatPinnedMessage)
+		return &updateChatPinnedMessage, err
+
 	case UpdateChatReplyMarkupType:
 		var updateChatReplyMarkup UpdateChatReplyMarkup
 		err := json.Unmarshal(*rawMsg, &updateChatReplyMarkup)
@@ -25153,6 +28717,31 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		var updateChatDraftMessage UpdateChatDraftMessage
 		err := json.Unmarshal(*rawMsg, &updateChatDraftMessage)
 		return &updateChatDraftMessage, err
+
+	case UpdateChatOnlineMemberCountType:
+		var updateChatOnlineMemberCount UpdateChatOnlineMemberCount
+		err := json.Unmarshal(*rawMsg, &updateChatOnlineMemberCount)
+		return &updateChatOnlineMemberCount, err
+
+	case UpdateNotificationType:
+		var updateNotification UpdateNotification
+		err := json.Unmarshal(*rawMsg, &updateNotification)
+		return &updateNotification, err
+
+	case UpdateNotificationGroupType:
+		var updateNotificationGroup UpdateNotificationGroup
+		err := json.Unmarshal(*rawMsg, &updateNotificationGroup)
+		return &updateNotificationGroup, err
+
+	case UpdateActiveNotificationsType:
+		var updateActiveNotifications UpdateActiveNotifications
+		err := json.Unmarshal(*rawMsg, &updateActiveNotifications)
+		return &updateActiveNotifications, err
+
+	case UpdateHavePendingNotificationsType:
+		var updateHavePendingNotifications UpdateHavePendingNotifications
+		err := json.Unmarshal(*rawMsg, &updateHavePendingNotifications)
+		return &updateHavePendingNotifications, err
 
 	case UpdateDeleteMessagesType:
 		var updateDeleteMessages UpdateDeleteMessages
@@ -25328,6 +28917,43 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		var updateNewCustomQuery UpdateNewCustomQuery
 		err := json.Unmarshal(*rawMsg, &updateNewCustomQuery)
 		return &updateNewCustomQuery, err
+
+	case UpdatePollType:
+		var updatePoll UpdatePoll
+		err := json.Unmarshal(*rawMsg, &updatePoll)
+		return &updatePoll, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalLogStream(rawMsg *json.RawMessage) (LogStream, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch LogStreamEnum(objMap["@type"].(string)) {
+	case LogStreamDefaultType:
+		var logStreamDefault LogStreamDefault
+		err := json.Unmarshal(*rawMsg, &logStreamDefault)
+		return &logStreamDefault, err
+
+	case LogStreamFileType:
+		var logStreamFile LogStreamFile
+		err := json.Unmarshal(*rawMsg, &logStreamFile)
+		return &logStreamFile, err
+
+	case LogStreamEmptyType:
+		var logStreamEmpty LogStreamEmpty
+		err := json.Unmarshal(*rawMsg, &logStreamEmpty)
+		return &logStreamEmpty, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))

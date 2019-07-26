@@ -163,8 +163,8 @@ func (client *Client) ResendAuthenticationCode() (*Ok, error) {
 
 // CheckAuthenticationCode Checks the authentication code. Works only when the current authorization state is authorizationStateWaitCode
 // @param code The verification code received via SMS, Telegram message, phone call, or flash call
-// @param firstName If the user is not yet registered, the first name of the user; 1-255 characters
-// @param lastName If the user is not yet registered; the last name of the user; optional; 0-255 characters
+// @param firstName If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code
+// @param lastName If the user is not yet registered; the last name of the user; optional; 0-64 characters
 func (client *Client) CheckAuthenticationCode(code string, firstName string, lastName string) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":      "checkAuthenticationCode",
@@ -333,6 +333,26 @@ func (client *Client) Destroy() (*Ok, error) {
 
 }
 
+// GetCurrentState Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially usefull if TDLib is run in a separate process. This is an offline method. Can be called before authorization
+func (client *Client) GetCurrentState() (*Updates, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getCurrentState",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var updates Updates
+	err = json.Unmarshal(result.Raw, &updates)
+	return &updates, err
+
+}
+
 // SetDatabaseEncryptionKey Changes the database encryption key. Usually the encryption key is never changed and is stored in some OS keychain
 // @param newEncryptionKey New encryption key
 func (client *Client) SetDatabaseEncryptionKey(newEncryptionKey []byte) (*Ok, error) {
@@ -375,7 +395,7 @@ func (client *Client) GetPasswordState() (*PasswordState, error) {
 
 }
 
-// SetPassword Changes the password for the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the password change will not be applied until the new recovery email address has been confirmed. The application should periodically call getPasswordState to check whether the new email address has been confirmed
+// SetPassword Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
 // @param oldPassword Previous password of the user
 // @param newPassword New password of the user; may be empty to remove the password
 // @param newHint New password hint; may be empty
@@ -405,7 +425,7 @@ func (client *Client) SetPassword(oldPassword string, newPassword string, newHin
 
 }
 
-// GetRecoveryEmailAddress Returns a recovery email address that was previously set up. This method can be used to verify a password provided by the user
+// GetRecoveryEmailAddress Returns a 2-step verification recovery email address that was previously set up. This method can be used to verify a password provided by the user
 // @param password The password for the current user
 func (client *Client) GetRecoveryEmailAddress(password string) (*RecoveryEmailAddress, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -427,7 +447,7 @@ func (client *Client) GetRecoveryEmailAddress(password string) (*RecoveryEmailAd
 
 }
 
-// SetRecoveryEmailAddress Changes the recovery email address of the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the email address will not be changed until the new email has been confirmed. The application should periodically call getPasswordState to check whether the email address has been confirmed.
+// SetRecoveryEmailAddress Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
 // @param password
 // @param newRecoveryEmailAddress
 func (client *Client) SetRecoveryEmailAddress(password string, newRecoveryEmailAddress string) (*PasswordState, error) {
@@ -435,6 +455,48 @@ func (client *Client) SetRecoveryEmailAddress(password string, newRecoveryEmailA
 		"@type":                      "setRecoveryEmailAddress",
 		"password":                   password,
 		"new_recovery_email_address": newRecoveryEmailAddress,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var passwordState PasswordState
+	err = json.Unmarshal(result.Raw, &passwordState)
+	return &passwordState, err
+
+}
+
+// CheckRecoveryEmailAddressCode Checks the 2-step verification recovery email address verification code
+// @param code Verification code
+func (client *Client) CheckRecoveryEmailAddressCode(code string) (*PasswordState, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "checkRecoveryEmailAddressCode",
+		"code":  code,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var passwordState PasswordState
+	err = json.Unmarshal(result.Raw, &passwordState)
+	return &passwordState, err
+
+}
+
+// ResendRecoveryEmailAddressCode Resends the 2-step verification recovery email address verification code
+func (client *Client) ResendRecoveryEmailAddressCode() (*PasswordState, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "resendRecoveryEmailAddressCode",
 	})
 
 	if err != nil {
@@ -534,30 +596,6 @@ func (client *Client) GetTemporaryPasswordState() (*TemporaryPasswordState, erro
 	var temporaryPasswordState TemporaryPasswordState
 	err = json.Unmarshal(result.Raw, &temporaryPasswordState)
 	return &temporaryPasswordState, err
-
-}
-
-// ProcessDcUpdate Handles a DC_UPDATE push service notification. Can be called before authorization
-// @param dc Value of the "dc" parameter of the notification
-// @param addr Value of the "addr" parameter of the notification
-func (client *Client) ProcessDcUpdate(dc string, addr string) (*Ok, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "processDcUpdate",
-		"dc":    dc,
-		"addr":  addr,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var ok Ok
-	err = json.Unmarshal(result.Raw, &ok)
-	return &ok, err
 
 }
 
@@ -781,6 +819,30 @@ func (client *Client) GetMessage(chatID int64, messageID int64) (*Message, error
 
 }
 
+// GetMessageLocally Returns information about a message, if it is available locally without sending network request. This is an offline request
+// @param chatID Identifier of the chat the message belongs to
+// @param messageID Identifier of the message to get
+func (client *Client) GetMessageLocally(chatID int64, messageID int64) (*Message, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "getMessageLocally",
+		"chat_id":    chatID,
+		"message_id": messageID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var messageDummy Message
+	err = json.Unmarshal(result.Raw, &messageDummy)
+	return &messageDummy, err
+
+}
+
 // GetRepliedMessage Returns information about a message that is replied by given message
 // @param chatID Identifier of the chat the message belongs to
 // @param messageID Identifier of the message reply to which get
@@ -897,7 +959,7 @@ func (client *Client) GetRemoteFile(remoteFileID string, fileType FileType) (*Fi
 
 }
 
-// GetChats Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to 2^63 - 1).
+// GetChats Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1).
 // @param offsetOrder
 // @param offsetChatID
 // @param limit The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached
@@ -1130,7 +1192,7 @@ func (client *Client) ClearRecentlyFoundChats() (*Ok, error) {
 // CheckChatUsername Checks whether a username can be set for a chat
 // @param chatID Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created
 // @param username Username to be checked
-func (client *Client) CheckChatUsername(chatID JSONInt64, username string) (CheckChatUsernameResult, error) {
+func (client *Client) CheckChatUsername(chatID int64, username string) (CheckChatUsernameResult, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "checkChatUsername",
 		"chat_id":  chatID,
@@ -1197,7 +1259,7 @@ func (client *Client) GetCreatedPublicChats() (*Chats, error) {
 
 }
 
-// GetGroupsInCommon Returns a list of common chats with a given user. Chats are sorted by their type and creation date
+// GetGroupsInCommon Returns a list of common group chats with a given user. Chats are sorted by their type and creation date
 // @param userID User identifier
 // @param offsetChatID Chat identifier starting from which to return chats; use 0 for the first request
 // @param limit Maximum number of chats to be returned; up to 100
@@ -1226,8 +1288,8 @@ func (client *Client) GetGroupsInCommon(userID int32, offsetChatID int64, limit 
 // GetChatHistory Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id).
 // @param chatID Chat identifier
 // @param fromMessageID Identifier of the message starting from which history must be fetched; use 0 to get results from the last message
-// @param offset Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages
-// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+// @param offset Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
+// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
 // @param onlyLocal If true, returns only messages that are available locally without sending network requests
 func (client *Client) GetChatHistory(chatID int64, fromMessageID int64, offset int32, limit int32, onlyLocal bool) (*Messages, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -1253,14 +1315,16 @@ func (client *Client) GetChatHistory(chatID int64, fromMessageID int64, offset i
 
 }
 
-// DeleteChatHistory Deletes all messages in the chat only for the user. Cannot be used in channels and public supergroups
+// DeleteChatHistory Deletes all messages in the chat. Use Chat.can_be_deleted_only_for_self and Chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat
 // @param chatID Chat identifier
-// @param removeFromChatList Pass true if the chat should be removed from the chats list
-func (client *Client) DeleteChatHistory(chatID int64, removeFromChatList bool) (*Ok, error) {
+// @param removeFromChatList Pass true if the chat should be removed from the chat list
+// @param revoke Pass true to try to delete chat history for all users
+func (client *Client) DeleteChatHistory(chatID int64, removeFromChatList bool, revoke bool) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":                 "deleteChatHistory",
 		"chat_id":               chatID,
 		"remove_from_chat_list": removeFromChatList,
+		"revoke":                revoke,
 	})
 
 	if err != nil {
@@ -1271,9 +1335,9 @@ func (client *Client) DeleteChatHistory(chatID int64, removeFromChatList bool) (
 		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
 	}
 
-	var ok Ok
-	err = json.Unmarshal(result.Raw, &ok)
-	return &ok, err
+	var okDummy Ok
+	err = json.Unmarshal(result.Raw, &okDummy)
+	return &okDummy, err
 
 }
 
@@ -1491,6 +1555,54 @@ func (client *Client) GetChatMessageCount(chatID int64, filter SearchMessagesFil
 
 }
 
+// RemoveNotification Removes an active notification from notification list. Needs to be called only if the notification is removed by the current user
+// @param notificationGroupID Identifier of notification group to which the notification belongs
+// @param notificationID Identifier of removed notification
+func (client *Client) RemoveNotification(notificationGroupID int32, notificationID int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                 "removeNotification",
+		"notification_group_id": notificationGroupID,
+		"notification_id":       notificationID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveNotificationGroup Removes a group of active notifications. Needs to be called only if the notification group is removed by the current user
+// @param notificationGroupID Notification group identifier
+// @param maxNotificationID Maximum identifier of removed notifications
+func (client *Client) RemoveNotificationGroup(notificationGroupID int32, maxNotificationID int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                 "removeNotificationGroup",
+		"notification_group_id": notificationGroupID,
+		"max_notification_id":   maxNotificationID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
 // GetPublicMessageLink Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels
 // @param chatID Identifier of the chat to which the message belongs
 // @param messageID Identifier of the message
@@ -1514,6 +1626,30 @@ func (client *Client) GetPublicMessageLink(chatID int64, messageID int64, forAlb
 	var publicMessageLink PublicMessageLink
 	err = json.Unmarshal(result.Raw, &publicMessageLink)
 	return &publicMessageLink, err
+
+}
+
+// GetMessageLink Returns a private HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels. The link will work only for members of the chat
+// @param chatID Identifier of the chat to which the message belongs
+// @param messageID Identifier of the message
+func (client *Client) GetMessageLink(chatID int64, messageID int64) (*HttpURL, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "getMessageLink",
+		"chat_id":    chatID,
+		"message_id": messageID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var httpURL HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
 
 }
 
@@ -1612,7 +1748,8 @@ func (client *Client) SendBotStartMessage(botUserID int32, chatID int64, paramet
 // @param fromBackground Pass true if the message is sent from background
 // @param queryID Identifier of the inline query
 // @param resultID Identifier of the inline result
-func (client *Client) SendInlineQueryResultMessage(chatID int64, replyToMessageID int64, disableNotification bool, fromBackground bool, queryID JSONInt64, resultID string) (*Message, error) {
+// @param hideViaBot If true, there will be no mention of a bot, via which the message is sent. Can be used only for bots GetOption("animation_search_bot_username"), GetOption("photo_search_bot_username") and GetOption("venue_search_bot_username")
+func (client *Client) SendInlineQueryResultMessage(chatID int64, replyToMessageID int64, disableNotification bool, fromBackground bool, queryID JSONInt64, resultID string, hideViaBot bool) (*Message, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":                "sendInlineQueryResultMessage",
 		"chat_id":              chatID,
@@ -1621,6 +1758,7 @@ func (client *Client) SendInlineQueryResultMessage(chatID int64, replyToMessageI
 		"from_background":      fromBackground,
 		"query_id":             queryID,
 		"result_id":            resultID,
+		"hide_via_bot":         hideViaBot,
 	})
 
 	if err != nil {
@@ -1748,7 +1886,7 @@ func (client *Client) AddLocalMessage(chatID int64, senderUserID int32, replyToM
 // DeleteMessages Deletes messages
 // @param chatID Chat identifier
 // @param messageIDs Identifiers of the messages to be deleted
-// @param revoke Pass true to try to delete outgoing messages for all chat members (may fail if messages are too old). Always true for supergroups, channels and secret chats
+// @param revoke Pass true to try to delete messages for all chat members. Always true for supergroups, channels and secret chats
 func (client *Client) DeleteMessages(chatID int64, messageIDs []int64, revoke bool) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":       "deleteMessages",
@@ -2217,6 +2355,133 @@ func (client *Client) GetLanguagePackString(languagePackDatabasePath string, loc
 	}
 }
 
+// GetJsonValue Converts a JSON-serialized string to corresponding JsonValue object. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param json The JSON-serialized string
+func (client *Client) GetJsonValue(json string) (JsonValue, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getJsonValue",
+		"json":  json,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	switch JsonValueEnum(result.Data["@type"].(string)) {
+
+	case JsonValueNullType:
+		var jsonValue JsonValueNull
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueBooleanType:
+		var jsonValue JsonValueBoolean
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueNumberType:
+		var jsonValue JsonValueNumber
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueStringType:
+		var jsonValue JsonValueString
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueArrayType:
+		var jsonValue JsonValueArray
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueObjectType:
+		var jsonValue JsonValueObject
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	default:
+		return nil, fmt.Errorf("Invalid type")
+	}
+}
+
+// GetJsonString Converts a JsonValue object to corresponding JSON-serialized string. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param jsonValue The JsonValue object
+func (client *Client) GetJsonString(jsonValue JsonValue) (*Text, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "getJsonString",
+		"json_value": jsonValue,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var text Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// SetPollAnswer Changes user answer to a poll
+// @param chatID Identifier of the chat to which the poll belongs
+// @param messageID Identifier of the message containing the poll
+// @param optionIDs 0-based identifiers of options, chosen by the user. Currently user can't choose more than 1 option
+func (client *Client) SetPollAnswer(chatID int64, messageID int64, optionIDs []int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "setPollAnswer",
+		"chat_id":    chatID,
+		"message_id": messageID,
+		"option_ids": optionIDs,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// StopPoll Stops a poll. A poll in a message can be stopped when the message has can_be_edited flag set
+// @param chatID Identifier of the chat to which the poll belongs
+// @param messageID Identifier of the message containing the poll
+// @param replyMarkup The new message reply markup; for bots only
+func (client *Client) StopPoll(chatID int64, messageID int64, replyMarkup ReplyMarkup) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":        "stopPoll",
+		"chat_id":      chatID,
+		"message_id":   messageID,
+		"reply_markup": replyMarkup,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
 // GetInlineQueryResults Sends an inline query to a bot and returns its results. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires
 // @param botUserID The identifier of the target bot
 // @param chatID Identifier of the chat, where the query was sent
@@ -2388,7 +2653,7 @@ func (client *Client) AnswerPreCheckoutQuery(preCheckoutQueryID JSONInt64, error
 }
 
 // SetGameScore Updates the game score of the specified user in the game; for bots only
-// @param chatID The chat to which the message with the game
+// @param chatID The chat to which the message with the game belongs
 // @param messageID Identifier of the message
 // @param editMessage True, if the message should be edited
 // @param userID User identifier
@@ -2547,7 +2812,7 @@ func (client *Client) SendChatAction(chatID int64, action ChatAction) (*Ok, erro
 
 }
 
-// OpenChat This method should be called if the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats)
+// OpenChat Informs TDLib that the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats)
 // @param chatID Chat identifier
 func (client *Client) OpenChat(chatID int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -2569,7 +2834,7 @@ func (client *Client) OpenChat(chatID int64) (*Ok, error) {
 
 }
 
-// CloseChat This method should be called if the chat is closed by the user. Many useful activities depend on the chat being opened or closed
+// CloseChat Informs TDLib that the chat is closed by the user. Many useful activities depend on the chat being opened or closed
 // @param chatID Chat identifier
 func (client *Client) CloseChat(chatID int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -2591,7 +2856,7 @@ func (client *Client) CloseChat(chatID int64) (*Ok, error) {
 
 }
 
-// ViewMessages This method should be called if messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels)
+// ViewMessages Informs TDLib that messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels)
 // @param chatID Chat identifier
 // @param messageIDs The identifiers of the messages being viewed
 // @param forceRead True, if messages in closed chats should be marked as read
@@ -2617,7 +2882,7 @@ func (client *Client) ViewMessages(chatID int64, messageIDs []int64, forceRead b
 
 }
 
-// OpenMessageContent This method should be called if the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed
+// OpenMessageContent Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed
 // @param chatID Chat identifier of the message
 // @param messageID Identifier of the message with the opened content
 func (client *Client) OpenMessageContent(chatID int64, messageID int64) (*Ok, error) {
@@ -2759,7 +3024,7 @@ func (client *Client) CreateSecretChat(secretChatID int32) (*Chat, error) {
 
 // CreateNewBasicGroupChat Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns the newly created chat
 // @param userIDs Identifiers of users to be added to the basic group
-// @param title Title of the new basic group; 1-255 characters
+// @param title Title of the new basic group; 1-128 characters
 func (client *Client) CreateNewBasicGroupChat(userIDs []int32, title string) (*Chat, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "createNewBasicGroupChat",
@@ -2782,7 +3047,7 @@ func (client *Client) CreateNewBasicGroupChat(userIDs []int32, title string) (*C
 }
 
 // CreateNewSupergroupChat Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate. Returns the newly created chat
-// @param title Title of the new chat; 1-255 characters
+// @param title Title of the new chat; 1-128 characters
 // @param isChannel True, if a channel chat should be created
 // @param description
 func (client *Client) CreateNewSupergroupChat(title string, isChannel bool, description string) (*Chat, error) {
@@ -2853,7 +3118,7 @@ func (client *Client) UpgradeBasicGroupChatToSupergroupChat(chatID int64) (*Chat
 
 // SetChatTitle Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed
 // @param chatID Chat identifier
-// @param title New title of the chat; 1-255 characters
+// @param title New title of the chat; 1-128 characters
 func (client *Client) SetChatTitle(chatID int64, title string) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "setChatTitle",
@@ -3043,6 +3308,54 @@ func (client *Client) SetChatClientData(chatID int64, clientData string) (*Ok, e
 
 }
 
+// PinChatMessage Pins a message in a chat; requires appropriate administrator rights in the group or channel
+// @param chatID Identifier of the chat
+// @param messageID Identifier of the new pinned message
+// @param disableNotification True, if there should be no notification about the pinned message
+func (client *Client) PinChatMessage(chatID int64, messageID int64, disableNotification bool) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                "pinChatMessage",
+		"chat_id":              chatID,
+		"message_id":           messageID,
+		"disable_notification": disableNotification,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// UnpinChatMessage Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel
+// @param chatID Identifier of the chat
+func (client *Client) UnpinChatMessage(chatID int64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "unpinChatMessage",
+		"chat_id": chatID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
 // JoinChat Adds current user as a new member to a chat. Private and secret chats can't be joined using this method
 // @param chatID Chat identifier
 func (client *Client) JoinChat(chatID int64) (*Ok, error) {
@@ -3090,7 +3403,7 @@ func (client *Client) LeaveChat(chatID int64) (*Ok, error) {
 // AddChatMember Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server
 // @param chatID Chat identifier
 // @param userID Identifier of the user
-// @param forwardLimit The number of earlier messages from the chat to be forwarded to the new member; up to 300. Ignored for supergroups and channels
+// @param forwardLimit The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels
 func (client *Client) AddChatMember(chatID int64, userID int32, forwardLimit int32) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "addChatMember",
@@ -3259,6 +3572,30 @@ func (client *Client) ClearAllDraftMessages(excludeSecretChats bool) (*Ok, error
 
 }
 
+// GetChatNotificationSettingsExceptions Returns list of chats with non-default notification settings
+// @param scope If specified, only chats from the specified scope will be returned
+// @param compareSound If true, also chats with non-default sound will be returned
+func (client *Client) GetChatNotificationSettingsExceptions(scope NotificationSettingsScope, compareSound bool) (*Chats, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "getChatNotificationSettingsExceptions",
+		"scope":         scope,
+		"compare_sound": compareSound,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var chats Chats
+	err = json.Unmarshal(result.Raw, &chats)
+	return &chats, err
+
+}
+
 // GetScopeNotificationSettings Returns the notification settings for chats of a given type
 // @param scope Types of chats for which to return the notification settings information
 func (client *Client) GetScopeNotificationSettings(scope NotificationSettingsScope) (*ScopeNotificationSettings, error) {
@@ -3347,14 +3684,20 @@ func (client *Client) SetPinnedChats(chatIDs []int64) (*Ok, error) {
 
 }
 
-// DownloadFile Asynchronously downloads a file from the cloud. updateFile will be used to notify about the download progress and successful completion of the download. Returns file state just after the download has been started
+// DownloadFile Downloads a file from the cloud. Download progress and completion of the download will be notified through updateFile updates
 // @param fileID Identifier of the file to download
 // @param priority Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first
-func (client *Client) DownloadFile(fileID int32, priority int32) (*File, error) {
+// @param offset The starting position from which the file should be downloaded
+// @param limit Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit
+// @param synchronous If false, this request returns file state just after the download has been started. If true, this request returns file state only after
+func (client *Client) DownloadFile(fileID int32, priority int32, offset int32, limit int32, synchronous bool) (*File, error) {
 	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "downloadFile",
-		"file_id":  fileID,
-		"priority": priority,
+		"@type":       "downloadFile",
+		"file_id":     fileID,
+		"priority":    priority,
+		"offset":      offset,
+		"limit":       limit,
+		"synchronous": synchronous,
 	})
 
 	if err != nil {
@@ -3368,6 +3711,30 @@ func (client *Client) DownloadFile(fileID int32, priority int32) (*File, error) 
 	var fileDummy File
 	err = json.Unmarshal(result.Raw, &fileDummy)
 	return &fileDummy, err
+
+}
+
+// GetFileDownloadedPrefixSize Returns file downloaded prefix size from a given offset
+// @param fileID Identifier of the file
+// @param offset Offset from which downloaded prefix size should be calculated
+func (client *Client) GetFileDownloadedPrefixSize(fileID int32, offset int32) (*Count, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "getFileDownloadedPrefixSize",
+		"file_id": fileID,
+		"offset":  offset,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var count Count
+	err = json.Unmarshal(result.Raw, &count)
+	return &count, err
 
 }
 
@@ -3443,7 +3810,33 @@ func (client *Client) CancelUploadFile(fileID int32) (*Ok, error) {
 
 }
 
-// SetFileGenerationProgress The next part of a file was generated
+// WriteGeneratedFilePart Writes a part of a generated file. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct write to the destination file
+// @param generationID The identifier of the generation process
+// @param offset The offset from which to write the data to the file
+// @param data The data to write
+func (client *Client) WriteGeneratedFilePart(generationID JSONInt64, offset int32, data []byte) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "writeGeneratedFilePart",
+		"generation_id": generationID,
+		"offset":        offset,
+		"data":          data,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetFileGenerationProgress Informs TDLib on a file generation prograss
 // @param generationID The identifier of the generation process
 // @param expectedSize Expected size of the generated file, in bytes; 0 if unknown
 // @param localPrefixSize The number of bytes already generated
@@ -3490,6 +3883,32 @@ func (client *Client) FinishFileGeneration(generationID JSONInt64, error *Error)
 	var ok Ok
 	err = json.Unmarshal(result.Raw, &ok)
 	return &ok, err
+
+}
+
+// ReadFilePart Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct read from the file
+// @param fileID Identifier of the file. The file must be located in the TDLib file cache
+// @param offset The offset from which to read the file
+// @param count Number of bytes to read. An error will be returned if there are not enough bytes available in the file from the specified position. Pass 0 to read all available data from the specified position
+func (client *Client) ReadFilePart(fileID int32, offset int32, count int32) (*FilePart, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "readFilePart",
+		"file_id": fileID,
+		"offset":  offset,
+		"count":   count,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var filePart FilePart
+	err = json.Unmarshal(result.Raw, &filePart)
+	return &filePart, err
 
 }
 
@@ -3818,7 +4237,7 @@ func (client *Client) GetContacts() (*Users, error) {
 }
 
 // SearchContacts Searches for the specified query in the first names, last names and usernames of the known user contacts
-// @param query Query to search for; can be empty to return all contacts
+// @param query Query to search for; may be empty to return all contacts
 // @param limit Maximum number of users to be returned
 func (client *Client) SearchContacts(query string, limit int32) (*Users, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -3841,7 +4260,7 @@ func (client *Client) SearchContacts(query string, limit int32) (*Users, error) 
 
 }
 
-// RemoveContacts Removes users from the contacts list
+// RemoveContacts Removes users from the contact list
 // @param userIDs Identifiers of users to be deleted
 func (client *Client) RemoveContacts(userIDs []int32) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -3905,7 +4324,7 @@ func (client *Client) ChangeImportedContacts(contacts []Contact) (*ImportedConta
 
 }
 
-// ClearImportedContacts Clears all imported contacts, contacts list remains unchanged
+// ClearImportedContacts Clears all imported contacts, contact list remains unchanged
 func (client *Client) ClearImportedContacts() (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "clearImportedContacts",
@@ -4652,8 +5071,8 @@ func (client *Client) DeleteProfilePhoto(profilePhotoID JSONInt64) (*Ok, error) 
 }
 
 // SetName Changes the first and last name of the current user. If something changes, updateUser will be sent
-// @param firstName The new value of the first name for the user; 1-255 characters
-// @param lastName The new value of the optional last name for the user; 0-255 characters
+// @param firstName The new value of the first name for the user; 1-64 characters
+// @param lastName The new value of the optional last name for the user; 0-64 characters
 func (client *Client) SetName(firstName string, lastName string) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":      "setName",
@@ -5079,54 +5498,6 @@ func (client *Client) SetSupergroupDescription(supergroupID int32, description s
 
 }
 
-// PinSupergroupMessage Pins a message in a supergroup or channel; requires appropriate administrator rights in the supergroup or channel
-// @param supergroupID Identifier of the supergroup or channel
-// @param messageID Identifier of the new pinned message
-// @param disableNotification True, if there should be no notification about the pinned message
-func (client *Client) PinSupergroupMessage(supergroupID int32, messageID int64, disableNotification bool) (*Ok, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":                "pinSupergroupMessage",
-		"supergroup_id":        supergroupID,
-		"message_id":           messageID,
-		"disable_notification": disableNotification,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var ok Ok
-	err = json.Unmarshal(result.Raw, &ok)
-	return &ok, err
-
-}
-
-// UnpinSupergroupMessage Removes the pinned message from a supergroup or channel; requires appropriate administrator rights in the supergroup or channel
-// @param supergroupID Identifier of the supergroup or channel
-func (client *Client) UnpinSupergroupMessage(supergroupID int32) (*Ok, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":         "unpinSupergroupMessage",
-		"supergroup_id": supergroupID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var ok Ok
-	err = json.Unmarshal(result.Raw, &ok)
-	return &ok, err
-
-}
-
 // ReportSupergroupSpam Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup
 // @param supergroupID Supergroup identifier
 // @param userID User identifier
@@ -5463,7 +5834,7 @@ func (client *Client) GetWallpapers() (*Wallpapers, error) {
 
 }
 
-// GetLocalizationTargetInfo Returns information about the current localization target. This is an offline request if only_local is true
+// GetLocalizationTargetInfo Returns information about the current localization target. This is an offline request if only_local is true. Can be called before authorization
 // @param onlyLocal If true, returns only locally available information without sending network requests
 func (client *Client) GetLocalizationTargetInfo(onlyLocal bool) (*LocalizationTargetInfo, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -5485,7 +5856,29 @@ func (client *Client) GetLocalizationTargetInfo(onlyLocal bool) (*LocalizationTa
 
 }
 
-// GetLanguagePackStrings Returns strings from a language pack in the current localization target by their keys
+// GetLanguagePackInfo Returns information about a language pack. Returned language pack identifier may be different from a provided one. Can be called before authorization
+// @param languagePackID Language pack identifier
+func (client *Client) GetLanguagePackInfo(languagePackID string) (*LanguagePackInfo, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "getLanguagePackInfo",
+		"language_pack_id": languagePackID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var languagePackInfo LanguagePackInfo
+	err = json.Unmarshal(result.Raw, &languagePackInfo)
+	return &languagePackInfo, err
+
+}
+
+// GetLanguagePackStrings Returns strings from a language pack in the current localization target by their keys. Can be called before authorization
 // @param languagePackID Language pack identifier of the strings to be returned
 // @param keys Language pack keys of the strings to be returned; leave empty to request all available strings
 func (client *Client) GetLanguagePackStrings(languagePackID string, keys []string) (*LanguagePackStrings, error) {
@@ -5509,8 +5902,52 @@ func (client *Client) GetLanguagePackStrings(languagePackID string, keys []strin
 
 }
 
-// SetCustomLanguagePack Adds or changes a custom language pack to the current localization target
-// @param info Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters
+// SynchronizeLanguagePack Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method doesn't need to be called explicitly for the current used/base language packs. Can be called before authorization
+// @param languagePackID Language pack identifier
+func (client *Client) SynchronizeLanguagePack(languagePackID string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "synchronizeLanguagePack",
+		"language_pack_id": languagePackID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AddCustomServerLanguagePack Adds a custom server language pack to the list of installed language packs in current localization target. Can be called before authorization
+// @param languagePackID Identifier of a language pack to be added; may be different from a name that is used in an "https://t.me/setlanguage/" link
+func (client *Client) AddCustomServerLanguagePack(languagePackID string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "addCustomServerLanguagePack",
+		"language_pack_id": languagePackID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetCustomLanguagePack Adds or changes a custom local language pack to the current localization target
+// @param info Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization
 // @param strings Strings of the new language pack
 func (client *Client) SetCustomLanguagePack(info *LanguagePackInfo, strings []LanguagePackString) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -5533,8 +5970,8 @@ func (client *Client) SetCustomLanguagePack(info *LanguagePackInfo, strings []La
 
 }
 
-// EditCustomLanguagePackInfo Edits information about a custom language pack in the current localization target
-// @param info New information about the custom language pack
+// EditCustomLanguagePackInfo Edits information about a custom local language pack in the current localization target. Can be called before authorization
+// @param info New information about the custom local language pack
 func (client *Client) EditCustomLanguagePackInfo(info *LanguagePackInfo) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "editCustomLanguagePackInfo",
@@ -5555,8 +5992,8 @@ func (client *Client) EditCustomLanguagePackInfo(info *LanguagePackInfo) (*Ok, e
 
 }
 
-// SetCustomLanguagePackString Adds, edits or deletes a string in a custom language pack
-// @param languagePackID Identifier of a previously added custom language pack in the current localization target
+// SetCustomLanguagePackString Adds, edits or deletes a string in a custom local language pack. Can be called before authorization
+// @param languagePackID Identifier of a previously added custom local language pack in the current localization target
 // @param newString New language pack string
 func (client *Client) SetCustomLanguagePackString(languagePackID string, newString *LanguagePackString) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -5579,7 +6016,7 @@ func (client *Client) SetCustomLanguagePackString(languagePackID string, newStri
 
 }
 
-// DeleteLanguagePack Deletes all information about a language pack in the current localization target. The language pack that is currently in use can't be deleted
+// DeleteLanguagePack Deletes all information about a language pack in the current localization target. The language pack which is currently in use (including base language pack) or is being synchronized can't be deleted. Can be called before authorization
 // @param languagePackID Identifier of the language pack to delete
 func (client *Client) DeleteLanguagePack(languagePackID string) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -5601,10 +6038,10 @@ func (client *Client) DeleteLanguagePack(languagePackID string) (*Ok, error) {
 
 }
 
-// RegisterDevice Registers the currently used device for receiving push notifications
+// RegisterDevice Registers the currently used device for receiving push notifications. Returns a globally unique identifier of the push notification subscription
 // @param deviceToken Device token
-// @param otherUserIDs List of at most 100 user identifiers of other users currently using the client
-func (client *Client) RegisterDevice(deviceToken DeviceToken, otherUserIDs []int32) (*Ok, error) {
+// @param otherUserIDs List of user identifiers of other users currently using the client
+func (client *Client) RegisterDevice(deviceToken DeviceToken, otherUserIDs []int32) (*PushReceiverID, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "registerDevice",
 		"device_token":   deviceToken,
@@ -5619,9 +6056,53 @@ func (client *Client) RegisterDevice(deviceToken DeviceToken, otherUserIDs []int
 		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
 	}
 
-	var okDummy Ok
-	err = json.Unmarshal(result.Raw, &okDummy)
-	return &okDummy, err
+	var pushReceiverID PushReceiverID
+	err = json.Unmarshal(result.Raw, &pushReceiverID)
+	return &pushReceiverID, err
+
+}
+
+// ProcessPushNotification Handles a push notification. Returns error with code 406 if the push notification is not supported and connection to the server is required to fetch new data. Can be called before authorization
+// @param payload JSON-encoded push notification payload with all fields sent by the server, and "google.sent_time" and "google.notification.sound" fields added
+func (client *Client) ProcessPushNotification(payload string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "processPushNotification",
+		"payload": payload,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// GetPushReceiverID Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param payload JSON-encoded push notification payload
+func (client *Client) GetPushReceiverID(payload string) (*PushReceiverID, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "getPushReceiverId",
+		"payload": payload,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var pushReceiverID PushReceiverID
+	err = json.Unmarshal(result.Raw, &pushReceiverID)
+	return &pushReceiverID, err
 
 }
 
@@ -5846,7 +6327,7 @@ func (client *Client) GetChatReportSpamState(chatID int64) (*ChatReportSpamState
 
 }
 
-// ChangeChatReportSpamState Used to let the server know whether a chat is spam or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever
+// ChangeChatReportSpamState Reports to the server whether a chat is a spam chat or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever
 // @param chatID Chat identifier
 // @param isSpamChat If true, the chat will be reported as spam; otherwise it will be marked as not spam
 func (client *Client) ChangeChatReportSpamState(chatID int64, isSpamChat bool) (*Ok, error) {
@@ -5896,7 +6377,33 @@ func (client *Client) ReportChat(chatID int64, reason ChatReportReason, messageI
 
 }
 
-// GetStorageStatistics Returns storage usage statistics
+// GetChatStatisticsURL Returns URL with the chat statistics. Currently this method can be used only for channels
+// @param chatID Chat identifier
+// @param parameters Parameters from "tg://statsrefresh?params=******" link
+// @param isDark Pass true if a URL with the dark theme must be returned
+func (client *Client) GetChatStatisticsURL(chatID int64, parameters string, isDark bool) (*HttpURL, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "getChatStatisticsUrl",
+		"chat_id":    chatID,
+		"parameters": parameters,
+		"is_dark":    isDark,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var httpURL HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetStorageStatistics Returns storage usage statistics. Can be called before authorization
 // @param chatLimit Maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
 func (client *Client) GetStorageStatistics(chatLimit int32) (*StorageStatistics, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -5918,7 +6425,7 @@ func (client *Client) GetStorageStatistics(chatLimit int32) (*StorageStatistics,
 
 }
 
-// GetStorageStatisticsFast Quickly returns approximate storage usage statistics
+// GetStorageStatisticsFast Quickly returns approximate storage usage statistics. Can be called before authorization
 func (client *Client) GetStorageStatisticsFast() (*StorageStatisticsFast, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "getStorageStatisticsFast",
@@ -5935,6 +6442,26 @@ func (client *Client) GetStorageStatisticsFast() (*StorageStatisticsFast, error)
 	var storageStatisticsFast StorageStatisticsFast
 	err = json.Unmarshal(result.Raw, &storageStatisticsFast)
 	return &storageStatisticsFast, err
+
+}
+
+// GetDatabaseStatistics Returns database statistics
+func (client *Client) GetDatabaseStatistics() (*DatabaseStatistics, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getDatabaseStatistics",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var databaseStatistics DatabaseStatistics
+	err = json.Unmarshal(result.Raw, &databaseStatistics)
+	return &databaseStatistics, err
 
 }
 
@@ -6467,15 +6994,13 @@ func (client *Client) CheckEmailAddressVerificationCode(code string) (*Ok, error
 // @param scope Telegram Passport element types requested by the service
 // @param publicKey Service's public_key
 // @param nonce Authorization form nonce provided by the service
-// @param password Password of the current user
-func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string, publicKey string, nonce string, password string) (*PassportAuthorizationForm, error) {
+func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string, publicKey string, nonce string) (*PassportAuthorizationForm, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":       "getPassportAuthorizationForm",
 		"bot_user_id": botUserID,
 		"scope":       scope,
 		"public_key":  publicKey,
 		"nonce":       nonce,
-		"password":    password,
 	})
 
 	if err != nil {
@@ -6492,7 +7017,31 @@ func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string
 
 }
 
-// SendPassportAuthorizationForm Sends a Telegram Passport authorization form, effectively sharing data with the service
+// GetPassportAuthorizationFormAvailableElements Returns already available Telegram Passport elements suitable for completing a Telegram Passport authorization form. Result can be received only once for each authorization form
+// @param autorizationFormID Authorization form identifier
+// @param password Password of the current user
+func (client *Client) GetPassportAuthorizationFormAvailableElements(autorizationFormID int32, password string) (*PassportElementsWithErrors, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                "getPassportAuthorizationFormAvailableElements",
+		"autorization_form_id": autorizationFormID,
+		"password":             password,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var passportElementsWithErrors PassportElementsWithErrors
+	err = json.Unmarshal(result.Raw, &passportElementsWithErrors)
+	return &passportElementsWithErrors, err
+
+}
+
+// SendPassportAuthorizationForm Sends a Telegram Passport authorization form, effectively sharing data with the service. This method must be called after getPassportAuthorizationFormAvailableElements if some previously available elements need to be used
 // @param autorizationFormID Authorization form identifier
 // @param typeParams Types of Telegram Passport elements chosen by user to complete the authorization form
 func (client *Client) SendPassportAuthorizationForm(autorizationFormID int32, typeParams []PassportElementType) (*Ok, error) {
@@ -6922,6 +7471,83 @@ func (client *Client) GetDeepLinkInfo(link string) (*DeepLinkInfo, error) {
 
 }
 
+// GetApplicationConfig Returns application config, provided by the server. Can be called before authorization
+func (client *Client) GetApplicationConfig() (JsonValue, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getApplicationConfig",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	switch JsonValueEnum(result.Data["@type"].(string)) {
+
+	case JsonValueNullType:
+		var jsonValue JsonValueNull
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueBooleanType:
+		var jsonValue JsonValueBoolean
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueNumberType:
+		var jsonValue JsonValueNumber
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueStringType:
+		var jsonValue JsonValueString
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueArrayType:
+		var jsonValue JsonValueArray
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	case JsonValueObjectType:
+		var jsonValue JsonValueObject
+		err = json.Unmarshal(result.Raw, &jsonValue)
+		return &jsonValue, err
+
+	default:
+		return nil, fmt.Errorf("Invalid type")
+	}
+}
+
+// SaveApplicationLogEvent Saves application log event on the server. Can be called before authorization
+// @param typeParam Event type
+// @param chatID Optional chat identifier, associated with the event
+// @param data The log event data
+func (client *Client) SaveApplicationLogEvent(typeParam string, chatID int64, data JsonValue) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "saveApplicationLogEvent",
+		"type":    typeParam,
+		"chat_id": chatID,
+		"data":    data,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
 // AddProxy Adds a proxy server for network requests. Can be called before authorization
 // @param server Proxy server IP address
 // @param port Proxy server port
@@ -7108,7 +7734,197 @@ func (client *Client) PingProxy(proxyID int32) (*Seconds, error) {
 
 }
 
-// TestCallEmpty Does nothing; for testing only
+// SetLogStream Sets new log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param logStream New log stream
+func (client *Client) SetLogStream(logStream LogStream) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "setLogStream",
+		"log_stream": logStream,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// GetLogStream Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+func (client *Client) GetLogStream() (LogStream, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getLogStream",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	switch LogStreamEnum(result.Data["@type"].(string)) {
+
+	case LogStreamDefaultType:
+		var logStream LogStreamDefault
+		err = json.Unmarshal(result.Raw, &logStream)
+		return &logStream, err
+
+	case LogStreamFileType:
+		var logStream LogStreamFile
+		err = json.Unmarshal(result.Raw, &logStream)
+		return &logStream, err
+
+	case LogStreamEmptyType:
+		var logStream LogStreamEmpty
+		err = json.Unmarshal(result.Raw, &logStream)
+		return &logStream, err
+
+	default:
+		return nil, fmt.Errorf("Invalid type")
+	}
+}
+
+// SetLogVerbosityLevel Sets the verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param newVerbosityLevel New value of the verbosity level for logging. Value 0 corresponds to fatal errors, value 1 corresponds to errors, value 2 corresponds to warnings and debug warnings, value 3 corresponds to informational, value 4 corresponds to debug, value 5 corresponds to verbose debug, value greater than 5 and up to 1023 can be used to enable even more logging
+func (client *Client) SetLogVerbosityLevel(newVerbosityLevel int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":               "setLogVerbosityLevel",
+		"new_verbosity_level": newVerbosityLevel,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// GetLogVerbosityLevel Returns current verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+func (client *Client) GetLogVerbosityLevel() (*LogVerbosityLevel, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getLogVerbosityLevel",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var logVerbosityLevel LogVerbosityLevel
+	err = json.Unmarshal(result.Raw, &logVerbosityLevel)
+	return &logVerbosityLevel, err
+
+}
+
+// GetLogTags Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. This is an offline method. Can be called before authorization. Can be called synchronously
+func (client *Client) GetLogTags() (*LogTags, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getLogTags",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var logTags LogTags
+	err = json.Unmarshal(result.Raw, &logTags)
+	return &logTags, err
+
+}
+
+// SetLogTagVerbosityLevel Sets the verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param tag Logging tag to change verbosity level
+// @param newVerbosityLevel New verbosity level; 1-1024
+func (client *Client) SetLogTagVerbosityLevel(tag string, newVerbosityLevel int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":               "setLogTagVerbosityLevel",
+		"tag":                 tag,
+		"new_verbosity_level": newVerbosityLevel,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// GetLogTagVerbosityLevel Returns current verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param tag Logging tag to change verbosity level
+func (client *Client) GetLogTagVerbosityLevel(tag string) (*LogVerbosityLevel, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getLogTagVerbosityLevel",
+		"tag":   tag,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var logVerbosityLevel LogVerbosityLevel
+	err = json.Unmarshal(result.Raw, &logVerbosityLevel)
+	return &logVerbosityLevel, err
+
+}
+
+// AddLogMessage Adds a message to TDLib internal log. This is an offline method. Can be called before authorization. Can be called synchronously
+// @param verbosityLevel Minimum verbosity level needed for the message to be logged, 0-1023
+// @param text Text of a message to log
+func (client *Client) AddLogMessage(verbosityLevel int32, text string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":           "addLogMessage",
+		"verbosity_level": verbosityLevel,
+		"text":            text,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TestCallEmpty Does nothing; for testing only. This is an offline method. Can be called before authorization
 func (client *Client) TestCallEmpty() (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "testCallEmpty",
@@ -7128,7 +7944,7 @@ func (client *Client) TestCallEmpty() (*Ok, error) {
 
 }
 
-// TestCallString Returns the received string; for testing only
+// TestCallString Returns the received string; for testing only. This is an offline method. Can be called before authorization
 // @param x String to return
 func (client *Client) TestCallString(x string) (*TestString, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7150,7 +7966,7 @@ func (client *Client) TestCallString(x string) (*TestString, error) {
 
 }
 
-// TestCallBytes Returns the received bytes; for testing only
+// TestCallBytes Returns the received bytes; for testing only. This is an offline method. Can be called before authorization
 // @param x Bytes to return
 func (client *Client) TestCallBytes(x []byte) (*TestBytes, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7172,7 +7988,7 @@ func (client *Client) TestCallBytes(x []byte) (*TestBytes, error) {
 
 }
 
-// TestCallVectorInt Returns the received vector of numbers; for testing only
+// TestCallVectorInt Returns the received vector of numbers; for testing only. This is an offline method. Can be called before authorization
 // @param x Vector of numbers to return
 func (client *Client) TestCallVectorInt(x []int32) (*TestVectorInt, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7194,7 +8010,7 @@ func (client *Client) TestCallVectorInt(x []int32) (*TestVectorInt, error) {
 
 }
 
-// TestCallVectorIntObject Returns the received vector of objects containing a number; for testing only
+// TestCallVectorIntObject Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization
 // @param x Vector of objects to return
 func (client *Client) TestCallVectorIntObject(x []TestInt) (*TestVectorIntObject, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7216,7 +8032,7 @@ func (client *Client) TestCallVectorIntObject(x []TestInt) (*TestVectorIntObject
 
 }
 
-// TestCallVectorString For testing only request. Returns the received vector of strings; for testing only
+// TestCallVectorString Returns the received vector of strings; for testing only. This is an offline method. Can be called before authorization
 // @param x Vector of strings to return
 func (client *Client) TestCallVectorString(x []string) (*TestVectorString, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7238,7 +8054,7 @@ func (client *Client) TestCallVectorString(x []string) (*TestVectorString, error
 
 }
 
-// TestCallVectorStringObject Returns the received vector of objects containing a string; for testing only
+// TestCallVectorStringObject Returns the received vector of objects containing a string; for testing only. This is an offline method. Can be called before authorization
 // @param x Vector of objects to return
 func (client *Client) TestCallVectorStringObject(x []TestString) (*TestVectorStringObject, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7260,7 +8076,7 @@ func (client *Client) TestCallVectorStringObject(x []TestString) (*TestVectorStr
 
 }
 
-// TestSquareInt Returns the squared received number; for testing only
+// TestSquareInt Returns the squared received number; for testing only. This is an offline method. Can be called before authorization
 // @param x Number to square
 func (client *Client) TestSquareInt(x int32) (*TestInt, error) {
 	result, err := client.SendAndCatch(UpdateData{
@@ -7282,7 +8098,7 @@ func (client *Client) TestSquareInt(x int32) (*TestInt, error) {
 
 }
 
-// TestNetwork Sends a simple network request to the Telegram servers; for testing only
+// TestNetwork Sends a simple network request to the Telegram servers; for testing only. Can be called before authorization
 func (client *Client) TestNetwork() (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "testNetwork",
@@ -7322,7 +8138,7 @@ func (client *Client) TestGetDifference() (*Ok, error) {
 
 }
 
-// TestUseUpdate Does nothing and ensures that the Update object is used; for testing only
+// TestUseUpdate Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
 func (client *Client) TestUseUpdate() (Update, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "testUseUpdate",
@@ -7458,6 +8274,11 @@ func (client *Client) TestUseUpdate() (Update, error) {
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
+	case UpdateChatPinnedMessageType:
+		var update UpdateChatPinnedMessage
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
 	case UpdateChatReplyMarkupType:
 		var update UpdateChatReplyMarkup
 		err = json.Unmarshal(result.Raw, &update)
@@ -7465,6 +8286,31 @@ func (client *Client) TestUseUpdate() (Update, error) {
 
 	case UpdateChatDraftMessageType:
 		var update UpdateChatDraftMessage
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case UpdateChatOnlineMemberCountType:
+		var update UpdateChatOnlineMemberCount
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case UpdateNotificationType:
+		var update UpdateNotification
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case UpdateNotificationGroupType:
+		var update UpdateNotificationGroup
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case UpdateActiveNotificationsType:
+		var update UpdateActiveNotifications
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case UpdateHavePendingNotificationsType:
+		var update UpdateHavePendingNotifications
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
@@ -7643,12 +8489,17 @@ func (client *Client) TestUseUpdate() (Update, error) {
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
+	case UpdatePollType:
+		var update UpdatePoll
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
 	default:
 		return nil, fmt.Errorf("Invalid type")
 	}
 }
 
-// TestUseError Does nothing and ensures that the Error object is used; for testing only
+// TestUseError Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization
 func (client *Client) TestUseError() (*Error, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "testUseError",
