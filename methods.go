@@ -2357,10 +2357,10 @@ func (client *Client) GetLanguagePackString(languagePackDatabasePath string, loc
 
 // GetJsonValue Converts a JSON-serialized string to corresponding JsonValue object. This is an offline method. Can be called before authorization. Can be called synchronously
 // @param json The JSON-serialized string
-func (client *Client) GetJsonValue(json string) (JsonValue, error) {
+func (client *Client) GetJsonValue(jsonObj string) (JsonValue, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "getJsonValue",
-		"json":  json,
+		"json":  jsonObj,
 	})
 
 	if err != nil {
