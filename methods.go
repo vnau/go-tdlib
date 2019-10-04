@@ -46,6 +46,11 @@ func (client *Client) GetAuthorizationState() (AuthorizationState, error) {
 		err = json.Unmarshal(result.Raw, &authorizationState)
 		return &authorizationState, err
 
+	case AuthorizationStateWaitRegistrationType:
+		var authorizationState AuthorizationStateWaitRegistration
+		err = json.Unmarshal(result.Raw, &authorizationState)
+		return &authorizationState, err
+
 	case AuthorizationStateReadyType:
 		var authorizationState AuthorizationStateReady
 		err = json.Unmarshal(result.Raw, &authorizationState)

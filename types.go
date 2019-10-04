@@ -59,6 +59,7 @@ const (
 	AuthorizationStateWaitPhoneNumberType     AuthorizationStateEnum = "authorizationStateWaitPhoneNumber"
 	AuthorizationStateWaitCodeType            AuthorizationStateEnum = "authorizationStateWaitCode"
 	AuthorizationStateWaitPasswordType        AuthorizationStateEnum = "authorizationStateWaitPassword"
+	AuthorizationStateWaitRegistrationType    AuthorizationStateEnum = "authorizationStateWaitRegistration"
 	AuthorizationStateReadyType               AuthorizationStateEnum = "authorizationStateReady"
 	AuthorizationStateLoggingOutType          AuthorizationStateEnum = "authorizationStateLoggingOut"
 	AuthorizationStateClosingType             AuthorizationStateEnum = "authorizationStateClosing"
@@ -1813,6 +1814,30 @@ func NewAuthorizationStateWaitPhoneNumber() *AuthorizationStateWaitPhoneNumber {
 // GetAuthorizationStateEnum return the enum type of this object
 func (authorizationStateWaitPhoneNumber *AuthorizationStateWaitPhoneNumber) GetAuthorizationStateEnum() AuthorizationStateEnum {
 	return AuthorizationStateWaitPhoneNumberType
+}
+
+// AuthorizationStateWaitRegistration returned by the Telegram server when the user is unregistered and need to accept terms of service and enter their first name and last name to finish registration.
+type AuthorizationStateWaitRegistration struct {
+	tdCommon
+
+	TermsOfService *TermsOfService `json:"terms_of_service"` // Telegram terms of service, which should be accepted before user can continue registration; may be null.
+}
+
+func NewAuthorizationStateWaitRegistration(termsOfService *TermsOfService) *AuthorizationStateWaitRegistration {
+	return &AuthorizationStateWaitRegistration{
+		tdCommon:       tdCommon{Type: "authorizationStateWaitRegistration"},
+		TermsOfService: termsOfService,
+	}
+}
+
+// MessageType return the string telegram-type of AuthorizationStateWaitRegistration.
+func (authorizationStateWaitRegistration *AuthorizationStateWaitRegistration) MessageType() string {
+	return "authorizationStateWaitRegistration"
+}
+
+// GetAuthorizationStateEnum return the enum type of this object
+func (authorizationStateWaitRegistration *AuthorizationStateWaitRegistration) GetAuthorizationStateEnum() AuthorizationStateEnum {
+	return AuthorizationStateWaitRegistrationType
 }
 
 // AuthorizationStateWaitCode TDLib needs the user's authentication code to finalize authorization
