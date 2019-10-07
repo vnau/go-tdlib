@@ -1,6 +1,8 @@
 # go-tdlib
 Golang Telegram [TDLib](https://core.telegram.org/tdlib) JSON bindings
 
+**ATTENTION!** This is a fork of rezam90's [fork](https://github.com/rezam90/go-tdlib) of [original package](https://github.com/Arman92/go-tdlib) by Arman92. Thanks to these guys for their work.
+
 [![GoDoc](https://godoc.org/github.com/dvz1/go-tdlib?status.svg)](https://godoc.org/github.com/dvz1/go-tdlib)
 
 ## Introduction
