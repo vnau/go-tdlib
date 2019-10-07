@@ -6067,6 +6067,27 @@ func (client *Client) RegisterDevice(deviceToken DeviceToken, otherUserIDs []int
 
 }
 
+// RegisterUser Finishes user registration. Works only when the current authorization state is authorizationStateWaitRegistration.
+func (client *Client) RegisterUser(firstName string, lastName string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "registerUser",
+		"first_name": firstName,
+		"last_name":  lastName,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"],
+			result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+}
+
 // ProcessPushNotification Handles a push notification. Returns error with code 406 if the push notification is not supported and connection to the server is required to fetch new data. Can be called before authorization
 // @param payload JSON-encoded push notification payload with all fields sent by the server, and "google.sent_time" and "google.notification.sound" fields added
 func (client *Client) ProcessPushNotification(payload string) (*Ok, error) {
