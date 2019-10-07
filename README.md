@@ -1,16 +1,17 @@
 # go-tdlib
-Golang Telegram TdLib JSON bindings
+Golang Telegram [TDLib](https://core.telegram.org/tdlib) JSON bindings
 
+[![GoDoc](https://godoc.org/github.com/dvz1/go-tdlib?status.svg)](https://godoc.org/github.com/dvz1/go-tdlib)
 
 ## Introduction
-Telegram Tdlib is a complete library for creating telegram clients, it laso has a simple tdjson ready-to-use library to ease
+Telegram TDlib is a complete library for creating telegram clients, it laso has a simple tdjson ready-to-use library to ease
 the integration with different programming languages and platforms.
 
 **go-tdlib** is a complete tdlib-tdjson binding package to help you create your own Telegram clients.
 
 **NOTE:** basic tdjson-golang binding is inspired from this package: [go-tdjson](https://github.com/L11R/go-tdjson)
 
-All the classes and functions declared in [Tdlib TypeLanguage schema](https://github.com/tdlib/td/blob/master/td/generate/scheme/td_api.tl)
+All the classes and functions declared in [TDlib TypeLanguage schema](https://github.com/tdlib/td/blob/master/td/generate/scheme/td_api.tl)
 file have been exported using the autogenerate tool [tl-parser](https://github.com/Arman92/go-tl-parser).
 So you can use every single type and method in Tdlib.
 
@@ -22,7 +23,7 @@ So you can use every single type and method in Tdlib.
 
 ## Installation
 
-First of all you need to clone the Tdlib repo and build it:
+First of all you need to clone the TDlib repo and build it:
 ```bash
 git clone git@github.com:tdlib/td.git
 cd td
@@ -35,11 +36,11 @@ make install
 # -j5 refers to number of your cpu cores + 1 for multi-threaded build.
 ```
 
-If hit any build errors, refer to [Tdlib build instructions](https://github.com/tdlib/td#building)
+If hit any build errors, refer to [TDLib build instructions](https://github.com/tdlib/td#building)
 I'm using static linking against tdlib so it won't require to build the whole tdlib source files.
 
 ## Docker
-You can use prebuilt tdlib with following Docker image: 
+You can use prebuilt tdlib with following Docker image:
 
 ***Windows:***
 ``` shell
@@ -54,7 +55,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/dvz1/go-tdlib"
 )
 
 func main() {
@@ -121,4 +122,4 @@ func main() {
 
 ```
 
-More examples can be found on [examples folder](https://github.com/Arman92/go-tdlib/tree/master/examples)
+More examples can be found on [examples folder](https://github.com/dvz1/go-tdlib/tree/master/examples)
