@@ -27,3 +27,5 @@ tdlib-db
 tdlib-files
 
 errors.txt
+
+go.sum
