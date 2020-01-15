@@ -1,3 +1,3 @@
-module github.com/dvz1/go-tdlib
+module github.com/vnau/go-tdlib
 
 go 1.13
