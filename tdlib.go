@@ -59,15 +59,16 @@ type Config struct {
 	SystemVersion      string // Version of the operating system the application is being run on; must be non-empty.
 	ApplicationVersion string // Application version; must be non-empty.
 	// Optional fields
-	UseTestDataCenter      bool   // if set to true, the Telegram test environment will be used instead of the production environment.
-	DatabaseDirectory      string // The path to the directory for the persistent database; if empty, the current working directory will be used.
-	FileDirectory          string // The path to the directory for storing files; if empty, database_directory will be used.
-	UseFileDatabase        bool   // If set to true, information about downloaded and uploaded files will be saved between application restarts.
-	UseChatInfoDatabase    bool   // If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database.
-	UseMessageDatabase     bool   // If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database.
-	UseSecretChats         bool   // If set to true, support for secret chats will be enabled.
-	EnableStorageOptimizer bool   // If set to true, old files will automatically be deleted.
-	IgnoreFileNames        bool   // If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name.
+	UseTestDataCenter      bool          // if set to true, the Telegram test environment will be used instead of the production environment.
+	DatabaseDirectory      string        // The path to the directory for the persistent database; if empty, the current working directory will be used.
+	FileDirectory          string        // The path to the directory for storing files; if empty, database_directory will be used.
+	UseFileDatabase        bool          // If set to true, information about downloaded and uploaded files will be saved between application restarts.
+	UseChatInfoDatabase    bool          // If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database.
+	UseMessageDatabase     bool          // If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database.
+	UseSecretChats         bool          // If set to true, support for secret chats will be enabled.
+	EnableStorageOptimizer bool          // If set to true, old files will automatically be deleted.
+	IgnoreFileNames        bool          // If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name.
+	Timeout                time.Duration // Timeout for tdlib client operations
 }
 
 // NewClient Creates a new instance of TDLib.
@@ -85,7 +86,12 @@ func NewClient(config Config) *Client {
 	go func() {
 		for {
 			// get update
-			updateBytes := client.Receive(10)
+			timeout := client.Config.Timeout
+			if timeout == 0 {
+				timeout = 10 * time.Second
+			}
+
+			updateBytes := client.Receive(timeout.Seconds())
 			var updateData UpdateData
 			json.Unmarshal(updateBytes, &updateData)
 
@@ -226,6 +232,10 @@ func SetLogVerbosityLevel(level int) {
 // You can provide string or UpdateData.
 func (client *Client) SendAndCatch(jsonQuery interface{}) (UpdateMsg, error) {
 	var update UpdateData
+	timeout := client.Config.Timeout
+	if timeout == 0 {
+		timeout = 10 * time.Second
+	}
 
 	switch jsonQuery.(type) {
 	case string:
@@ -260,7 +270,7 @@ func (client *Client) SendAndCatch(jsonQuery interface{}) (UpdateMsg, error) {
 	case response := <-waiter:
 		return response, nil
 		// or timeout
-	case <-time.After(10 * time.Second):
+	case <-time.After(timeout):
 		client.waiters.Delete(randomString)
 		return UpdateMsg{}, errors.New("timeout")
 	}
